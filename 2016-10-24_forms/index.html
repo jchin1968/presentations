@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Singapore Drupal Meetup</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="remark.css" type="text/css"/>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+# Creating and Modifying Forms<br>in Drupal 8
+### Joseph Chin<br>Singapore Drupal Meetup<br>October 24, 2016 
+
+
+---
+# Hello
+* Joseph Chin
+* Drupal Solution Architect since 2007
+* Committee Member of the Singapore Drupal Meetup
+* jchin1968 on .media-icon[![image](../common/images/google.png) ![image](../common/images/twitter.png) ![image](../common/images/linkedin.png) ![image](../common/images/facebook.png) ![image](../common/images/github.png)]
+* Follow along here: https://rawgit.com/jchin1968/d8-forms-presentation/master/index.html
+
+
+---
+# Today
+* Part 1 - Create an online lunch ordering form
+* Part 2 - Modify an existing form 
+
+???
+* Create an online lunch ordering form using the new object-oriented procedure
+* Modifying forms, however, reverts back to the older hook() function procedure
+
+
+---
+# Drupal 8 File Structure
+```
+<Drupal Root>
+ + core
+ + modules
+   + contrib
+   + custom
+*    + lunch
+*      + src
+*        + Form
+*          - LunchOrderForm.php
+*      - lunch.info.yml
+*      - lunch.route.yml
+ + profiles    
+ + sites
+ + themes
+ + vendors
+ - autoload.php
+ - composer.json
+ - index.php
+ - update.php
+```
+
+???
+* before we create our custom form, let's have a look at the new Drupal 8 file structure
+* core - core Drupal modules and files
+* modules - external modules. Contrib and custom folders can be created here
+* profiles - for holding installation profiles i.e. distributions
+* sites - site configuration folder ie. settings.php
+* themes - external themes
+* vendor - external dependencies/libraries managed by composer
+* composer.json - configuration file for installing external dependencies
+
+
+---
+# Part 1 - Create a Custom Form
+* Lunch Ordering Form with the following fields:
+  * Full Name
+  * Delievery Date and Time
+  * Menu Choices
+  * Comment box
+  * Submit button
+* Access the form at http://.../lunch/order  
+
+
+---
+# Create Info File
+** lunch.info.yml **
+```yaml
+name: Lunch 
+description: 'Lunch Order Form'
+type: module
+core: 8.x
+```
+
+---
+# Define URL Path
+** lunch.routing.yml **
+
+```yaml
+lunch.order:
+  path: '/lunch/order'
+  defaults:
+    _title: 'Lunch Order'
+    _form: '\Drupal\lunch\Form\LunchOrderForm'
+  requirements:
+    _permission: 'access content'
+```
+
+???
+* *.info.yml is the new way to create a module   
+* instead of a hook_menu() function, we now use a *.routing.yml file to map url paths
+* start by defining a route name i.e. lunch.order
+* then define the path url, title, etc.
+
+---
+# Extend FormBase
+** src/Form/LunchOrderForm.php **
+
+```php
+<?php
+
+namespace Drupal\lunch\Form;
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+
+class LunchOrderForm extends FormBase {
+
+  public function getFormId() {
+  }
+
+  public function buildForm(array $form, FormStateInterface $form_state) {
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+  }
+}
+
+```
+
+
+---
+#Method getFormId()
+```php
+  public function getFormId() {
+    return 'lunch_order_form';
+  }
+```
+
+???
+* This is an easy one, just return a unique machine name for your form
+
+
+---
+# Method buildForm()
+```php
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['fullname'] =[
+      '#type' => 'textfield',
+      '#title' => $this->t('Full Name'),
+      '#required' => TRUE,
+    ];
+
+    $form[...] = [
+      ...
+    ];
+
+    $form['order_submit'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Submit'),
+    ];
+    
+    return $form;
+  }
+```
+
+---
+# Method submitForm()
+
+```php
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    drupal_set_message($this->t('Thank you for your order'), 'status');
+  }
+```
+
+---
+# Demo 1
+
+* Display full source code to lunch module
+* Display lunch form
+
+
+---
+# Part 2 - Modify an Existing Form
+* Customize the lunch order form using a new module
+* Rename the 'Full Name' field to 'Your Name'
+* Remove the instruction textarea field
+* Use AJAX to dynamically add menu option based on date
+
+---
+# File Structure
+```
+<Drupal Root>
+ + core
+ + modules
+   + contrib
+   + custom
+     + lunch
+       + src
+         + Form
+           - LunchOrderForm.php
+       - lunch.info.yml
+       - lunch.route.yml
+*    + halloween_lunch
+*      - halloween_lunch.info.yml
+*      - halloween_lunch.module      
+ + profiles    
+ + sites
+ + themes
+ + vendors
+ - autoload.php
+ - composer.json
+ - index.php
+ - update.php
+```
+
+
+---
+# Create Info File
+
+** halloween_lunch.info.yml **
+```yaml
+name: Halloween Lunch 
+description: 'Customizations to the Lunch module'
+type: module
+core: 8.x
+```
+
+---
+# Create Module File
+
+** halloween_lunch.module **
+```php
+<?php
+use \Drupal\Core\Form\FormStateInterface;
+
+function halloween_lunch_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'lunch_order_form') {
+    
+    // Change the title of fullname field
+    $form['fullname']['#title'] = t('Your Name');
+
+    // Unset textarea field
+    unset($form['instructions']);
+
+    // Enable AJAX on delivery date field
+    $form[...] = ...;
+
+  }
+}
+```
+---
+# Demo 2
+
+* Display full source code to halloween_lunch module
+* Display customized lunch form
+
+---
+# Closing Remarks
+* Get code here: 
+  * https://github.com/jchin1968/lunch
+  * https://github.com/jchin1968/halloween_lunch
+* Drupal 7 Form API reference page still useful
+
+---
+# References
+* https://www.velir.com/blog/2016/01/04/technical-guide-drupal-8-forms
+* http://getlevelten.com/blog/ian-whitcomb/drupal-8-module-development-part-2-forms
+* https://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7.x/
+
+---
+# Q&amp;A
+
+.center.middle[![image](../common/images/questionmarktie.jpg)]
+
+
+
+    </textarea>
+    <script src="../common/remark.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+      var slideshow = remark.create({
+        highlightLines: true
+      });
+    </script>
+  </body>
+</html>

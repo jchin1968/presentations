@@ -1,0 +1,124 @@
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=Saira:100,200,300,400,500,600,700,800,900);
+
+body { 
+	font-family: 'Droid Serif';
+  color: #ffffff;
+}
+
+h1, h2, h3 {
+  font-family: 'Saira';
+  font-weight: 600;
+}
+
+a {
+    color: lime;
+}
+
+li {
+  font-size: 150%;
+  line-height: 150%;
+  word-wrap: break-word;
+}
+
+li ul li {
+  font-size: 85%;
+  word-wrap: break-word;
+}
+
+table {
+  border-top: 1px #f8f8f8 solid;
+  border-left: 1px #f8f8f8 solid;
+}
+
+th {
+  text-transform:uppercase;
+  border-bottom: 1px #f8f8f8 solid;
+  border-right: 1px #f8f8f8 solid;
+  padding: 10px;
+  font-size: 1.6em;
+}
+
+td {
+  width: 30%;
+  vertical-align: top;
+  border-bottom: 1px #f8f8f8 solid;
+  border-right: 1px #f8f8f8 solid;
+  padding: 10px;
+  font-size: 1.5em;
+}
+
+
+.remark-code, .remark-inline-code { 
+  font-family: 'Ubuntu Mono';
+  font-size: 120%;
+}
+
+.media-icon img {
+  width: 3%;
+}
+
+body {
+  background-color: #000000 !important;
+}
+
+.remark-slide-content {
+    background-image: url(slide-bg.jpg);
+}
+
+.remark-slide-scaler {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;  
+}
+
+
+/**************************/
+/* Specific slide styling */
+/**************************/
+
+/* Slide - cover */
+#slide-cover h1 {
+    font-family: 'Saira';
+    font-weight: 900;
+    font-size: 250%;
+}
+
+/* Slide - Authenticated GET Response */
+#slide-view-rest-resources img {
+  height: 450px;
+  position: relative;
+  top: -40px;
+}
+
+/* Slide - View REST Resources */
+#slide-view-rest-resources h4 {
+  position: relative;
+  top: -20px;
+}
+
+/* Slide - Edit REST Resource */
+#slide-edit-rest-resource img {
+  height: 500px;
+  position: relative;
+  top: -20px;
+}
+
+
+/* Slide - Authenticated GET Response */
+#slide-auth-get-response h4#http-200-successful {
+  color: lime;
+}
+
+#slide-auth-get-response  h4#http-403-failed {
+  color:tomato;
+}
+
+/* Slide - Section intro */
+#slide-setup h1,
+#slide-api-calls h1,
+#slide-custom-endpoints h1,
+#slide-qa h1 {
+  font-size: 400%;
+} 
