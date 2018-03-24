@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>BDD in Drupal</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="remark.css" type="text/css"/>
-  </head>
-  <body>
-    <textarea id="source">
-
 class: center, middle
 # BDD in Drupal
 ### Creating Drupal Websites Using<br>Behavior Driven Development (BDD) 
@@ -189,16 +179,3 @@ FeatureContext.php
 
 .center.middle[![image](../common/images/questionmarktie.jpg)]
 
-
-
-    </textarea>
-    <script src="../common/remark.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-      var slideshow = remark.create({
-        highlightLines: false,
-        highlightStyle: "tomorrow-night-bright" 
-      });
-    </script>
-  </body>
-</html>
