@@ -9,7 +9,7 @@ class: center, middle
 * Joseph Chin
 * Drupal Solution Architect since 2007
 * Committee Member of the Singapore Drupal Meetup
-* jchin1968 on .media-icon[![image](images/google.png) ![image](images/twitter.png) ![image](images/linkedin.png) ![image](images/facebook.png) ![image](images/github.png)]
+* jchin1968 on .media-icon[![image](/images/google.png) ![image](/images/twitter.png) ![image](/images/linkedin.png) ![image](/images/facebook.png) ![image](/images/github.png)]
 * Follow along here: https://rawgit.com/jchin1968/presentations/master/2015-08-18_bdd/index.html
 
 
@@ -19,7 +19,7 @@ class: center, middle
 * Create a Behat test to make sure a news block is current
 * Use the Behat Drupal Extension with a custom step definition
 ]
-.right.right-float[![image](decks/2015-08-18_bdd/news_block.png)]
+.right.right-float[![image](news_block.png)]
 
 ???
 * Verify the latest news is being updated in a timely manner
@@ -159,7 +159,7 @@ FeatureContext.php
 ---
 # Demo
 
-.center.middle[![image](images/computer.jpg)]
+.center.middle[![image](/images/computer.jpg)]
 
 ---
 # Closing Remarks
@@ -177,5 +177,5 @@ FeatureContext.php
 ---
 # Q&amp;A
 
-.center.middle[![image](images/questionmarktie.jpg)]
+.center.middle[![image](/images/questionmarktie.jpg)]
 
