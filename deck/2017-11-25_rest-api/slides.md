@@ -10,7 +10,7 @@ background-image: url(slide-cover.jpg)
 * Joseph Chin
 * Drupal Solution Architect since 2007
 * Singapore Drupal Meetup committee member
-* jchin1968 on .media-icon[![image](images/google.png) ![image](images/twitter.png) ![image](images/linkedin.png) ![image](images/facebook.png) ![image](images/github-white.png)]
+* jchin1968 on .media-icon[![image](/images/google.png) ![image](/images/twitter.png) ![image](/images/linkedin.png) ![image](/images/facebook.png) ![image](/images/github-white.png)]
 * Follow along here: https://rawgit.com/jchin1968/presentations/master/2017-11-25_rest-api/index.html
 
 
@@ -67,7 +67,7 @@ class: center, middle
 name: view-rest-resources
 # Setup - REST Resources
 #### Configuration / Web services / REST
-.center.middle[![image](decks/2017-11-25_rest-api/rest_resources.png)]
+.center.middle[![image](rest_resources.png)]
 
 ???
 * this screen is made available by REST UI module
@@ -79,7 +79,7 @@ name: view-rest-resources
 ---
 name: edit-rest-resource
 # Setup - REST Resources
-.center.middle[![image](decks/2017-11-25_rest-api/rest_user_setting.png)]
+.center.middle[![image](rest_user_setting.png)]
 
 ???
 * For each resource, enable required Request types: GET, POST, PATCH, DELETE. Enable JSON and cooke authentication

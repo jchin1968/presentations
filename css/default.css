@@ -12,10 +12,16 @@ h1, h2, h3 {
 }
 
 li {
-	font-size: 150%;
-	line-height: 150%;
-	word-wrap: break-word;
+    font-size: 150%;
+    line-height: 150%;
+    word-wrap: break-word;
 }
+
+li ul li {
+    font-size: 85%;
+    word-wrap: break-word;
+}
+
 
 code.remark-code {
   font-family: 'Ubuntu Mono';
@@ -30,15 +36,4 @@ code.remark-code {
 
 .media-icon img {
   width: 3%;
-}
-
-.remark-slide-content {
-}
-
-.remark-slide-number {
-}
-
-#slide-batch-summary .batch-process-img img {
-  width: 550px;
-  padding: 10px 0px 0px 20px;
 }
