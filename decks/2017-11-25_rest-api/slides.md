@@ -1,0 +1,491 @@
+name: cover
+class: center, bottom
+background-image: url(slide-cover.jpg)
+# Drupal 8 REST API Services
+## Joseph Chin
+
+
+---
+# Hello
+* Joseph Chin
+* Drupal Solution Architect since 2007
+* Singapore Drupal Meetup committee member
+* jchin1968 on .media-icon[![image](images/google.png) ![image](images/twitter.png) ![image](images/linkedin.png) ![image](images/facebook.png) ![image](images/github-white.png)]
+* Follow along here: https://rawgit.com/jchin1968/presentations/master/2017-11-25_rest-api/index.html
+
+
+---
+# Topics
+* REST Basics
+* Setting up REST Services
+* Making API calls
+* Authentication
+* Using Views to ceate a custom endpoint
+* Q & A
+
+???
+* assumes you understand what is REST and why you'd want to use it.
+
+
+---
+# REST Basics
+
+| Action | Method | URL Path      | Data |
+| :---   | :---   | :---          |:---  | 
+| Create | POST   | endpoint      | Yes  |
+| Read   | GET    | endpoint/{id} | No   |
+| Update | PATCH  | endpoint/{id} | Yes  |
+| Delete | DELETE | endpoint/{id} | No   |
+
+???
+* PUT is for replacing the entire content and requires all the fields where as PATCH only require the changed data 
+
+---
+name: setup
+class: center, middle
+# Setup
+
+---
+# Setup - Modules 
+
+| Required             | Should Be  | Optional                   |
+| :---                 | :---       | :---                       |
+| Serialization        | REST UI    | HAL                        |
+| RESTFul Web Services | Views      | HTTP Basic Authentication  |
+|                      |            | JSON API                   |
+|                      |            | Graph QL                   |
+
+???
+* HAL - stands for Hypertext Application Language
+* provides hyperlinks to related content? Not really sure of it's value
+* HTTP Basic Auth. - better to use session cookies as more secure. Don't have to resend credentials everytime. user id/password can be intercepted in logs if credentials are passed via URL
+* JSON API - Include lists. Allows for simple filtering, pager, sorting via API
+* Graph QL - standard created by Facebook to allow for complex querying. Kinda like SQL for REST  
+
+
+---
+name: view-rest-resources
+# Setup - REST Resources
+#### Configuration / Web services / REST
+.center.middle[![image](rest_resources.png)]
+
+???
+* this screen is made available by REST UI module
+* Enable Content and User
+* Many resources available such as Action, Block, User Role, Taxonomy terms and vocabularies
+* Note the path available for each REST resource
+
+
+---
+name: edit-rest-resource
+# Setup - REST Resources
+.center.middle[![image](rest_user_setting.png)]
+
+???
+* For each resource, enable required Request types: GET, POST, PATCH, DELETE. Enable JSON and cooke authentication
+
+
+---
+# Setup - User Permissions
+* REST APIs follow the same permission as normal pages
+
+???
+* Article node publicly accessible for viewing
+* User node is accessible only by administrator
+
+---
+# Setup - CORS
+* CORS - Cross Origin Resource Sharing
+* In service.yml
+
+```
+    cors.config:
+        enabled: true 
+        allowedHeaders: ['*']
+        allowedMethods: ['GET', 'POST', 'PATCH']
+        allowedOrigins: ['http://trusted-nodejs-site:3000']
+        exposedHeaders: true 
+        maxAge: 1000 
+        supportsCredentials: true 
+```
+???
+* CORS - cross origin resource sharing
+* security feature to prevent a script from one domain to access resources (i.e. image, js, css, json) from another
+* Drupal 8 is configured by default to prevent resource sharing 
+
+---
+name: api-calls
+class: center, middle
+# Making REST<br>API Calls
+
+---
+# Basic GET Request
+* Method: GET
+* URL: http://rest-demo/node/1?_format=json
+
+
+---
+# Basic GET Response
+```
+{
+  "nid": [{ "value" : 1 }], 
+    .
+    .
+  "status": [{ "value" : true }],
+  "title": [{ "value" : "The Quick Brown Fox" }],
+    .
+    .
+  "body": [{
+    "value" : "<p>The quick brown fox....the lazy dogs.</p>\r\n",
+    "format" : "basic_html",
+    "summary" : ""
+  }],
+    .
+    .
+}
+
+```
+
+???
+* Simplest request. Go to a browser and simply enter a URL
+* In Drupal 8, you require the query parameter _format=json to identify it is json 
+
+
+---
+# Basic GET Sample Code
+```
+    jQuery.ajax({
+      method: "GET",
+      url: "http://rest-demo/node/1?_format=json",
+    })
+      .done(function(data, textStatus, jqXHR) {
+        $('h1#title').html(data.title[0]['value']);
+      })
+      .fail(function(jqXHR, textStatus) {
+        ...
+      })
+```
+
+???
+* .success and .error callbacks are deprecated as of jQuery 3.0 and relaced by Promise methods .done and .fail
+
+---
+# Login Request
+* Method: POST
+* URL: http://rest-demo/user/login?_format=json
+* Data: 
+
+```
+      { 
+        "name" : "joe", 
+        "pass" : "test" 
+      }
+```
+* withCredentials: true
+
+
+---
+# Login Response
+```
+{
+  "current_user" : { 
+    "uid" : "2", 
+    "name" : "joe", 
+    "roles" : [ "authenticated", "editor", "member" ]
+  },
+* "csrf_token":"vVlThBvK_K0PNmkcSeNr1ntw8qxADc8v5h17Hugsiok",
+  "logout_token":"zLskC3cKPp1rV00E7jxXihNk1Zk-uaAldsQiHa_VaSM"
+}
+```
+<br>
+* Retain CSRF Token for "unsafe" requests i.e. POST, PATCH, DELETE
+* If non-browser request (i.e. PHP code), retain the session cookie from the response header
+
+???
+* Slightly more complicated as it expects an HTTP body which you can't provide through the URL
+* Use something like Postman to construct the body
+* Sends out an OPTIONS (pre-flight) request first to see if you are allowed to connect and then the second request is the actual POST with your login credentials
+* When on a browser (i.e. using Javascript), the browser handles the session cookie.
+* When on a server, i.e. PHP cURL commands, you will need to construct a HTTP header with the session cookie. 
+* The CSRF token is required for "Unsafe" requests ie. POST, PATCH, DELETE. Safe requests such as GET do not require the token
+
+
+---
+# Login Sample Code
+```
+    jQuery.ajax({
+      method: "POST",
+      url: "http://rest-demo/user/login?_format=json",
+*     data: JSON.stringify({ name: "joe", pass: "test" }),
+*     xhrFields: { withCredentials: true },
+    })
+      .done(function(data, textStatus, jqXHR) {
+*       csrfToken = data.csrf_token;
+        ...
+      })
+      .fail(function(jqXHR, textStatus, errorThrown) {
+        ...
+      })
+
+```
+
+
+---
+# Authenticated GET Request
+* Method: GET
+* URL: http://rest-demo/user/2?_format=json
+* For browsers, set withCredentials = true
+* For non-browsers, set session cookie in the request header 
+
+???
+* Session cookies are automatically handled with browser requests BUT will need to be set in the HTTP header for server-side requests
+
+
+---
+# Authenticated GET Response
+
+```
+{
+  "uid" : [{ "value" : 2 }], 
+    .
+    .
+  "name" : [{ "value" : "joe" }],
+  "mail" : [{ "value" : "joe@test.com" }],
+  "timezone" : [{ "value" : "Asia/Singapore" }],
+  "status" : [{ "value" : true }],
+    .
+    .
+}
+
+```
+
+???
+*
+
+
+---
+# Authenticated GET Code
+
+```
+    jQuery.ajax({
+      method: "GET",
+      url: "http://rest-demo/user/2?_format=json",
+*     xhrFields: { withCredentials: true },
+    })
+      .done(function(data, textStatus, jqXHR ) {
+        $('h1#username').html(data.name[0]['value']);
+      })
+      .fail(function( jqXHR, textStatus ) {
+        ...
+      })
+
+```
+---
+# Create Node Request
+* Method: POST
+* Header: 
+  * Content-Type: application/json
+  * X-CSRF-Token: vVlThBvK_K0P......v5h17Hugsiok
+* URL: http://rest-demo/node?_format=json
+* Data:
+
+```
+      {
+        "type" :[{ "target_id" : "article" }],
+        "title" :[{ "value" : "Hello World" }],
+        "body" : [{ "value" : "How are you?" }]
+      }
+```
+
+---
+# Create Node Response
+```
+{
+  "nid": [{ "value" : 2 }], 
+    .
+    .
+  "type": [{ "target_id" : "article", .... }],
+  "status": [{ "value" : true }],
+  "title": [{ "value" : "Hello World" }],
+    .
+    .
+}
+```
+
+???
+*
+
+
+---
+# Create Node Sample Code
+```
+    jQuery.ajax({
+      method: "POST",
+      url: "http://rest-demo/node?_format=json",
+      data: JSON.stringify({
+        "type" :[{ "target_id" : "article" }],
+        "title" :[{ "value" : "Hello World" }],
+        "body" : [{ "value" : "How are you?" }]
+      }),
+      xhrFields: { withCredentials: true },
+      headers: { 
+*       "X-CSRF-Token": csrfToken,
+*       "Content-Type": "application/json"
+      }
+    })
+      .done(function(data, textStatus, jqXHR ) {
+        ...
+      })
+      .fail(function( jqXHR, textStatus ) {
+        ...
+      })
+```      
+
+
+
+---
+# Update Node Request
+* Method: PATCH
+* Header: 
+  * Content-Type: application/json
+  * X-CSRF-Token: vVlThBvK_K0P......v5h17Hugsiok
+* URL: http://rest-demo/node/2?_format=json
+* Data:
+
+```
+      {
+*       "type" : [{ "target_id" : "article" }],
+        "title" : [{ "value" : "Hello Cebu" }]
+      }
+```
+
+---
+# Update Node Response
+```
+{
+  "nid" : [{ "value" : 2 }], 
+    .
+    .
+  "title" : [{ "value" : "Hello Cebu" }],
+    .
+    .
+}
+```
+
+???
+*
+
+
+---
+# Update Node Sample Code
+```
+    jQuery.ajax({
+      method: "PATCH",
+      url: "http://rest-demo/node/" + nid + "?_format=json",
+      data: JSON.stringify({
+        "type" :[{ "target_id" : "article" }],
+        "title" :[{ "value" : "Hello Cebu" }],
+      }),
+      xhrFields: { withCredentials: true },
+      headers: { 
+        "X-CSRF-Token": csrfToken,
+        "Content-Type": "application/json"
+      }
+    })
+      .done(function(data, textStatus, jqXHR ) {
+        ...
+      })
+      .fail(function( jqXHR, textStatus ) {
+        ...
+      })
+
+```
+
+
+---
+# Delete Node Request
+* Method: DELETE
+* Header: 
+  * X-CSRF-Token: vVlThBvK_K0P......v5h17Hugsiok
+* URL: http://rest-demo/node/2?_format=json
+
+---
+# Delete Node Response
+* HTTP 204 - No Content
+
+???
+* HTTP 204 - Not an error message
+
+---
+# Delete Node Sample Code
+```
+    jQuery.ajax({
+      method: "DELETE",
+      url: "http://rest-demo/node/" + nid + "?_format=json",
+      xhrFields: { withCredentials: true },
+      headers: { 
+        "X-CSRF-Token": csrfToken,
+        "Content-Type": "application/json"
+      }
+    })
+      .done(function(data, textStatus, jqXHR ) {
+        ...
+      })
+      .fail(function( jqXHR, textStatus ) {
+        ...
+      })
+```
+
+---
+# Logout Request
+* Method: GET
+* URL: http://rest-demo/user/logout
+* Note: _format=json query parameter not required
+
+
+---
+# Logout Response
+* HTTP 302 (Redirect) to the home page
+* response data will be HTML tags 
+
+---
+# Logout Sample Code
+```
+    jQuery.ajax({
+      method: "GET",
+      url: "http://rest-demo/user/logout",
+      xhrFields: { withCredentials: true },
+    })
+      .done(function(data, textStatus, jqXHR ) {
+        ...
+      })
+      .fail(function( jqXHR, textStatus ) {
+        ...
+      })
+```      
+
+---
+name: custom-endpoints
+class: center, middle
+# Custom Endpoints
+
+---
+# Create JSON List
+* No lists provided by default
+* Create using Views as a "REST export"
+
+???
+* Accessing a single entity via REST is provided out of the box but to get a list requires creating views
+
+---
+name: references
+# References
+* https://www.drupal.org/docs/8/core/modules/rest/javascript-and-drupal-8-restful-web-services
+* http://api.jquery.com/jquery.ajax
+* http://restlet.com/company/blog/2015/12/15/understanding-and-using-cors
+* https://mobilejazz.com/blog/which-security-risks-do-cors-imply
+---
+name: qa
+class: center, middle
+# Q & A
+

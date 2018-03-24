@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Joseph Chin - Drupal 8 - REST API Services</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="remark.css" type="text/css"/>
-  </head>
-  <body>
-    <textarea id="source">
-
 class: center, middle
 # Drupal 8<br>REST API Services
 ### Joseph Chin<br>Singapore Drupal Meetup<br>September 18, 2017
@@ -18,7 +8,7 @@ class: center, middle
 * Joseph Chin
 * Drupal Solution Architect since 2007
 * Committee Member of the Singapore Drupal Meetup
-* jchin1968 on .media-icon[![image](../common/images/google.png) ![image](../common/images/twitter.png) ![image](../common/images/linkedin.png) ![image](../common/images/facebook.png) ![image](../common/images/github.png)]
+* jchin1968 on .media-icon[![image](images/google.png) ![image](images/twitter.png) ![image](images/linkedin.png) ![image](images/facebook.png) ![image](images/github.png)]
 * Follow along here: https://rawgit.com/jchin1968/presentations/master/2017-09-18_rest-api/index.html
 
 
@@ -252,16 +242,4 @@ cors.config:
 ---
 # Q&amp;A
 
-.center.middle[![image](../common/images/questionmarktie.jpg)]
-
-
-    </textarea>
-    <script src="../common/remark.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-      var slideshow = remark.create({
-        highlightLines: true
-      });
-    </script>
-  </body>
-</html>
+.center.middle[![image](images/questionmarktie.jpg)]
