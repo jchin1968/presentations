@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Joseph Chin - Drupal 8 - Bulk Processing</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="remark.css" type="text/css"/>
-  </head>
-  <body>
-    <textarea id="source">
-
 name: cover
 class: center, middle
 # Bulk Processing in Drupal 8
@@ -19,7 +9,7 @@ class: center, middle
 - Joseph Chin
 - Drupal Solution Architect since 2007
 - Singapore Drupal Meetup committee member
-* jchin1968 on .media-icon[![image](../common/images/google.png) ![image](../common/images/twitter.png) ![image](../common/images/linkedin.png) ![image](../common/images/facebook.png) ![image](../common/images/github.png)]
+* jchin1968 on .media-icon[![image](images/google.png) ![image](images/twitter.png) ![image](images/linkedin.png) ![image](images/facebook.png) ![image](images/github.png)]
 * Follow along here: https://rawgit.com/jchin1968/presentations/master/2018-01-22_bulk-process/index.html
 
 ---
@@ -124,7 +114,7 @@ name: batch-summary
 # Method 2 - Batch Summary
 - Drupal automatically create new HTTP processes to avoid PHP timeout and out of memory errors
 - Live status during processing
-.batch-process-img.middle[![image](batch_process.png)]
+.batch-process-img.middle[![image](decks/2018-01-22_bulk-process/batch_process.png)]
 - If batch process is stopped midway, data can become inconsistent
 
 ---
@@ -260,17 +250,6 @@ function mymodule_hybrid_batch_finish($success, $results, $operations) {
 ---
 # Q&amp;A
 
-.center.middle[![image](../common/images/questionmarktie.jpg)]
+.center.middle[![image](images/questionmarktie.jpg)]
 
 
-
-    </textarea>
-    <script src="../common/remark.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-      var slideshow = remark.create({
-        highlightLines: true
-      });
-    </script>
-  </body>
-</html>
