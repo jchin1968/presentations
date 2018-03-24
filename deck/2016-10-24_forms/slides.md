@@ -8,7 +8,7 @@ class: center, middle
 * Joseph Chin
 * Drupal Solution Architect since 2007
 * Committee Member of the Singapore Drupal Meetup
-* jchin1968 on .media-icon[![image](/images/google.png) ![image](/images/twitter.png) ![image](/images/linkedin.png) ![image](/images/facebook.png) ![image](/images/github.png)]
+* jchin1968 on .media-icon[![image](../../images/google.png) ![image](../../images/twitter.png) ![image](../../images/linkedin.png) ![image](../../images/facebook.png) ![image](../../images/github.png)]
 * Follow along here: https://rawgit.com/jchin1968/presentations/master/2016-10-24_forms/index.html
 
 
@@ -268,6 +268,6 @@ function halloween_lunch_form_alter(&$form, FormStateInterface $form_state, $for
 ---
 # Q&amp;A
 
-.center.middle[![image](/images/questionmarktie.jpg)]
+.center.middle[![image](../../images/questionmarktie.jpg)]
 
 
