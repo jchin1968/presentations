@@ -5,7 +5,7 @@
   - [Custom Step Definitions with Behat and Drupal](deck/2016-05-07_behat)
   - [Drupal 8 Forms](deck/2016-10-24_forms)
 - 2017  
-  - [Drupal 8 REST API](deck/2017-09-18_rest-api)
-  - [Drupal 8 REST API](deck/2017-11-25_rest-api)
+  - [Drupal 8 REST API - Singapore](deck/2017-09-18_rest-api)
+  - [Drupal 8 REST API - Cebu](deck/2017-11-25_rest-api)
 - 2018  
   - [Drupal 8 Bulk Process](deck/2018-01-22_bulk-process)
