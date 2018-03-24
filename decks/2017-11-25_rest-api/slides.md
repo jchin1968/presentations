@@ -67,7 +67,7 @@ class: center, middle
 name: view-rest-resources
 # Setup - REST Resources
 #### Configuration / Web services / REST
-.center.middle[![image](rest_resources.png)]
+.center.middle[![image](decks/2017-11-25_rest-api/rest_resources.png)]
 
 ???
 * this screen is made available by REST UI module
@@ -79,7 +79,7 @@ name: view-rest-resources
 ---
 name: edit-rest-resource
 # Setup - REST Resources
-.center.middle[![image](rest_user_setting.png)]
+.center.middle[![image](decks/2017-11-25_rest-api/rest_user_setting.png)]
 
 ???
 * For each resource, enable required Request types: GET, POST, PATCH, DELETE. Enable JSON and cooke authentication
