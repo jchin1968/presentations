@@ -18,7 +18,7 @@ class: center, middle
 
 
 ---
-# Evolution of customizing software
+# Customizing Software
 - hack core
 - hooks
 - service collectors
@@ -30,7 +30,7 @@ class: center, middle
 
 
 ---
-# What is so wrong with using hooks?
+# What's wrong with hooks?
  -all functions are loaded initially which is slow and a waste of memory
 - passing along giantic arrays and object elements makes them difficult to manipulate
 
@@ -40,25 +40,54 @@ class: center, middle
 
 ---
 # Our use case
-- user registration with a country field
-- depending on which country they register themselves as they will get a different message
+- retail operation with shipments to various countries
+- shipping to each country has different rates, carriers and regulations.
 
 
 ---
-# One possible way
+# Declare classes per country 
 
+.../mymodule/src/ShippingCanada.php
+```php
+class ShippingCanada {  
+  public function calculateRate($packageSpecs) {
+    ...
+  }
+}
+```
+.../mymodule/src/ShippingJapan.php
+```php
+class ShippingJapan {  
+  public function calculateRate($packageSpecs) {
+    ...
+  }
+}
+```
+
+
+
+---
+# One possible Way (cont.)
 Method or function with a switch-case statement.
 
 ```php
 switch ($country) {
   case 'ca':
-    return 'Welcome fellow Canuck! Enjoy your poutine.';
+    $shipping = new ShippingCanada();
     break;
-  Case USA
-    return 'Hello fellow Yank!';
+  Case 'jp':
+    $shipping = new ShippingJapan();
     break;
-  Case Singapore
-  Case Australia
+  Case 'vn':
+    $shipping = new ShippingVietnam();
+    break;  
+  Case 'uk':
+    $shipping = new ShippingUK();
+    break;
+}
+
+$rate = $shipping->calculateRate($packageSpecs);
+
 
 ```
 
