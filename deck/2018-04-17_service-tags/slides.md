@@ -88,8 +88,9 @@ switch ($country) {
 
 $rate = $shipping->calculateRate($packageSpecs);
 
-
 ```
+---
+# One possible Way (cont.)
 
 Problem: how does one modify it without changing the core class.
 
@@ -97,6 +98,23 @@ Solution 1: extend class and override the method. What happens when original dev
 
 Solution 2: service collectors!!
 
+
+---
+# Service Collectors
+- Rewrite each country class as so:
+
+.../mymodule/src/ShippingCanada.php
+```php
+class ShippingCanada {  
+
+  public function calculateRate($packageSpecs) {
+    ...
+  }
+  
+  
+  
+
+}
 
 ---
 # Q&amp;A
