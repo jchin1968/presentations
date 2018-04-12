@@ -9,5 +9,4 @@
   - [Drupal 8 REST API - Cebu](deck/2017-11-25_rest-api/index.html)
 - 2018  
   - [Drupal 8 Bulk Process](deck/2018-01-22_bulk-process/index.html)
-  - [Drupal 8 Bulk Process](deck/2018-01-22_bulk-process)
-  - [Drupal 8 Service Tags](deck/2018-04-17_service-tags)
+  - [Drupal 8 Service Tags](deck/2018-04-17_service-tags/index.html)
