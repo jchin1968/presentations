@@ -52,7 +52,7 @@ class: center, middle
 
 .../mymodule/src/ShippingRate/ShippingRateCanada.php
 ```php
-class ShippingRateCanada {  
+class ShippingRateCanada implements ShippingRateInterface {  
   public function calculate($packageSpecs) {
     ...
     return $shippingCost;
@@ -61,7 +61,7 @@ class ShippingRateCanada {
 ```
 .../mymodule/src/ShippingRate/ShippingRateJapan.php
 ```php
-class ShippingRateJapan {  
+class ShippingRateJapan implements ShippingRateInterface {  
   public function calculate($packageSpecs) {
     ...
     return $shippingCost;
@@ -76,7 +76,7 @@ class ShippingRateJapan {
 Method or function with a switch-case statement.
 
 ```php
-switch ($country) {
+switch ($country_code) {
   case 'ca':
     $rate = new ShippingRateCanada();
     break;
@@ -145,7 +145,6 @@ class ShippingRateCalculator {
 ```
 
 
-
 ---
 
 # shipping.services.yml
@@ -173,6 +172,15 @@ services:
     tags:
       - { name: 'shipping_rate' }
 ```      
+
+---
+# Calculating the Cost
+
+```php
+    $rates = \Drupal::service('shipping.rates');
+    $rate = $rates->process($country_code);
+    $shipping_cost = $rate->calculate());
+```
 
 
 
