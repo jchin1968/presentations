@@ -40,26 +40,31 @@ class: center, middle
 
 ---
 # Our use case
-- retail operation with shipments to various countries
-- shipping to each country has different rates, carriers and regulations.
-
+- Manufacturer with shipments to various countries
+- Shipping costs varies depending on the country due to different carriers, taxes, regulations, etc.
 
 ---
-# Declare classes per country 
+# One Solution
+- Declare  
 
-.../mymodule/src/ShippingCanada.php
+---
+# Declare a class per country 
+
+.../mymodule/src/ShippingRate/ShippingRateCanada.php
 ```php
-class ShippingCanada {  
+class ShippingRateCanada {  
   public function calculate($packageSpecs) {
     ...
+    return $shippingCost;
   }
 }
 ```
-.../mymodule/src/ShippingJapan.php
+.../mymodule/src/ShippingRate/ShippingRateJapan.php
 ```php
-class ShippingJapan {  
+class ShippingRateJapan {  
   public function calculate($packageSpecs) {
     ...
+    return $shippingCost;
   }
 }
 ```
@@ -73,20 +78,14 @@ Method or function with a switch-case statement.
 ```php
 switch ($country) {
   case 'ca':
-    $shipping = new ShippingCanada();
+    $rate = new ShippingRateCanada();
     break;
-  Case 'jp':
-    $shipping = new ShippingJapan();
-    break;
-  Case 'vn':
-    $shipping = new ShippingVietnam();
-    break;  
-  Case 'uk':
-    $shipping = new ShippingUK();
+  case 'jp':
+    $rate = new ShippingRateJapan();
     break;
 }
 
-$rate = $shipping->calculateRate($packageSpecs);
+$shipping_cost = $rate->calculate($packageSpecs);
 
 ```
 ---
@@ -103,18 +102,80 @@ Solution 2: service collectors!!
 # Service Collectors
 - Rewrite each country class as so:
 
-.../mymodule/src/ShippingCanada.php
+.../shipping/src/ShippingRate/ShippingRateCanada.php
 ```php
-class ShippingCanada {  
+class ShippingRateCanada implements ShippingRateInterface {
 
-  public function calculateRate($packageSpecs) {
-    ...
+  public function calculate() {
+    $rate = 1;
+    return $rate;
   }
-  
-  
-  
+
+  public function countryCode() {
+    return 'ca';
+  }
 
 }
+
+```
+
+---
+# ShippingRateCalculator
+.../shipping/src/ShippingRateCalculator.php
+
+```php
+class ShippingRateCalculator {
+  private $rates = [];
+
+  public function addRate(ShippingRateInterface $rates) {
+    $this->rates[$priority][] = $rates;
+  }
+
+  public function process($country_code) {
+    $this->sortRates();
+    foreach ($this->rates as $rate) {
+      if ($rate->countryCode() == $country_code) {
+        return $rate;
+      }
+    }
+    return NULL;
+  }
+}
+
+```
+
+
+
+---
+
+# shipping.services.yml
+.../shipping/shipping.services.yml
+
+```yaml
+services:
+  shipping.rates:
+    class: \Drupal\shipping\ShippingRateCalculator
+    tags:
+      - { name: service_collector, tag: 'shipping_rate', call: 'addRate' }
+
+  shipping.rate.canada:
+    class: \Drupal\shipping\ShippingRate\ShippingRateCanada
+    tags:
+      - { name: 'shipping_rate' }
+
+  shipping.rate.uk:
+    class: \Drupal\shipping\ShippingRate\ShippingRateUK
+    tags:
+      - { name: 'shipping_rate' }
+
+  shipping.rate.japan:
+    class: \Drupal\shipping\ShippingRate\ShippingRateJapan
+    tags:
+      - { name: 'shipping_rate' }
+```      
+
+
+
 
 ---
 # Q&amp;A
