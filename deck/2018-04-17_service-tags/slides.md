@@ -50,7 +50,7 @@ class: center, middle
 .../mymodule/src/ShippingCanada.php
 ```php
 class ShippingCanada {  
-  public function calculateRate($packageSpecs) {
+  public function calculate($packageSpecs) {
     ...
   }
 }
@@ -58,7 +58,7 @@ class ShippingCanada {
 .../mymodule/src/ShippingJapan.php
 ```php
 class ShippingJapan {  
-  public function calculateRate($packageSpecs) {
+  public function calculate($packageSpecs) {
     ...
   }
 }
