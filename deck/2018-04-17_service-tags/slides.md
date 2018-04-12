@@ -55,6 +55,9 @@ switch ($country_code) {
   case 'jp':
     $shipping_cost = calculate_shipping_japan($package_specs);
     break;
+  case 'uk':
+    $shipping_cost = calculate_shipping_uk($package_specs);
+    break;    
 }
 
 return $shipping_cost;
@@ -75,6 +78,11 @@ function calculate_shipping_japan($package_specs) {
   $shipping_cost = ...
   return $shipping_cost;
 }
+
+function calculate_shipping_uk($package_specs) {
+  $shipping_cost = ...
+  return $shipping_cost;
+}
 ```
 
 
@@ -90,6 +98,9 @@ switch ($country_code) {
   case 'jp':
     $shipping = new ShippingJapan();
     break;
+  case 'uk':
+    $shipping = new ShippingUk();
+    break;    
 }
 
 $shipping_cost = $rate->calculate($packageSpecs);
