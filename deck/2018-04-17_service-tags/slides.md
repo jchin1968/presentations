@@ -44,98 +44,114 @@ class: center, middle
 - Shipping costs varies depending on the country due to different carriers, taxes, regulations, etc.
 
 ---
-# One Solution
-- Declare  
-
----
-# Declare a class per country 
-
-.../mymodule/src/ShippingRate/ShippingRateCanada.php
-```php
-class ShippingRateCanada implements ShippingRateInterface {  
-  public function calculate($packageSpecs) {
-    ...
-    return $shippingCost;
-  }
-}
-```
-.../mymodule/src/ShippingRate/ShippingRateJapan.php
-```php
-class ShippingRateJapan implements ShippingRateInterface {  
-  public function calculate($packageSpecs) {
-    ...
-    return $shippingCost;
-  }
-}
-```
-
-
-
----
-# One possible Way (cont.)
-Method or function with a switch-case statement.
+# Procedural Way
+Switch-case statement calling functions
 
 ```php
 switch ($country_code) {
   case 'ca':
-    $rate = new ShippingRateCanada();
+    $shipping_cost = calculate_shipping_canada($package_specs);
+    break;    
+  case 'jp':
+    $shipping_cost = calculate_shipping_japan($package_specs);
+    break;
+}
+
+return $shipping_cost;
+
+```
+
+---
+# Procedural Way
+Create functions for each country
+
+```php
+function calculate_shipping_canada($package_specs) {
+  $shipping_cost = ...
+  return $shipping_cost;
+}
+
+function calculate_shipping_japan($package_specs) {
+  $shipping_cost = ...
+  return $shipping_cost;
+}
+```
+
+
+---
+# Object Oriented Way
+Switch-case statement instantiating objects
+
+```php
+switch ($country_code) {
+  case 'ca':
+    $shipping = new ShippingCanada();
     break;
   case 'jp':
-    $rate = new ShippingRateJapan();
+    $shipping = new ShippingJapan();
     break;
 }
 
 $shipping_cost = $rate->calculate($packageSpecs);
 
 ```
----
-# One possible Way (cont.)
-
-Problem: how does one modify it without changing the core class.
-
-Solution 1: extend class and override the method. What happens when original developer updates the list of countries?
-
-Solution 2: service collectors!!
-
 
 ---
-# Service Collectors
-- Rewrite each country class as so:
+# Object Oriented Way
 
-.../shipping/src/ShippingRate/ShippingRateCanada.php
+Create a class per country 
+
+.../shipping/src/Shipping/ShippingCanada.php
 ```php
-class ShippingRateCanada implements ShippingRateInterface {
-
-  public function calculate() {
-    $rate = 1;
-    return $rate;
+class ShippingCanada implements ShippingInterface {  
+  public function calculate($packageSpecs) {
+    ...
+    return $shippingCost;
   }
-
-  public function countryCode() {
-    return 'ca';
-  }
-
 }
-
+```
+.../shipping/src/Shipping/ShippingJapan.php
+```php
+class ShippingJapan implements ShippingInterface {  
+  public function calculate($packageSpecs) {
+    ...
+    return $shippingCost;
+  }
+}
 ```
 
 ---
-# ShippingRateCalculator
-.../shipping/src/ShippingRateCalculator.php
+# Object Oriented Way
+
+Create an interface to force country classes to implement certain methods
 
 ```php
-class ShippingRateCalculator {
-  private $rates = [];
+interface ShippingInterface {
 
-  public function addRate(ShippingRateInterface $rates) {
-    $this->rates[$priority][] = $rates;
+  public function calculate($packageSpecs);
+
+  public function countryCode();
+  
+}
+```
+
+
+---
+# ShippingRateCalculator
+.../shipping/src/ShippingCalculator.php
+
+```php
+class ShippingCalculator {
+  private $calculators = [];
+
+  public function addRate(ShippingInterface $calculator) {
+    $this->$calculators[] = $calculator;
   }
 
   public function process($country_code) {
-    $this->sortRates();
-    foreach ($this->rates as $rate) {
-      if ($rate->countryCode() == $country_code) {
-        return $rate;
+    foreach ($this->$calculators as $calculator) {
+      if ($calculator->countryCode() == $country_code) {
+        return $calculator;
       }
     }
     return NULL;
@@ -148,8 +164,9 @@ class ShippingRateCalculator {
 ---
 
 # shipping.services.yml
-.../shipping/shipping.services.yml
+Define Service Collectors
 
+.../shipping/shipping.services.yml
 ```yaml
 services:
   shipping.rates:
