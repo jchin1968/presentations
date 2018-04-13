@@ -40,7 +40,7 @@ class: center, middle
 
 ---
 # Our use case
-- Manufacturer with shipments to various countries
+- Bike store with shipments to various countries
 - Shipping costs varies depending on the country due to different carriers, taxes, regulations, etc.
 
 ---
@@ -103,7 +103,7 @@ switch ($country_code) {
     break;    
 }
 
-$shipping_cost = $rate->calculate($packageSpecs);
+$shipping_cost = $shipping->calculate($packageSpecs);
 
 ```
 
@@ -112,7 +112,7 @@ $shipping_cost = $rate->calculate($packageSpecs);
 
 Create a class per country 
 
-.../shipping/src/Shipping/ShippingCanada.php
+.../bikeshop/src/Shipping/ShippingCanada.php
 ```php
 class ShippingCanada implements ShippingInterface {  
   public function calculate($packageSpecs) {
@@ -121,7 +121,7 @@ class ShippingCanada implements ShippingInterface {
   }
 }
 ```
-.../shipping/src/Shipping/ShippingJapan.php
+.../bikeshop/src/Shipping/ShippingJapan.php
 ```php
 class ShippingJapan implements ShippingInterface {  
   public function calculate($packageSpecs) {
@@ -147,22 +147,42 @@ interface ShippingInterface {
 ```
 
 
+
+
 ---
-# ShippingRateCalculator
-.../shipping/src/ShippingCalculator.php
+# Improve on it
+
+Modify the country class  
+
+.../bikeshop/src/Shipping/ShippingCanada.php
+```php
+class ShippingCanada implements ShippingInterface {  
+  public function calculate($packageSpecs) {
+    ...
+    return $shippingCost;
+  }
+  
+  public function code() {
+    return 'ca';
+}
+```
+
+---
+# ShippingCalculator
+.../bikeshop/src/ShippingCalculator.php
 
 ```php
 class ShippingCalculator {
-  private $calculators = [];
+  private $countries = [];
 
-  public function addRate(ShippingInterface $calculator) {
-    $this->$calculators[] = $calculator;
+  public function addCountry(ShippingInterface $country) {
+    $this->$countries[] = $country;
   }
 
-  public function process($country_code) {
-    foreach ($this->$calculators as $calculator) {
-      if ($calculator->countryCode() == $country_code) {
-        return $calculator;
+  public function getCountry($country_code) {
+    foreach ($this->$countries as $country) {
+      if ($country->code() == $country_code) {
+        return $country;
       }
     }
     return NULL;
@@ -177,37 +197,36 @@ class ShippingCalculator {
 # shipping.services.yml
 Define Service Collectors
 
-.../shipping/shipping.services.yml
+.../bikeshop/bikeshop.services.yml
 ```yaml
 services:
-  shipping.rates:
-    class: \Drupal\shipping\ShippingRateCalculator
+  shipping.countries:
+    class: \Drupal\bikeshop\ShippingCalculator
     tags:
-      - { name: service_collector, tag: 'shipping_rate', call: 'addRate' }
+      - { name: service_collector, tag: 'bikeshop_shipping', call: 'addCountry' }
 
-  shipping.rate.canada:
-    class: \Drupal\shipping\ShippingRate\ShippingRateCanada
+  shipping.canada:
+    class: \Drupal\bikeshop\Shipping\ShippingCanada
     tags:
-      - { name: 'shipping_rate' }
-
-  shipping.rate.uk:
-    class: \Drupal\shipping\ShippingRate\ShippingRateUK
+      - { name: 'bikeshop_shipping' }
+  shipping.japan:
+    class: \Drupal\bikeshop\Shipping\ShippingJapan
     tags:
-      - { name: 'shipping_rate' }
-
-  shipping.rate.japan:
-    class: \Drupal\shipping\ShippingRate\ShippingRateJapan
+      - { name: 'bikeshop_shipping' }
+  shipping.uk:
+    class: \Drupal\bikeshop\Shipping\ShippingUk
     tags:
-      - { name: 'shipping_rate' }
+      - { name: 'bikeshop_shipping' }
+      
 ```      
 
 ---
 # Calculating the Cost
 
 ```php
-    $rates = \Drupal::service('shipping.rates');
-    $rate = $rates->process($country_code);
-    $shipping_cost = $rate->calculate());
+    $countries = \Drupal::service('shipping.countries');
+    $country = $countries->getCountry($country_code);
+    $shipping_cost = $country->calculate());
 ```
 
 
