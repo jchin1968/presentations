@@ -132,7 +132,6 @@ Problems
 class: center, middle
 # Service Tags
 
-
 ---
 # Modify Our Country Class
 ```php
@@ -187,7 +186,7 @@ class ShippingController {
 ```
 
 ---
-
+name: services-yml
 # Define Service Collector
 .../bikeshop/bikeshop.services.yml
 ```yaml
@@ -201,23 +200,30 @@ services:
     class: \Drupal\bikeshop\Shipping\ShippingCanada
     tags:
       - { name: 'bikeshop_shipping' }
-  shipping.japan:
-    class: \Drupal\bikeshop\Shipping\ShippingJapan
+  shipping.malaysia:
+    class: \Drupal\bikeshop\Shipping\ShippingMalaysia
     tags:
       - { name: 'bikeshop_shipping' }
-  shipping.uk:
-    class: \Drupal\bikeshop\Shipping\ShippingUk
+  shipping.singapore:
+    class: \Drupal\bikeshop\Shipping\ShippingSingapore
     tags:
       - { name: 'bikeshop_shipping' }
       
 ```      
 
 ---
-# Calculating the Cost
+# Calculate Shipping
 
 ```php
+// switch ($delivery_address['country_code']) {
+//   case 'ca':
+//   ...
+//   ...
+// }
+
 $countries = \Drupal::service('shipping.countries');
-$country = $countries->getCountry($delivery_address['country_code']);
+$country = $countries->getCountry( $delivery_address['country_code'] );
+
 $cost = $shipping->cost();
 $schedule = $shipping->schedule();
 $instructions = $shipping->instructions()
