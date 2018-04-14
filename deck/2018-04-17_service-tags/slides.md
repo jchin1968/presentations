@@ -14,7 +14,7 @@ class: center, middle
 
 ---
 # Use Case
-- Bicycle shop selling locally and overseas
+- Bicycle shop selling locally (SG) and overseas (MY, CA)
 - Create an online store using Drupal 8
 - Shipping is complicated. Timing, costs and instructions vary greatly depending on:
   - Distance and mode of transport
@@ -37,14 +37,14 @@ class: center, middle
 
 ```php
 switch ($delivery_address['country_code']) {
-  case 'sg':
-    $shipping = new ShippingSingapore($packageSpecs);
+  case 'ca':
+    $shipping = new ShippingCanada($packageSpecs);
     break;
   case 'my':
     $shipping = new ShippingMalaysia($packageSpecs);
     break;
-  case 'ca':
-    $shipping = new ShippingCanada($packageSpecs);
+  case 'sg':
+    $shipping = new ShippingSingapore($packageSpecs);
     break;
 }
 
@@ -54,10 +54,8 @@ $instructions = $shipping->instructions()
 
 ```
 
-
 ---
-# Create Shipping Class per Country 
-
+# Create a Shipping Class per Country 
 .../bikeshop/src/Shipping/ShippingCanada.php
 ```php
 class ShippingCanada implements ShippingInterface {
@@ -102,21 +100,22 @@ interface ShippingInterface {
 ```
 
 ???
-- include this slide for competeness
+- include this slide for completeness
 
 
 ---
 # Adding a New Country
 ```php
 switch ($delivery_address['country_code']) {
-  ...
-  ...
-  ...
-  ...
-  ...
-  ...
-  ...
-  ...
+  case 'ca':
+    ...
+    ...
+  case 'my':
+    ...
+    ...
+  case 'sg':
+    ...
+    ...
   case 'uk':
     $shipping = new ShippingUK($packageSpecs);
     break;
@@ -135,29 +134,40 @@ class: center, middle
 
 
 ---
-# Calculate Shipping to Different Countries
-### Method 2 - Switch-Case Block
-Modify the country class  
-
-.../bikeshop/src/Shipping/ShippingCanada.php
+# Modify Our Country Class
 ```php
-class ShippingCanada implements ShippingInterface {  
-  public function calculate($packageSpecs) {
+class ShippingCanada implements ShippingInterface {
+  public function __construct($packageSpecs) {
     ...
-    return $shippingCost;
   }
   
-  public function code() {
-    return 'ca';
+  public function cost() {
+    ...
+    return $cost;
+  }
+  
+  public function schedule() {
+    ...
+    return $schedule;
+  }
+  
+  public function instructions() {
+    ...
+    return $instructions;
+  }
+  
+* public function code() {
+*   return 'ca';
+* }
 }
 ```
 
 ---
-# ShippingCalculator
-.../bikeshop/src/ShippingCalculator.php
+# Create Shipping Controller Class
+.../bikeshop/src/ShippingController.php
 
 ```php
-class ShippingCalculator {
+class ShippingController {
   private $countries = [];
 
   public function addCountry(ShippingInterface $country) {
@@ -176,17 +186,14 @@ class ShippingCalculator {
 
 ```
 
-
 ---
 
-# shipping.services.yml
-Define Service Collectors
-
+# Define Service Collector
 .../bikeshop/bikeshop.services.yml
 ```yaml
 services:
   shipping.countries:
-    class: \Drupal\bikeshop\ShippingCalculator
+    class: \Drupal\bikeshop\ShippingController
     tags:
       - { name: service_collector, tag: 'bikeshop_shipping', call: 'addCountry' }
 
@@ -209,13 +216,12 @@ services:
 # Calculating the Cost
 
 ```php
-    $countries = \Drupal::service('shipping.countries');
-    $country = $countries->getCountry($country_code);
-    $shipping_cost = $country->calculate());
+$countries = \Drupal::service('shipping.countries');
+$country = $countries->getCountry($delivery_address['country_code']);
+$cost = $shipping->cost();
+$schedule = $shipping->schedule();
+$instructions = $shipping->instructions()
 ```
-
-
-
 
 ---
 # Q&amp;A
