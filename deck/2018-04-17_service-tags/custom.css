@@ -1,4 +1,9 @@
 code.remark-code {
-    font-size: 98%;
-    line-height: 100%;
+  font-size: 98%;
+  line-height: 100%;
+}
+
+.highlight {
+  color: red;
+  font-weight: bold;
 }

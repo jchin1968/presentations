@@ -16,24 +16,24 @@ class: center, middle
 # Use Case
 - Bicycle shop selling locally and overseas
 - Create an online store using Drupal 8
-- Shipping is complicated. Timing, costs and instructions varies greatly depending on:
-  - distance and mode of transport
-  - taxes, customs and duty
-  - safety regulations i.e. light kit  
+- Shipping is complicated. Timing, costs and instructions vary greatly depending on:
+  - Distance and mode of transport
+  - Taxes, customs and duty
+  - Safety regulations i.e. light kit  
 
 ---
 # Online Shopping Workflow
 1. Customer browse for bicycles online
 1. Add bicycle to cart and checkout
 1. Enter personal details and delivery address
-1. ***Calculate shipping cost and delivery schedule***
+1. .highlight[Calculate shipping cost and delivery schedule]
 1. Submit payment information
 1. Receive Confirmation
  
    
 ---
-# Handling Delivery to Various Countries
-### Method 1 - Switch-Case Statements
+# Calculate Shipping to Different Countries
+### Method 1 - Switch-Case Block
 
 ```php
 switch ($delivery_address['country_code']) {
@@ -60,7 +60,7 @@ $instructions = $shipping->instructions()
 
 .../bikeshop/src/Shipping/ShippingCanada.php
 ```php
-class ShippingCanada {
+class ShippingCanada implements ShippingInterface {
   public function __construct($packageSpecs) {
     ...
   }
@@ -82,29 +82,61 @@ class ShippingCanada {
 }
 ```
 
-
+???
+- Note the use of Interfaces. This forces each country class to implement certain methods.
 
 ---
-# Object Oriented Way
-
-Create an interface to force country classes to implement certain methods
+# Shipping Interface
+.../bikeshop/ShippingInterface.php
 
 ```php
 interface ShippingInterface {
 
-  public function calculate($packageSpecs);
+  public function cost();
 
-  public function countryCode();
+  public function schedule();
   
+  public function instructions();
+
 }
 ```
 
-
+???
+- include this slide for competeness
 
 
 ---
-# Improve on it
+# Adding a New Country
+```php
+switch ($delivery_address['country_code']) {
+  ...
+  ...
+  ...
+  ...
+  ...
+  ...
+  ...
+  ...
+  case 'uk':
+    $shipping = new ShippingUK($packageSpecs);
+    break;
+}
 
+```
+
+???
+Problems
+- Need to update switch-case block and potentially in many places
+- how would a custom module add new countries without altering the original module 
+
+---
+class: center, middle
+# Service Tags
+
+
+---
+# Calculate Shipping to Different Countries
+### Method 2 - Switch-Case Block
 Modify the country class  
 
 .../bikeshop/src/Shipping/ShippingCanada.php
