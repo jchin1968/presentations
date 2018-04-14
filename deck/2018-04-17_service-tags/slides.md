@@ -9,127 +9,80 @@ class: center, middle
 - Joseph Chin
 - Drupal Solution Architect since 2007
 - Singapore Drupal Meetup committee member
-* jchin1968 on .media-icon[![image](../../images/google.png) ![image](../../images/twitter.png) ![image](../../images/linkedin.png) ![image](../../images/facebook.png) ![image](../../images/github.png)]
-* Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2018-04-17_service-tags/index.html
-
-
----
-# Agenda
-
+- jchin1968 on .media-icon[![image](../../images/google.png) ![image](../../images/twitter.png) ![image](../../images/linkedin.png) ![image](../../images/facebook.png) ![image](../../images/github.png)]
+- Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2018-04-17_service-tags/index.html
 
 ---
-# Customizing Software
-- hack core
-- hooks
-- service collectors
-
-???
-- In the old days when working with pre-made software, custom changes were made directly on the core source code
-- When I started with drupal 6, they introduced me to the concept of hooks and I thought, man this is great!
-- Now, with Drupal 8, we have service collectors
-
+# Use Case
+- Bicycle shop selling locally and overseas
+- Create an online store using Drupal 8
+- Shipping is complicated. Timing, costs and instructions varies greatly depending on:
+  - distance and mode of transport
+  - taxes, customs and duty
+  - safety regulations i.e. light kit  
 
 ---
-# What's wrong with hooks?
- -all functions are loaded initially which is slow and a waste of memory
-- passing along giantic arrays and object elements makes them difficult to manipulate
-
-???
-- fine for the time when PHP was not object oriented friendly
-
-
+# Online Shopping Workflow
+1. Customer browse for bicycles online
+1. Add bicycle to cart and checkout
+1. Enter personal details and delivery address
+1. ***Calculate shipping cost and delivery schedule***
+1. Submit payment information
+1. Receive Confirmation
+ 
+   
 ---
-# Our use case
-- Bike store with shipments to various countries
-- Shipping costs varies depending on the country due to different carriers, taxes, regulations, etc.
-
----
-# Procedural Way
-Switch-case statement calling functions
+# Handling Delivery to Various Countries
+### Method 1 - Switch-Case Statements
 
 ```php
-switch ($country_code) {
+switch ($delivery_address['country_code']) {
+  case 'sg':
+    $shipping = new ShippingSingapore($packageSpecs);
+    break;
+  case 'my':
+    $shipping = new ShippingMalaysia($packageSpecs);
+    break;
   case 'ca':
-    $shipping_cost = calculate_shipping_canada($package_specs);
-    break;    
-  case 'jp':
-    $shipping_cost = calculate_shipping_japan($package_specs);
+    $shipping = new ShippingCanada($packageSpecs);
     break;
-  case 'uk':
-    $shipping_cost = calculate_shipping_uk($package_specs);
-    break;    
 }
 
-return $shipping_cost;
+$cost = $shipping->cost();
+$schedule = $shipping->schedule();
+$instructions = $shipping->instructions()
 
-```
-
----
-# Procedural Way
-Create functions for each country
-
-```php
-function calculate_shipping_canada($package_specs) {
-  $shipping_cost = ...
-  return $shipping_cost;
-}
-
-function calculate_shipping_japan($package_specs) {
-  $shipping_cost = ...
-  return $shipping_cost;
-}
-
-function calculate_shipping_uk($package_specs) {
-  $shipping_cost = ...
-  return $shipping_cost;
-}
 ```
 
 
 ---
-# Object Oriented Way
-Switch-case statement instantiating objects
-
-```php
-switch ($country_code) {
-  case 'ca':
-    $shipping = new ShippingCanada();
-    break;
-  case 'jp':
-    $shipping = new ShippingJapan();
-    break;
-  case 'uk':
-    $shipping = new ShippingUk();
-    break;    
-}
-
-$shipping_cost = $shipping->calculate($packageSpecs);
-
-```
-
----
-# Object Oriented Way
-
-Create a class per country 
+# Create Shipping Class per Country 
 
 .../bikeshop/src/Shipping/ShippingCanada.php
 ```php
-class ShippingCanada implements ShippingInterface {  
-  public function calculate($packageSpecs) {
+class ShippingCanada {
+  public function __construct($packageSpecs) {
     ...
-    return $shippingCost;
+  }
+  
+  public function cost() {
+    ...
+    return $cost;
+  }
+  
+  public function schedule() {
+    ...
+    return $schedule;
+  }
+  
+  public function instructions() {
+    ...
+    return $instructions;
   }
 }
 ```
-.../bikeshop/src/Shipping/ShippingJapan.php
-```php
-class ShippingJapan implements ShippingInterface {  
-  public function calculate($packageSpecs) {
-    ...
-    return $shippingCost;
-  }
-}
-```
+
+
 
 ---
 # Object Oriented Way
