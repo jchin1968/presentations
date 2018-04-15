@@ -32,33 +32,9 @@ class: center, middle
 1. Perform financial transaction
 1. Receive order confirmation
  
-   
----
-# Calculate Shipping
-### Using Switch-Case statements
-
-```php
-switch ( $delivery_address['country_code'] ) {
-  case 'ca':
-    $shipping = new ShippingCanada($packageSpecs);
-    break;
-  case 'my':
-    $shipping = new ShippingMalaysia($packageSpecs);
-    break;
-  case 'sg':
-    $shipping = new ShippingSingapore($packageSpecs);
-    break;
-}
-
-$cost = $shipping->cost();
-$schedule = $shipping->schedule();
-$instructions = $shipping->instructions()
-
-```
-
 
 ---
-# Shipping Class Per Country 
+# Create Shipping Class Per Country 
 .../bikeshop/src/Shipping/ShippingCanada.php
 ```php
 namespace Drupal\bikeshop\Shipping;
@@ -109,6 +85,28 @@ interface ShippingInterface {
 
 ???
 - include this slide for completeness
+
+---
+# Calculate Shipping
+### Using Switch-Case Block
+```php
+switch ( $delivery_address['country_code'] ) {
+  case 'ca':
+    $shipping = new ShippingCanada($packageSpecs);
+    break;
+  case 'my':
+    $shipping = new ShippingMalaysia($packageSpecs);
+    break;
+  case 'sg':
+    $shipping = new ShippingSingapore($packageSpecs);
+    break;
+}
+
+$cost = $shipping->cost();
+$schedule = $shipping->schedule();
+$instructions = $shipping->instructions()
+
+```
 
 
 ---
@@ -233,8 +231,8 @@ services:
 
 
 ---
-# Calculate Shipping - New and Improved
-
+# Calculate Shipping
+### Using Service Tags
 ```php
 // switch ($delivery_address['country_code']) {
 //   case 'ca':
@@ -242,8 +240,8 @@ services:
 //   ...
 // }
 
-$countries = \Drupal::service('shipping.countries');
-$shipping = $countries->getCountry( $delivery_address['country_code'] );
+$controller = \Drupal::service('shipping.countries');
+$shipping = $controller->getCountry( $delivery_address['country_code'] );
 
 $cost = $shipping->cost();
 $schedule = $shipping->schedule();
@@ -252,7 +250,25 @@ $instructions = $shipping->instructions()
 
 ???
 - only at this point, are our classes loaded into the system
-- 
+
+
+---
+name: directory-structure
+# Summarizing
+### BikeShop Module Folder
+
+```text
+/bikeshop
+|-- bikeshop.info.yml
+|-- bikeshop.services.yml
+|-- /src
+|   |-- ShippingController.php  
+|   |-- /Shipping
+|   |   |-- ShippingCanada.php
+|   |   |-- ShippingMalaysia.php
+|   |   |-- ShippingSingapore.php
+```
+
 
 ---
 # New Use Case

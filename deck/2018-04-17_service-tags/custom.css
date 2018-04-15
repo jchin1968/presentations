@@ -13,6 +13,11 @@ code.remark-code {
   margin-left: -6%;
 }
 
+#slide-directory-structure code.remark-code {
+  font-size: 130%;
+  line-height: 140%;
+}
+
 .remark-code-line-highlighted {
   background-color: dimgrey;
 }
