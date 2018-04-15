@@ -15,10 +15,11 @@ class: center, middle
 ---
 # What are Service Tags?
 - *"Tags are used to indicate that a service should be registered or used in some special way, or that it belongs to a category."*
+
 - Symfony feature implemented into Drupal 8  
 
 ---
-# Use Case
+# Background
 - Bicycle shop selling locally (SG) and overseas (MY, CA)
 - Create an online store using Drupal 8
 - Shipping is complicated. Timing, costs and instructions vary greatly depending on:
@@ -28,13 +29,15 @@ class: center, middle
 
 
 ---
-# Online Ordering Workflow
-1. Customer browse for bicycles online
-1. Add bicycle to cart and checkout
+name: our-task
+# Our Task
+1. Browse catalog
+1. Add to cart
+1. Checkout
 1. Enter personal details and delivery address
-1. .highlight[Calculate shipping cost and delivery schedule]
+1. .highlight[Calculate shipping cost, delivery schedule and packing instructions]
 1. Enter payment information
-1. Perform financial transaction
+1. Process payment
 1. Receive order confirmation
  
 
@@ -142,7 +145,6 @@ Problems
 ---
 class: center, middle
 # Service Tags
-### Instead of Switch-Case Statements
 
 ---
 # Modify Our Country Class
@@ -276,7 +278,7 @@ name: directory-structure
 
 
 ---
-# New Use Case
+# New Scenario
 - Partnership formed in Thailand
 - Partner branded Drupal 8 site but re-use bikeshop module
 

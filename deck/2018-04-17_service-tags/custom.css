@@ -21,3 +21,7 @@ code.remark-code {
 .remark-code-line-highlighted {
   background-color: dimgrey;
 }
+
+#slide-our-task li {
+  color: lightgray;
+}
