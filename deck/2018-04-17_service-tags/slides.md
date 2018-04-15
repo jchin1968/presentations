@@ -13,6 +13,11 @@ class: center, middle
 - Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2018-04-17_service-tags/index.html
 
 ---
+# What are Service Tags?
+- *"Tags are used to indicate that a service should be registered or used in some special way, or that it belongs to a category."*
+- Symfony feature implemented into Drupal 8  
+
+---
 # Use Case
 - Bicycle shop selling locally (SG) and overseas (MY, CA)
 - Create an online store using Drupal 8
