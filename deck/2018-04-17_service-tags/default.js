@@ -6,7 +6,7 @@ var slideshow = remark.create({
   navigation: {
     scroll: true,
     touch: true,
-//    click: true
+    click: true
   },
   //ratio: '16:9'
 });

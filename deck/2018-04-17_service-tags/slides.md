@@ -28,7 +28,7 @@ class: center, middle
 1. Add bicycle to cart and checkout
 1. Enter personal details and delivery address
 1. .highlight[Calculate shipping cost and delivery schedule]
-1. Submit payment information
+1. Enter payment information
 1. Perform financial transaction
 1. Receive order confirmation
  
@@ -225,7 +225,6 @@ services:
     class: \Drupal\bikeshop\Shipping\ShippingSingapore
     tags:
       - { name: 'bikeshop_shipping' }
-      
 ```      
 
 ???
@@ -244,7 +243,7 @@ services:
 // }
 
 $countries = \Drupal::service('shipping.countries');
-$country = $countries->getCountry( $delivery_address['country_code'] );
+$shipping = $countries->getCountry( $delivery_address['country_code'] );
 
 $cost = $shipping->cost();
 $schedule = $shipping->schedule();
@@ -264,13 +263,14 @@ $instructions = $shipping->instructions()
 # Create Thailand Country Class
 .../.highlight[bangkok_cycle]/src/Shipping/ShippingThailand.php
 ```php
-use Drupal/bikeshop/ShippingInterface;
+use Drupal`\bikeshop`\ShippingInterface;
 
 class ShippingThailand implements ShippingInterface {
   ...
   ...
   ...
-  
+  ...
+
   public function instructions() {
     ...
     return $instructions;
@@ -282,10 +282,16 @@ class ShippingThailand implements ShippingInterface {
 }
 ```
  
-
 ---
-# bikerus.service.yml
-- 
+# Create Service Definition 
+.../bangkok_cycle/bangkok_cycle.service.yml
+```yaml
+services:
+  shipping.thailand:
+    class: \Drupal`\bangkok_cycle`\Shipping\ShippingThailand
+    tags:
+      - { name: 'bikeshop_shipping' }
+``` 
 
 
 ---
