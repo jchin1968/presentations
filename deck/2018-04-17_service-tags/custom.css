@@ -12,3 +12,7 @@ code.remark-code {
   width: 108%;
   margin-left: -6%;
 }
+
+.remark-code-line-highlighted {
+  background-color: dimgrey;
+}

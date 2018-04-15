@@ -19,24 +19,26 @@ class: center, middle
 - Shipping is complicated. Timing, costs and instructions vary greatly depending on:
   - Distance and mode of transport
   - Taxes, customs and duty
-  - Safety regulations i.e. light kit  
+  - Safety regulations i.e. reflectors, light kit  
+
 
 ---
-# Online Shopping Workflow
+# Online Ordering Workflow
 1. Customer browse for bicycles online
 1. Add bicycle to cart and checkout
 1. Enter personal details and delivery address
 1. .highlight[Calculate shipping cost and delivery schedule]
 1. Submit payment information
-1. Receive Confirmation
+1. Perform financial transaction
+1. Receive order confirmation
  
    
 ---
-# Calculate Shipping to Different Countries
-### Method 1 - Switch-Case Block
+# Calculate Shipping
+### Using Switch-Case statements
 
 ```php
-switch ($delivery_address['country_code']) {
+switch ( $delivery_address['country_code'] ) {
   case 'ca':
     $shipping = new ShippingCanada($packageSpecs);
     break;
@@ -54,10 +56,14 @@ $instructions = $shipping->instructions()
 
 ```
 
+
 ---
-# Create a Shipping Class per Country 
+# Shipping Class Per Country 
 .../bikeshop/src/Shipping/ShippingCanada.php
 ```php
+namespace Drupal\bikeshop\Shipping;
+use Drupal\bikeshop\ShippingInterface;
+
 class ShippingCanada implements ShippingInterface {
   public function __construct($packageSpecs) {
     ...
@@ -88,6 +94,8 @@ class ShippingCanada implements ShippingInterface {
 .../bikeshop/ShippingInterface.php
 
 ```php
+namespace Drupal\bikeshop;
+
 interface ShippingInterface {
 
   public function cost();
@@ -104,9 +112,9 @@ interface ShippingInterface {
 
 
 ---
-# Adding a New Country
+# Add New Country
 ```php
-switch ($delivery_address['country_code']) {
+switch ( $delivery_address['country_code'] ) {
   case 'ca':
     ...
     ...
@@ -131,6 +139,7 @@ Problems
 ---
 class: center, middle
 # Service Tags
+### Instead of Switch-Case Statements
 
 ---
 # Modify Our Country Class
@@ -166,6 +175,8 @@ class ShippingCanada implements ShippingInterface {
 .../bikeshop/src/ShippingController.php
 
 ```php
+namespace Drupal\bikeshop;
+
 class ShippingController {
   private $countries = [];
 
@@ -185,6 +196,12 @@ class ShippingController {
 
 ```
 
+???
+- used to manage different country classes
+- addCountry method simply add each of our shipping country class to an array
+- getCountry method will fetch a specific country class
+
+
 ---
 name: services-yml
 # Define Service Collector
@@ -194,7 +211,7 @@ services:
   shipping.countries:
     class: \Drupal\bikeshop\ShippingController
     tags:
-      - { name: service_collector, tag: 'bikeshop_shipping', call: 'addCountry' }
+      - { name: 'service_collector', tag: 'bikeshop_shipping', call: 'addCountry' }
 
   shipping.canada:
     class: \Drupal\bikeshop\Shipping\ShippingCanada
@@ -211,8 +228,13 @@ services:
       
 ```      
 
+???
+- this is where the magic begins
+- 
+
+
 ---
-# Calculate Shipping
+# Calculate Shipping - New and Improved
 
 ```php
 // switch ($delivery_address['country_code']) {
@@ -228,6 +250,51 @@ $cost = $shipping->cost();
 $schedule = $shipping->schedule();
 $instructions = $shipping->instructions()
 ```
+
+???
+- only at this point, are our classes loaded into the system
+- 
+
+---
+# New Use Case
+- Partnership formed in Thailand
+- Partner branded Drupal 8 site but re-use bikeshop module
+
+---
+# Create Thailand Country Class
+.../.highlight[bangkok_cycle]/src/Shipping/ShippingThailand.php
+```php
+use Drupal/bikeshop/ShippingInterface;
+
+class ShippingThailand implements ShippingInterface {
+  ...
+  ...
+  ...
+  
+  public function instructions() {
+    ...
+    return $instructions;
+  }
+    
+  public function code() {
+    return 'th';
+  }
+}
+```
+ 
+
+---
+# bikerus.service.yml
+- 
+
+
+---
+# References
+- https://www.drupal.org/docs/8/api/services-and-dependency-injection/service-tags
+- https://damow.net/the-strategy-pattern-with-symfony/
+- https://lakshminp.com/tagged-services-drupal-8
+- https://knpuniversity.com/screencast/drupal8-under-the-hood/what-is-the-service-container
+- https://cipix.nl/understanding-drupal-8-part-2-service-container
 
 ---
 # Q&amp;A
