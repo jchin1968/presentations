@@ -176,10 +176,10 @@ class ShippingCanada implements ShippingInterface {
 
 ---
 # Create Shipping Controller Class
-.../bikeshop/src/ShippingController.php
+.../bikeshop/src/Controller/ShippingController.php
 
 ```php
-namespace Drupal\bikeshop;
+namespace Drupal\bikeshop\Controller;
 
 class ShippingController {
   private $countries = [];
@@ -213,7 +213,7 @@ name: services-yml
 ```yaml
 services:
   shipping.countries:
-    class: \Drupal\bikeshop\ShippingController
+    class: \Drupal\bikeshop\Controller\ShippingController
     tags:
       - { name: 'service_collector', tag: 'bikeshop_shipping', call: 'addCountry' }
 
@@ -268,11 +268,13 @@ name: directory-structure
 |-- bikeshop.info.yml
 |-- bikeshop.services.yml
 |-- /src
-|   |-- ShippingController.php  
+|   |-- /Controller
+|   |   |-- ShippingController.php  
 |   |-- /Shipping
 |   |   |-- ShippingCanada.php
 |   |   |-- ShippingMalaysia.php
 |   |   |-- ShippingSingapore.php
+|   |-- ShippingInterface.php
 ```
 
 
