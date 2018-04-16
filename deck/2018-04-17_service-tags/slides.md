@@ -15,7 +15,6 @@ class: center, middle
 ---
 # What are Service Tags?
 - *"Tags are used to indicate that a service should be registered or used in some special way, or that it belongs to a category."*
-
 - Symfony feature implemented into Drupal 8  
 
 ---
