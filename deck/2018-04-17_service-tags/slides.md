@@ -310,7 +310,7 @@ class ShippingThailand implements ShippingInterface {
 ```yaml
 services:
   shipping.thailand:
-    class: \Drupal`\bangkok_cycle`\Shipping\ShippingThailand
+    class: \Drupal\bangkok_cycle\Shipping\ShippingThailand
     tags:
       - { name: 'bikeshop_shipping' }
 ``` 
