@@ -48,7 +48,7 @@ namespace Drupal\bikeshop\Shipping;
 use Drupal\bikeshop\ShippingInterface;
 
 class ShippingCanada implements ShippingInterface {
-  public function __construct($packageSpecs) {
+  public function __construct($package_specs) {
     ...
   }
   
@@ -99,13 +99,13 @@ interface ShippingInterface {
 ```php
 switch ( $delivery_address['country_code'] ) {
   case 'ca':
-    $shipping = new ShippingCanada($packageSpecs);
+    $shipping = new ShippingCanada($package_specs);
     break;
   case 'my':
-    $shipping = new ShippingMalaysia($packageSpecs);
+    $shipping = new ShippingMalaysia($package_specs);
     break;
   case 'sg':
-    $shipping = new ShippingSingapore($packageSpecs);
+    $shipping = new ShippingSingapore($package_specs);
     break;
 }
 
@@ -130,7 +130,7 @@ switch ( $delivery_address['country_code'] ) {
     ...
     ...
   case 'uk':
-    $shipping = new ShippingUK($packageSpecs);
+    $shipping = new ShippingUk($package_specs);
     break;
 }
 
@@ -149,7 +149,7 @@ class: center, middle
 # Modify Our Country Class
 ```php
 class ShippingCanada implements ShippingInterface {
-  public function __construct($packageSpecs) {
+  public function __construct($package_specs) {
     ...
   }
   
