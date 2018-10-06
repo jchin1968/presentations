@@ -37,3 +37,25 @@ code.remark-code {
 .media-icon img {
   width: 3%;
 }
+
+table {
+    border-top: 1px #f8f8f8 solid;
+    border-left: 1px #f8f8f8 solid;
+}
+
+th {
+    text-transform:uppercase;
+    border-bottom: 1px #f8f8f8 solid;
+    border-right: 1px #f8f8f8 solid;
+    padding: 10px;
+    font-size: 1.6em;
+}
+
+td {
+    width: 30%;
+    vertical-align: top;
+    border-bottom: 1px #f8f8f8 solid;
+    border-right: 1px #f8f8f8 solid;
+    padding: 10px;
+    font-size: 1.5em;
+}
