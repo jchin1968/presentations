@@ -39,23 +39,24 @@ code.remark-code {
 }
 
 table {
-    border-top: 1px #f8f8f8 solid;
-    border-left: 1px #f8f8f8 solid;
+    border-top: 1px #000000 solid;
+    border-left: 1px #000000 solid;
+    width: 90%;
 }
 
 th {
     text-transform:uppercase;
-    border-bottom: 1px #f8f8f8 solid;
-    border-right: 1px #f8f8f8 solid;
+    border-bottom: 1px #000000 solid;
+    border-right: 1px #000000 solid;
     padding: 10px;
-    font-size: 1.6em;
+    font-size: 1.2em;
+    background-color: #dddddd;
 }
 
 td {
-    width: 30%;
     vertical-align: top;
-    border-bottom: 1px #f8f8f8 solid;
-    border-right: 1px #f8f8f8 solid;
+    border-bottom: 1px #000000 solid;
+    border-right: 1px #000000 solid;
     padding: 10px;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
