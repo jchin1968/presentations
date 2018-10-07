@@ -44,7 +44,7 @@ class: center, middle
 - Reverse the order of the words
 - Make all the letters uppercase
 - Make all the letters lowercase
-- Translate it to Pig Latin
+- Translate to Pig Latin
 
 
 ---
@@ -62,8 +62,13 @@ class: center, middle
 ---
 # Implementation
 - Custom field with a textarea and dropdown box to select the transformer
-- 
 - attach field to a content type
+
+# Demo
+- Demonstrate the field
+- Show the code, specifically the transformer plugins
+
+# How to Create the Test
 
 
 
