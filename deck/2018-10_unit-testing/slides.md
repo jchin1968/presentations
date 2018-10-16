@@ -64,11 +64,58 @@ class: center, middle
 - Custom field with a textarea and dropdown box to select the transformer
 - attach field to a content type
 
+---
 # Demo
 - Demonstrate the field
 - Show the code, specifically the transformer plugins
 
+---
 # How to Create the Test
+
+
+
+---
+# Custom Module Directory Structure
+
+```text
+/text_transformer
+|-- text_transformer.info.yml
+|-- /src
+|   |-- /Plugin
+|   |   |-- /Field
+|   |   |   |-- /FiledFormatter
+|   |   |   |-- /FieldType
+|   |   |   |-- /FiledWidget  
+|   |-- /TextTransformer
+|   |   |-- Lower.php
+|   |   |-- Reverse.php
+|-- /tests
+|   |-- /src
+|   |   |-- /Functional
+|   |   |-- /Kernel  
+|   |   |-- /Unit  
+|   |   |-- |-- LowerTest.php  
+|   |   |-- |-- ReverseTest.php
+```
+
+
+
+
+---
+# Creating a Test Class
+```php
+class ReverseTest extends UnitTestCase {
+  public function setup() {
+  }
+  
+  public function tearDown() {
+  }
+  
+  public function testReverseTransformer() {
+  
+  } 
+}
+```
 
 
 
@@ -87,10 +134,17 @@ class: center, middle
 </phpunit>
 ```
 
-
 ---
 # Running a Test
 - vendor/bin/phpunit
+
+
+
+
+
+
+
+
 
 
 
