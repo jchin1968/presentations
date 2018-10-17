@@ -70,7 +70,49 @@ class: center, middle
 - Show the code, specifically the transformer plugins
 
 ---
-# How to Create the Test
+# Writing Testable Code - Avoid This
+```php
+
+switch ($transformer_type) {
+  case 'lower':
+     $transformed = strtolower($text);
+     break;
+
+  case 'upper':
+     $transformed = strtoupper($text);
+     break;
+
+  case 'reverse':
+    $text_array = explode(' ', $text);
+    $reverse_array = array_reverse($text_array);
+    $transformed = implode(' ', $reverse_array);
+    break;  
+}
+```
+
+---
+# Writing Testable Code - Do This
+```php
+
+switch ($transformer_type) {
+  case 'lower':
+     $transformed = new Lower($text);
+     break;
+
+  case 'upper':
+     $transformed = new Upper($text)
+     break;
+     
+  case 'reverse':
+    $transformed = new Reverse($text);
+    break;  
+}
+
+
+
+
+
+
 
 
 
