@@ -64,6 +64,10 @@ class: center, middle
 - Custom field with a textarea and dropdown box to select the transformer
 - attach field to a content type
 
+???
+- don't get too concern with how the field is created or how the transformer plugins are automatically detected
+- focus on Text Transformer plugins in src/Plugin/TextTransformer
+
 ---
 # Demo
 - Demonstrate the field
@@ -90,6 +94,9 @@ switch ($transformer_type) {
 }
 ```
 
+???
+- Before you can write tests, your code has to be testable 
+
 ---
 # Writing Testable Code - Do This
 ```php
@@ -107,8 +114,6 @@ switch ($transformer_type) {
     $transformed = new Reverse($text);
     break;  
 }
-
-
 
 
 
@@ -139,8 +144,6 @@ switch ($transformer_type) {
 |   |   |-- |-- LowerTest.php  
 |   |   |-- |-- ReverseTest.php
 ```
-
-
 
 
 ---
@@ -182,6 +185,8 @@ class ReverseTest extends UnitTestCase {
 
 
 
+# Exercise
+- Create tests for 
 
 
 
