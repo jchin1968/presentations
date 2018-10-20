@@ -220,16 +220,30 @@ class ReverseTest extends UnitTestCase {
 
 ---
 # Running a Test
-- vendor/bin/phpunit
-
+- From project root
+    - ./vendor/bin/phpunit
+    - ./vendor/bin/phpunit ./web/modules/custom/other_module/tests
 
 ---
 # Data Providers
 
 ```php
+/*
+ * @dataProvider sentenceProvider
+ */
+public function testPigLatinTransformer(string $text, string $expected) {
+  $actual = $this->textTransformer->transform($text);
+  $this->assertEquals($expected, $actual);
+}
 
-
-
+public function sentenceProvider() {
+  return [
+    //Desc       Original                 Expected       
+    'test1' => ['Drupal Rock',           'rupalDay ockRay'],
+    'test2' => ['Testing is good',       'estingTay siay oodgay'],
+    'test3' => ['Welcome to the meetup', 'elcomeWay otay hetay eetupmay'],
+  ];
+}
 ```
 
 
@@ -237,7 +251,7 @@ class ReverseTest extends UnitTestCase {
 
 
 
-
+---
 # Exercise
 - Create tests for 
 
