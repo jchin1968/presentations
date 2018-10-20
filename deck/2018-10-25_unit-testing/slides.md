@@ -9,7 +9,7 @@ class: center, middle
 - Drupal Solution Architect since 2007
 - Singapore Drupal Meetup committee member
 - jchin1968 on .media-icon[![image](../../images/google.png) ![image](../../images/twitter.png) ![image](../../images/linkedin.png) ![image](../../images/facebook.png) ![image](../../images/github.png)]
-- Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2018-10_unit-testing/index.html
+- Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2018-10-25_unit-testing/index.html
 
 
 ---
@@ -62,8 +62,9 @@ name: our-implementation
 - focus on Text Transformer plugins in src/Plugin/TextTransformer
 
 ---
+class: center, middle
 # Demo
-- Show the code, specifically the transformer plugins
+# Custom Text Transformer Field
 
 ---
 # Writing Testable Code - Avoid This
@@ -120,25 +121,10 @@ class Reverse extends {
 }
 ```
 
-
-
-
-
-
 ---
-# Setup
-- Optional: Create phpunit.xml in project root with the following:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="web/core/tests/bootstrap.php" colors="true">
-  <testsuites>
-    <testsuite name="unit">
-      <directory>web/modules/custom/text_transformer/tests</directory>
-    </testsuite>
-  </testsuites>
-</phpunit>
-```
+class: center, middle
+# Demo
+# Text Transformer Plugins
 
 ---
 # Test Directory Structure
@@ -162,6 +148,21 @@ text_transformer/
 *¦                   +-- ReverseTest.php
 +-- text_transformer.info.yml
 +-- text_transformer.module
+```
+
+---
+# Setup
+- Create phpunit.xml in Drupal project root with the following:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="web/core/tests/bootstrap.php" colors="true">
+  <testsuites>
+    <testsuite name="unit">
+      <directory>web/modules/custom/text_transformer/tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
 ```
 
 
@@ -216,6 +217,12 @@ class ReverseTest extends UnitTestCase {
 }
 ```
 
+
+---
+# Running a Test
+- vendor/bin/phpunit
+
+
 ---
 # Data Providers
 
@@ -228,12 +235,6 @@ class ReverseTest extends UnitTestCase {
 
 
 
-
-
-
----
-# Running a Test
-- vendor/bin/phpunit
 
 
 
