@@ -1,7 +1,7 @@
 name: cover
 class: center, middle
 # Drupal 8 Unit Testing
-### Joseph Chin<br>Singapore Drupal Meetup<br>October, 2018
+### Joseph Chin<br>Singapore Drupal Meetup<br>October 25, 2018
 
 ---
 # Hello
@@ -13,7 +13,7 @@ class: center, middle
 
 
 ---
-# Testing in Drupal 8
+# Testing In Drupal 8
 - PHPUnit
   - Now part of Drupal Core. Replaces SimpleTest.
   - Provides Unit, Kernel, Browser and JavaScript testing.
@@ -26,7 +26,7 @@ class: center, middle
   - Selenium, CodeCeption
   
 ---
-# What is Unit Testing?
+# What Is Unit Testing?
 - Typically written by a developer during code development
 - Test small, discrete units such as a method or a function
 - Runs very quickly since Drupal does not need to be loaded
@@ -38,7 +38,7 @@ class: center, middle
 
 
 ---
-# When Not to Use Unit Testing
+# When Not To Use Unit Testing
 - Method being tested require too many *Test Doubles* i.e. dependencies
  
 
@@ -63,7 +63,6 @@ name: our-implementation
 
 ---
 # Demo
-- Demonstrate the field
 - Show the code, specifically the transformer plugins
 
 ---
@@ -108,10 +107,38 @@ switch ($transformer_type) {
 }
 ```
 
+---
+# Writing Testable Code - And This
+```php
+class Reverse extends {
+  public __construct($text) {
+    $text_array = explode(' ', $text);
+    $reverse_array = array_reverse($text_array);
+    $reverse_text = implode(' ', $reverse_array);
+    return $reverse_text;  
+  }
+}
+```
 
 
 
 
+
+
+---
+# Setup
+- Optional: Create phpunit.xml in project root with the following:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="web/core/tests/bootstrap.php" colors="true">
+  <testsuites>
+    <testsuite name="unit">
+      <directory>web/modules/custom/text_transformer/tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
+```
 
 ---
 # Test Directory Structure
@@ -138,10 +165,14 @@ text_transformer/
 ```
 
 
-
 ---
-# Creating a Test Class
+# Writing a Test Class
 ```php
+namespace Drupal\Tests\text_transformer\Unit\Plugin\TextTransformer;
+
+use Drupal\text_transformer\Plugin\TextTransformer\Reverse;
+use Drupal\Tests\UnitTestCase;
+
 class ReverseTest extends UnitTestCase {
   public function setup() {
   }
@@ -150,27 +181,55 @@ class ReverseTest extends UnitTestCase {
   }
   
   public function testReverseTransformer() {
-  
   } 
 }
 ```
 
-
+---
+# Extending the Setup Method
+```php
+public function setUp() {
+  $this->textTransformer = new Reverse();
+}
+```
 
 ---
-# Setup
-- Create phpunit.xml with the following:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="web/core/tests/bootstrap.php" colors="true">
-  <testsuites>
-    <testsuite name="unit">
-      <directory>web/modules/custom/text_transformer/tests</directory>
-    </testsuite>
-  </testsuites>
-</phpunit>
+# Extending the Tear Down Method
+```php
+public function tearDown() {
+  unset($this->textTransformer);
+}
 ```
+
+---
+# Writing the Test Method
+
+```php
+class ReverseTest extends UnitTestCase {
+
+  public function testReverseTransformer() {
+    $text = 'The quick brown fox';
+    $expected = 'fox brown quick The';
+    $actual = $this->textTransformer->transform($text);
+    $this->assertEquals($expected, $actual);
+  }
+}
+```
+
+---
+# Data Providers
+
+```php
+
+
+
+```
+
+
+
+
+
+
 
 ---
 # Running a Test
