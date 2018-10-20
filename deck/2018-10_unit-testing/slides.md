@@ -52,9 +52,10 @@ class: center, middle
 - Translate it to Pig Latin
 
 ---
+name: our-implementation
 # Our Implementation
-- Custom field with a textarea and a select option to choose a transformer type
-- Attach the custom field to an article content type
+- Custom text transformer field attached to an article content type
+.text-transformer-field.middle[![image](text_transformer_field.png)]
 
 ???
 - don't get too concern with how the field is created or how the transformer plugins are automatically detected
