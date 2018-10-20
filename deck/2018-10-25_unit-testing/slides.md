@@ -262,12 +262,12 @@ public function sentenceProvider() {
 
 
 ---
-# Exercise
-- Create tests for 
+# Exercise 1
+- install text_transformer module and run the tests that comes with it.
 
-
-
-
+---
+# Exercise 2
+- Create a test for the random text transformer
 
 
 
