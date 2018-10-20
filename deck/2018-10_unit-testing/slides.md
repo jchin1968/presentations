@@ -13,10 +13,6 @@ class: center, middle
 
 
 ---
-# Agenda
-
-
----
 # Testing in Drupal 8
 - PHPUnit
   - Now part of Drupal Core. Replaces SimpleTest.
@@ -29,13 +25,22 @@ class: center, middle
 - Others
   - Selenium, CodeCeption
   
-
 ---
 # What is Unit Testing?
-- typically done by a developer, not a tester
-- performed on a single method or function
-- test on small, discrete units i.e. the smallest testable part 
-  
+- Typically written by a developer during code development
+- Test small, discrete units such as a method or a function
+- Runs very quickly since Drupal does not need to be loaded
+
+???
+- written by developers as opposed to a BA or tester who would be writing behat tests or creating selenium tests 
+- Selenium or Behat are for functional testing where the full Drupal site will be loaded.
+- Kernel testing which falls between unit and functional tests, will load a small subset of Drupal
+
+
+---
+# When Not to Use Unit Testing
+- Method being tested require too much dependencies i.e. Test Doubles
+ 
 
 ---
 # Business Requirements
