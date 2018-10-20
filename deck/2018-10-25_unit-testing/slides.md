@@ -219,10 +219,23 @@ class ReverseTest extends UnitTestCase {
 
 
 ---
-# Running a Test
-- From project root
-    - ./vendor/bin/phpunit
-    - ./vendor/bin/phpunit ./web/modules/custom/other_module/tests
+# Running Tests
+- From project root, run 
+
+```markdown
+ ./vendor/bin/phpunit
+```
+
+
+---
+# Results
+```
+
+```
+
+
+
+
 
 ---
 # Data Providers
@@ -245,9 +258,6 @@ public function sentenceProvider() {
   ];
 }
 ```
-
-
-
 
 
 
