@@ -39,35 +39,22 @@ class: center, middle
 
 ---
 # When Not to Use Unit Testing
-- Method being tested require too much dependencies i.e. Test Doubles
+- Method being tested require too many *Test Doubles* i.e. dependencies
  
 
 ---
-# Business Requirements
+# Our Use Case
 ## Take a user inputted sentence and transform it to one of the following:
 - Randomly mix the order of the words
 - Reverse the order of the words
 - Make all the letters uppercase
 - Make all the letters lowercase
-- Translate to Pig Latin
-
-
----
-# What is Pig Latin?
-- English language kids game. 
-- Take the first letter of each word, put it in the back and add "ay"
-
-| English | Pig Latin |
-| :---   | :---   | 
-| Drupal Rock | rupalday ockray |
-| Testing is good | estingay siay oodgay |
-| Welcome to the meetup | elcomeway otay hetay eetupmay |
-
+- Translate it to Pig Latin
 
 ---
-# Implementation
-- Custom field with a textarea and dropdown box to select the transformer
-- attach field to a content type
+# Our Implementation
+- Custom field with a textarea and a select option to choose a transformer type
+- Attach the custom field to an article content type
 
 ???
 - don't get too concern with how the field is created or how the transformer plugins are automatically detected
@@ -105,7 +92,6 @@ switch ($transformer_type) {
 ---
 # Writing Testable Code - Do This
 ```php
-
 switch ($transformer_type) {
   case 'lower':
      $transformed = new Lower($text);
@@ -119,7 +105,7 @@ switch ($transformer_type) {
     $transformed = new Reverse($text);
     break;  
 }
-
+```
 
 
 
@@ -127,28 +113,29 @@ switch ($transformer_type) {
 
 
 ---
-# Custom Module Directory Structure
+# Test Directory Structure
 
 ```text
-/text_transformer
-|-- text_transformer.info.yml
-|-- /src
-|   |-- /Plugin
-|   |   |-- /Field
-|   |   |   |-- /FiledFormatter
-|   |   |   |-- /FieldType
-|   |   |   |-- /FiledWidget  
-|   |-- /TextTransformer
-|   |   |-- Lower.php
-|   |   |-- Reverse.php
-|-- /tests
-|   |-- /src
-|   |   |-- /Functional
-|   |   |-- /Kernel  
-|   |   |-- /Unit  
-|   |   |-- |-- LowerTest.php  
-|   |   |-- |-- ReverseTest.php
+text_transformer/
++-- src
+¦   +-- Controller
+¦   +-- Form
+¦   +-- Plugin
+¦   ¦   +-- Field
+¦   ¦   +-- TextTransformer
+¦   ¦       +-- Random.php
+¦   ¦       +-- Reverse.php
+*+-- tests
+*¦   +-- src
+*¦       +-- Unit
+*¦           +-- Plugin
+*¦               +-- TextTransformer
+*¦                   +-- RandomTest.php
+*¦                   +-- ReverseTest.php
++-- text_transformer.info.yml
++-- text_transformer.module
 ```
+
 
 
 ---
