@@ -14,16 +14,16 @@ class: center, middle
 
 ---
 # Testing In Drupal 8
-- PHPUnit
-  - Now part of Drupal Core. Replaces SimpleTest.
-  - Provides Unit, Kernel, Browser and JavaScript testing.
 - SimpleTest
   - Still available in Drupal 8.6 but being deprecated
+- PHPUnit
+  - Included in Drupal Core. Replaces SimpleTest.
+  - Provides Unit, Kernel, Browser and JavaScript testing.
+  - Supports both PhantomJS and Selenium
 - Behat
   - Available for Drupal 8 and actively maintained
+  - Supports both PhantomJS and Selenium
   - Stay tuned for meetups and workshops on the subject!
-- Others
-  - Selenium, CodeCeption
   
 ---
 # What Is Unit Testing?
@@ -122,11 +122,6 @@ class Reverse extends {
 ```
 
 ---
-class: center, middle
-# Demo
-# Text Transformer Plugins
-
----
 # Test Directory Structure
 
 ```text
@@ -151,8 +146,14 @@ text_transformer/
 ```
 
 ---
+class: center, middle
+# Demo
+# Text Transformer Plugin Code
+
+
+---
 # Setup
-- Create phpunit.xml in Drupal project root with the following:
+- Optional: Create phpunit.xml in Drupal project root with the following:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -232,9 +233,6 @@ class ReverseTest extends UnitTestCase {
 ```
 
 ```
-
-
-
 
 
 ---
