@@ -45,11 +45,30 @@ class: center, middle
 ---
 # Our Use Case
 ## Take a user inputted sentence and transform it to one of the following:
+
 - Randomly mix the order of the words
 - Reverse the order of the words
 - Make all the letters uppercase
 - Make all the letters lowercase
 - Translate it to Pig Latin
+
+---
+# Our Use Case - Example
+
+User Input: The Quick Brown Fox
+
+| Transformer | Output                      |
+| :---------- | :-------------------------- |
+| Lower       | the quick brown fox         |
+| Pig Latin   | heTay uickQay rownBay oxFay |
+| Random      | Brown The Fox Quick         |
+| Reverse     | Fox Brown Quick The         |
+| Upper       | THE QUICK BROWN FOX         |
+
+
+
+
+
 
 ---
 name: our-implementation
