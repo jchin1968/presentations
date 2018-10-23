@@ -67,9 +67,6 @@ User Input: The Quick Brown Fox
 
 
 
-
-
-
 ---
 name: our-implementation
 # Our Implementation
@@ -280,7 +277,13 @@ public function sentenceProvider() {
 
 ---
 # Exercise 1
-- install text_transformer module and run the tests that comes with it.
+- install text_transformer module and run the tests that comes with it. Clone from:
+
+```markdown
+git clone https://github.com/jchin1968/text_transformer
+```
+
+
 
 ---
 # Exercise 2
