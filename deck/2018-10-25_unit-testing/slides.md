@@ -136,21 +136,6 @@ class Reverse extends {
 }
 ```
 
-
----
-name: assertions
-# Assertions
-
-| Mixed                | Arrays / Object          | Files                           |
-| :------------------- | :----------------------- | :------------------------------ |
-| assertEquals         | assertArrayEquals        | assertFileExists                |
-| assertGreaterThan    | assertArraySubset        | assertDirectoryExists           |
-| assertTrue           | assertCount              | assertIsWritable                |
-| assertEmpty          | assertArrayNotHasKey     | assertJsonStringEqualsJsonFile  |
-| assertContains       | assertObjectHasAttribute | assertXmlStringNotEqualsXmlFile |
-| assertStringEndsWith | assertInstanceOf         | assertStringEqualsFile          |
-
-
 ---
 # Test Directory Structure
 
@@ -214,6 +199,9 @@ class ReverseTest extends UnitTestCase {
   
   public function testReverseTransformer() {
   } 
+  
+  public function testSomethingElse() {
+  } 
 }
 ```
 
@@ -237,17 +225,28 @@ public function tearDown() {
 # Writing the Test Method
 
 ```php
-class ReverseTest extends UnitTestCase {
-
-  public function testReverseTransformer() {
-    $text = 'The quick brown fox';
-    $expected = 'fox brown quick The';
-    $actual = $this->textTransformer->transform($text);
-    $this->assertEquals($expected, $actual);
-  }
+public function testReverseTransformer() {
+  $text = 'The quick brown fox';
+  $expected = 'fox brown quick The';
+  $actual = $this->textTransformer->transform($text);
+  $this->assertEquals($expected, $actual);
 }
 ```
 
+---
+name: assertions
+# Assertions
+
+| Mixed                | Arrays / Object          | Files                           |
+| :------------------- | :----------------------- | :------------------------------ |
+| assertEquals         | assertArrayEquals                  | assertFileExists                |
+| assertGreaterThan    | assertArraySubset        | assertDirectoryExists           |
+| assertTrue           | assertCount              | assertIsWritable                |
+| assertEmpty          | assertArrayNotHasKey     | assertJsonStringEqualsJsonFile  |
+| assertContains       | assertObjectHasAttribute | assertXmlStringNotEqualsXmlFile |
+| assertStringEndsWith | assertInstanceOf         | assertStringEqualsFile          |
+
+Full list for PHPUnit 6.5 can be found here: https://phpunit.de/manual/6.5/en/appendixes.assertions.html
 
 ---
 # Running Tests
