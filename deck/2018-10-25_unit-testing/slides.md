@@ -67,7 +67,6 @@ User Input: The Quick Brown Fox
 
 
 ---
-name: implementation
 # Use Case - Implementation
 - Custom text transformer field attached to an article content type
 .text-transformer-field.middle[![image](text_transformer_field.png)]
@@ -136,6 +135,30 @@ class Reverse extends {
 }
 ```
 
+
+---
+class: center, middle
+# Demo
+# Text Transformer Plugin Code
+
+
+---
+# Setup
+- None! Already included by default
+- Optional: Create phpunit.xml in Drupal project root with the following:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="web/core/tests/bootstrap.php" colors="true">
+  <testsuites>
+    <testsuite name="unit">
+      <directory>web/modules/custom/text_transformer/tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
+```
+
+
 ---
 # Test Directory Structure
 
@@ -158,27 +181,6 @@ text_transformer/
 *¦                   +-- ReverseTest.php
 +-- text_transformer.info.yml
 +-- text_transformer.module
-```
-
----
-class: center, middle
-# Demo
-# Text Transformer Plugin Code
-
-
----
-# Setup
-- Optional: Create phpunit.xml in Drupal project root with the following:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="web/core/tests/bootstrap.php" colors="true">
-  <testsuites>
-    <testsuite name="unit">
-      <directory>web/modules/custom/text_transformer/tests</directory>
-    </testsuite>
-  </testsuites>
-</phpunit>
 ```
 
 
@@ -258,11 +260,15 @@ Full list for PHPUnit 6.5 can be found here: https://phpunit.de/manual/6.5/en/ap
 
 
 ---
-# Results
-```
+# Results - OK
 
-```
+.phpunit-result-ok.middle[![image](phpunit_results_ok.png)]
 
+
+---
+# Results - Error
+
+.phpunit-result-error.middle[![image](phpunit_results_error.png)]
 
 ---
 # Data Providers

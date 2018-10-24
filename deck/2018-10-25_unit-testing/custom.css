@@ -1,7 +1,21 @@
-#slide-implementation .text-transformer-field img {
+/* Image styling */
+.text-transformer-field img {
     display: block;
     width: 600px;
 }
+
+.phpunit-result-ok img {
+    display: block;
+    width: 700px;
+}
+
+.phpunit-result-error img {
+    display: block;
+    width: 700px;
+}
+
+
+/* Slide specific Styling */
 
 #slide-assertions table th,
 #slide-assertions table td {
