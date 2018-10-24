@@ -59,11 +59,11 @@ User Input: The Quick Brown Fox
 
 | Transformer | Output                      |
 | :---------- | :-------------------------- |
-| Lower       | the quick brown fox         |
-| Pig Latin   | heTay uickQay rownBay oxFay |
 | Random      | Brown The Fox Quick         |
 | Reverse     | Fox Brown Quick The         |
+| Lower       | the quick brown fox         |
 | Upper       | THE QUICK BROWN FOX         |
+| Pig Latin   | heTay uickQay rownBay oxFay |
 
 
 ---
@@ -72,13 +72,13 @@ User Input: The Quick Brown Fox
 .text-transformer-field.middle[![image](text_transformer_field.png)]
 
 ???
-- don't get too concern with how the field is created or how the transformer plugins are automatically detected
-- focus on Text Transformer plugins in src/Plugin/TextTransformer
+- Many different ways to implement this requirement - I chose to create a custom field
+
 
 ---
 class: center, middle
-# Demo
-# Custom Text Transformer Field
+# Text Transformer Demonstration
+
 
 ---
 # Writing Testable Code - Avoid This
@@ -138,8 +138,12 @@ class Reverse extends {
 
 ---
 class: center, middle
-# Demo
-# Text Transformer Plugin Code
+# Text Transformer Plugin Code Demonstration
+
+???
+- don't get too concern with how the field is created or how the transformer plugins are automatically detected
+- focus on Text Transformer plugins in src/Plugin/TextTransformer
+- notice how each text transformer is a separate class
 
 
 ---
@@ -206,6 +210,11 @@ class ReverseTest extends UnitTestCase {
   } 
 }
 ```
+- class name should end in Test
+- method name should start with test
+- tearDown() not always needed
+
+
 
 ---
 # Extending the Setup Method
@@ -236,6 +245,14 @@ public function testReverseTransformer() {
   $this->assertEquals($expected, $actual);
 }
 ```
+
+???
+- generally just one assert per test but there can be exceptions
+- for example, to test if a number is within a range
+  - assertGreaterThan($expected, 10);
+  - assertLessThan($expected, 100);
+-   
+
 
 ---
 name: assertions
@@ -268,13 +285,13 @@ Full list for PHPUnit 6.5 can be found here: https://phpunit.de/manual/6.5/en/ap
 
 
 ---
-# Results - OK
+# Test Results - OK
 
 .phpunit-result-ok.middle[![image](phpunit_results_ok.png)]
 
 
 ---
-# Results - Error
+# Test Results - Error
 
 .phpunit-result-error.middle[![image](phpunit_results_error.png)]
 
@@ -300,28 +317,44 @@ public function sentenceProvider() {
 }
 ```
 
-
-
----
-# Exercise 1
-- install text_transformer module and run the tests that comes with it. Clone from:
-
-```markdown
-git clone https://github.com/jchin1968/text_transformer
-```
+???
+- other annotations
+  - @require
+  - @depends
+  - @test
+  - @group
 
 
 
 ---
-# Exercise 2
+# Warm-Up Exercise
+- Install the text_transformer module and run the tests that comes with it
+- Get the module from https://github.com/jchin1968/text_transformer
+
+???
+- Note you don't actually need to enable the module to run the tests
+
+
+---
+# The Real Exercise
 - Create a test for the random text transformer
+  - Following the same structure as for LowerTest.php, UpperTest.php, etc.
+  - Hints: use ```array_unique()``` and ```$this->assertCount()```
+- Run the tests again
 
+
+---
+class: center, middle
+# Exercise Solution Demonstration
 
 
 
 ---
 # References
+- https://www.drupal.org/docs/8/phpunit
 - https://www.lullabot.com/articles/an-overview-of-testing-in-drupal-8
+- https://phpunit.de/manual/6.5/en/installation.html
+- https://phpunit.readthedocs.io/en/7.4
 
 ---
 # Q&amp;A
