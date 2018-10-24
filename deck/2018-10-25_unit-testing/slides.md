@@ -222,6 +222,8 @@ public function tearDown() {
   unset($this->textTransformer);
 }
 ```
+- Generally not required if setup is just plain PHP objects
+- Is required if there are open files, sockets, etc.
 
 ---
 # Writing the Test Method
@@ -252,10 +254,16 @@ Full list for PHPUnit 6.5 can be found here: https://phpunit.de/manual/6.5/en/ap
 
 ---
 # Running Tests
-- From project root, run 
+- if phpunit.xml is setup, run from project root: 
 
 ```markdown
  ./vendor/bin/phpunit
+```
+
+- if phpunit.xml is NOT setup, run: 
+
+```markdown
+ ./vendor/bin/phpunit ./web/modules/custom/text_transformer
 ```
 
 
