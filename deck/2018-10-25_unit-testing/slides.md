@@ -43,7 +43,7 @@ class: center, middle
  
 
 ---
-# Our Use Case
+# Use Case
 ## Take a user inputted sentence and transform it to one of the following:
 
 - Randomly mix the order of the words
@@ -53,7 +53,7 @@ class: center, middle
 - Translate it to Pig Latin
 
 ---
-# Our Use Case - Example
+# Use Case - Sample Result
 
 User Input: The Quick Brown Fox
 
@@ -66,10 +66,9 @@ User Input: The Quick Brown Fox
 | Upper       | THE QUICK BROWN FOX         |
 
 
-
 ---
-name: our-implementation
-# Our Implementation
+name: implementation
+# Use Case - Implementation
 - Custom text transformer field attached to an article content type
 .text-transformer-field.middle[![image](text_transformer_field.png)]
 
@@ -136,6 +135,21 @@ class Reverse extends {
   }
 }
 ```
+
+
+---
+name: assertions
+# Assertions
+
+| Mixed                | Arrays / Object          | Files                           |
+| :------------------- | :----------------------- | :------------------------------ |
+| assertEquals         | assertArrayEquals        | assertFileExists                |
+| assertGreaterThan    | assertArraySubset        | assertDirectoryExists           |
+| assertTrue           | assertCount              | assertIsWritable                |
+| assertEmpty          | assertArrayNotHasKey     | assertJsonStringEqualsJsonFile  |
+| assertContains       | assertObjectHasAttribute | assertXmlStringNotEqualsXmlFile |
+| assertStringEndsWith | assertInstanceOf         | assertStringEqualsFile          |
+
 
 ---
 # Test Directory Structure
