@@ -336,7 +336,7 @@ public function sentenceProvider() {
 
 
 ---
-# The Real Exercise
+# Exercise
 - Create a test for the random text transformer
   - Following the same structure as for LowerTest.php, UpperTest.php, etc.
   - Hints: use ```array_unique()``` and ```$this->assertCount()```
