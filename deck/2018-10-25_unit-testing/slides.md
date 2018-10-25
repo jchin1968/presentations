@@ -30,6 +30,7 @@ class: center, middle
 - Typically written by a developer during code development
 - Test small, discrete units i.e. methods
 - Runs very quickly since Drupal kernel does not need to be loaded
+- Not suitable when method being tested require too many *Test Doubles* i.e. dependencies 
 
 ???
 - written by developers as opposed to a BA or tester who would be writing behat tests or creating selenium tests 
@@ -38,8 +39,55 @@ class: center, middle
 
 
 ---
-# When Not To Use Unit Testing
-- Method being tested require too many *Test Doubles* i.e. dependencies 
+# Small, Discrete Units - Not!
+
+```php
+public function calculateInvoiceAmount ($weight, $subTotal) {
+  // Calculate Shipping
+  if ($weight < 5) {
+    $shipping = 10;
+  } else {
+    $shipping = $weight * 2;
+  }
+
+  // Calculate taxes    
+  $taxable = $subTotal + $shipping;
+  if ($taxable < 100) {
+    $taxes = $taxable * 0.05;
+  } else {
+    $taxes = $taxable * 0.12;
+  }
+
+  return $subTotal + $shipping + $taxable;
+}
+
+```
+
+---
+# Small, Discrete Units - Yes!
+
+```php
+public function calculateInvoiceAmount ($weight, $subTotal) {
+  $shipping = $this->calculateShipping($weight);
+
+  $taxable = $subTotal + $shipping;  
+  $taxes = $this->calculateTaxes($taxable);
+  
+  return $subTotal + $shipping + $taxable;
+}    
+
+public function calculateShipping($weight) {
+  ...
+}
+
+public function calculateTaxes($taxable) {
+  ...
+}
+```
+
+???
+- 3 testable methods instead of just one
+
 
 ---
 # Use Case
@@ -52,7 +100,7 @@ class: center, middle
 - Translate it to Pig Latin
 
 ---
-# Use Case - Sample Result
+# Use Case - Sample Results
 
 User Input: The Quick Brown Fox
 
@@ -66,21 +114,16 @@ User Input: The Quick Brown Fox
 
 
 ---
-# Use Case - Implementation
-- Custom text transformer field attached to an article content type
-.text-transformer-field.middle[![image](text_transformer_field.png)]
+class: center, middle
+# Text Transformer Demonstration
 
 ???
+- Custom text transformer field attached to an article content type
 - Many different ways to implement this requirement - I chose to create a custom field
 
 
 ---
-class: center, middle
-# Text Transformer Demonstration
-
-
----
-# Writing Testable Code - Avoid This
+# One Way - But Should Avoid
 ```php
 
 switch ($transformer_type) {
@@ -102,9 +145,11 @@ switch ($transformer_type) {
 
 ???
 - Before you can write tests, your code has to be testable 
+- Don't put all your logic inside one method
+
 
 ---
-# Writing Testable Code - Do This
+# A Better Way
 ```php
 switch ($transformer_type) {
   case 'lower':
@@ -121,8 +166,9 @@ switch ($transformer_type) {
 }
 ```
 
+
 ---
-# Writing Testable Code - And This
+# A Better Way (cont.)
 ```php
 class Reverse extends {
   public __construct($text) {
@@ -161,7 +207,6 @@ class: center, middle
 </phpunit>
 ```
 
-
 ---
 # Test Directory Structure
 
@@ -185,7 +230,6 @@ text_transformer/
 +-- text_transformer.info.yml
 +-- text_transformer.module
 ```
-
 
 ---
 # Writing a Test Class
@@ -216,7 +260,7 @@ class ReverseTest extends UnitTestCase {
 
 
 ---
-# Extending the Setup Method
+# Setup Method
 ```php
 public function setUp() {
   $this->textTransformer = new Reverse();
@@ -224,7 +268,7 @@ public function setUp() {
 ```
 
 ---
-# Extending the Tear Down Method
+# Tear Down Method
 ```php
 public function tearDown() {
   unset($this->textTransformer);
@@ -252,14 +296,13 @@ public function testReverseTransformer() {
   - assertLessThan($expected, 100);
 -   
 
-
 ---
 name: assertions
 # Assertions
 
 | Mixed                | Arrays / Object          | Files                           |
 | :------------------- | :----------------------- | :------------------------------ |
-| assertEquals         | assertArrayEquals                  | assertFileExists                |
+| assertEquals         | assertArrayEquals        | assertFileExists                |
 | assertGreaterThan    | assertArraySubset        | assertDirectoryExists           |
 | assertTrue           | assertCount              | assertIsWritable                |
 | assertEmpty          | assertArrayNotHasKey     | assertJsonStringEqualsJsonFile  |
