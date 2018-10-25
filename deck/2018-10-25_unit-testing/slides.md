@@ -28,8 +28,8 @@ class: center, middle
 ---
 # What Is Unit Testing?
 - Typically written by a developer during code development
-- Test small, discrete units such as a method or a function
-- Runs very quickly since Drupal does not need to be loaded
+- Test small, discrete units i.e. methods
+- Runs very quickly since Drupal kernel does not need to be loaded
 
 ???
 - written by developers as opposed to a BA or tester who would be writing behat tests or creating selenium tests 
@@ -39,8 +39,7 @@ class: center, middle
 
 ---
 # When Not To Use Unit Testing
-- Method being tested require too many *Test Doubles* i.e. dependencies
- 
+- Method being tested require too many *Test Doubles* i.e. dependencies 
 
 ---
 # Use Case
@@ -325,9 +324,8 @@ public function sentenceProvider() {
   - @group
 
 
-
 ---
-# Warm-Up Exercise
+# Exercise #1
 - Install the text_transformer module and run the tests that comes with it
 - Get the module from https://github.com/jchin1968/text_transformer
 
@@ -336,7 +334,7 @@ public function sentenceProvider() {
 
 
 ---
-# Exercise
+# Exercise #2
 - Create a test for the random text transformer
   - Following the same structure as for LowerTest.php, UpperTest.php, etc.
   - Hints: use ```array_unique()``` and ```$this->assertCount()```
@@ -345,7 +343,7 @@ public function sentenceProvider() {
 
 ---
 class: center, middle
-# Exercise Solution Demonstration
+# Exercise #2 Solution Demonstration
 
 
 
