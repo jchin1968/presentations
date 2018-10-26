@@ -193,8 +193,7 @@ class: center, middle
 
 ---
 # Setup
-- None! Already included by default
-- Optional: Create phpunit.xml in Drupal project root with the following:
+- Create phpunit.xml in Drupal project root with the following:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -206,6 +205,10 @@ class: center, middle
   </testsuites>
 </phpunit>
 ```
+
+???
+- you may need to modify the paths for bootstrap and <directory> to match that of your own
+
 
 ---
 # Test Directory Structure
