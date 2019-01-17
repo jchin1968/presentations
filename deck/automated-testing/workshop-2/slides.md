@@ -1,22 +1,22 @@
 name: cover
 class: center, middle
-# Presentation Title
-### Joseph Chin<br>Location<br>Date
+# Drupal Automated Testing<br>Workshop 2
+### Joseph Chin
 
 ---
 # Hello
 - Joseph Chin
 - Drupal Solution Architect since 2007
 - Singapore Drupal Meetup committee member
-* jchin1968 on .media-icon[![image](../../images/google.png) ![image](../../images/twitter.png) ![image](../../images/linkedin.png) ![image](../../images/facebook.png) ![image](../../images/github.png)]
-* Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/template/index.html
-
+- jchin1968 on .media-icon[![image](../../../images/google.png) ![image](../../../images/twitter.png) ![image](../../../images/linkedin.png) ![image](../../../images/facebook.png) ![image](../../../images/github.png)]
+- Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/automated-testing/workshop-2/index.html
 
 ---
-# Agenda
+# Topics
+- 
 
 
 ---
 # Q&amp;A
 
-.center.middle[![image](../../images/questionmarktie.jpg)]
+.center.middle[![image](../../../images/questionmarktie.jpg)]
