@@ -1,0 +1,10 @@
+code.remark-code {
+    font-family: 'Ubuntu Mono';
+    font-size: 90%;
+    line-height: 100%;
+}
+
+.remark-code, .remark-inline-code {
+    font-family: 'Ubuntu Mono';
+
+}
