@@ -33,10 +33,19 @@ class: center, middle
 ---
 class: center, middle
 # Why Automate?
+- speed
+- consistency
+- accuracy
+
 
 ???
 - People generally know it's good to have automated tests
 - But they may not know all the benefits for having or the risks of not having automated tests
+
+
+- We all know why it is necessary to test but why the need to automate it?
+  - speed, consistency, accuracy
+
 
 
 ---
@@ -49,8 +58,6 @@ class: center, middle
 
 ???
 - starts with risk management
-
-
 
 
 ---
@@ -98,11 +105,39 @@ class: center, middle
 class: center, middle
 # Behat and Drupal
 
+???
+- Testing for performance and security have different requirements which Behat nor PHPUnit does not support
+- While PHPUnit can be used for User Acceptance Tests, as we will see later on, Behat provides a framework which makes it easy to transform written user stories into automated tests.
+- Easy for non-developers to understand and therefore help define the tests
+
 
 
 ---
 class: center, middle
 # Behavior Driven Development (BDD) Principles
+
+---
+# Example Behavior
+
+```
+Scenario: Customer checkout
+	Given I am logged in as a customer
+	And I have placed the following items in my shopping cart:
+      | Soap       | 6.50 |
+      | Toothpaste | 3.25 |
+      | Shampoo    | 8.00 |
+    When I checkout
+    Then I should see an invoice amount for "17.75"
+```
+
+
+
+???
+- based on the principle of creating your tests first and then developing your application
+- initially, all your tests will fail but as your development progresses, they will all pass
+- the idea is by defining your tests first, it forces you to think of all the scenarios that can occur and it prevents scope creep
+
+
 
 
 
@@ -111,6 +146,28 @@ class: center, middle
 # Speaking in Gherkin
 
 
+---
+# Gherkin
+- Is a language used to define automated tests
+- Start by defining a ```Feature```, then ```Scenarios``` and ```Steps```
+- The general format is
+
+```
+Feature: Customer online ordering
+  Scenario: Add items to shopping cart
+    Given ....
+  	When ...
+  	Then ...
+ 
+  Scenario: Checkout
+    Given ....
+    When ...
+    Then ...
+```
+
+- The feature, scenarios and steps  written above by itself doesn't actually do anything
+- Behind the scene, there are PHP methods which recognizes the step definition and execute them accordingly
+-  
 
 ---
 class: center, middle
