@@ -13,7 +13,22 @@ class: center, middle
 
 
 ---
-# Agenda
+# Topics
+- Why Automate?
+- Behat and Drupal
+- Behavior Driven Development (BDD) Principles
+- Speaking in Gherkin
+- DrupalExtension Project
+- Demo
+
+???
+- Why automated testing is necessary 
+- Where Behat fits amongst the many testing tools available for Drupal
+- The principles behind Behavior Driven Development (BDD)
+- Gherkin, the language used to write Behat tests
+- Writing tests using the DrupalExtension project
+- Executing Behat tests
+
 
 ---
 # Cost Benefit
