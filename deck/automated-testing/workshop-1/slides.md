@@ -24,26 +24,35 @@ class: center, middle
 # Understanding Testing
 
 ---
-# Types of Tests
-- Unit
-- End-to-end
-- Functional
-- Smoke
-- Performance
-- Security
-- Front-end
-- Integration
-
+# Why Test?
+- Expose bugs 
+- Improve user experience (UX)
+-  
 
 ???
-- Unit - test individual methods
-- End-to-end - checks a complete workflow i.e. online ordering which includes browsing, ordering, checkout and payment
-- Functional - checks a specific process i.e checkout
-- Smoke - key checks
-- Performance - speed
-- Security / vulnerability - check for permissions, security flaws, compliance
-- Front-end - tests the visual appearance, missing content, etc.
-- Integration - test the integration between systems - payment process
+- bugs can cause significant monetary damage and even loss of human lives
+- An online retail shop can be shutdown for hours or days due to a bug
+- Bugs in navigational equipment have caused planes to crash 
+- Bugs in medical software have prescribed incorrect dosages leading to patient deaths
+- Fortunately, us in the Drupal world generally don't have such mission critical applications to worry about
+
+
+---
+# Types of Tests
+## Functional
+- Unit
+- Integration
+- User Acceptance (UAT)
+- Smoke
+
+## Non-Functional
+- Performance
+- Security / Penetration
+- Load / Scalability
+## Maintenance
+- Regression - re-running previous tests after some change to the software or environment
+
+
 
 
 ---
