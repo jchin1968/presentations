@@ -31,6 +31,18 @@ class: center, middle
 
 
 ---
+# So Much Confusion
+- Manual or automated
+- Methodolgies: Unit, Integration, Acceptance, Performance, Security 
+- Frameworks: Selenium, PhantomJS, Nightwatch, PHPUnit, Codeception, Behat, Drupal Test Traits
+- Test First or Code First?
+
+???
+- clear up some confusion
+- 
+
+
+---
 class: center, middle
 # Why Automate?
 - speed
@@ -99,8 +111,6 @@ class: center, middle
   - human testers tend to skip over tests when they feel a step may not be necessary   
  
 
-
-
 ---
 class: center, middle
 # Behat and Drupal
@@ -115,6 +125,12 @@ class: center, middle
 ---
 class: center, middle
 # Behavior Driven Development (BDD) Principles
+From "Behavior-driven_development" in Wikipedia:
+- "define a test set for the unit first;"
+- "make the tests fail;"
+- "then implement the unit;"
+- "finally verify that the implementation of the unit makes the tests succeed."
+
 
 ---
 # Example Behavior
@@ -148,26 +164,49 @@ class: center, middle
 
 ---
 # Gherkin
-- Is a language used to define automated tests
-- Start by defining a ```Feature```, then ```Scenarios``` and ```Steps```
-- The general format is
 
-```
+```gherkin
 Feature: Customer online ordering
   Scenario: Add items to shopping cart
-    Given ....
-  	When ...
-  	Then ...
+    Given I am on the "catalog" page
+    When I click "Add to cart" for item "Samsung Note 9"
+    Then I should see "Samsung Note 9" in the shopping cart
  
   Scenario: Checkout
-    Given ....
-    When ...
-    Then ...
+    Given I am on the "catalog" page
+    And I see items in the shopping cart
+    When I click "checkout"
+    Then I should see the heading "Invoice"
 ```
 
+???
+
+- Is a language used to define automated tests
+- Start by defining a Feature, then Scenario and then Steps
 - The feature, scenarios and steps  written above by itself doesn't actually do anything
 - Behind the scene, there are PHP methods which recognizes the step definition and execute them accordingly
--  
+
+---
+# PHP Context
+
+```php
+  /**
+   * Determine if an item is in the shopping cart.
+   *
+   * @Then I should see :item in the shopping cart
+   */
+  public function ItemIsInShoppingCart($item) {
+    $actual_options = $this->getActualSelectOptions($arg1);
+
+    // Check for differences.
+    $diff_1 = array_diff($expected_options, $actual_options);
+    if (!empty($diff_1)) {
+      $diff_1 = implode(', ', $diff_1);
+      throw new \Exception(sprintf("Expected item %s not found in shopping cart.", $item));
+    }
+  }
+```
+
 
 ---
 class: center, middle
