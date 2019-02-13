@@ -210,9 +210,24 @@ Feature: Customer online ordering
 
 ---
 class: center, middle
-# DrupalExtension Project
+# Drupal Extension Project
 
 
+
+---
+# Drupal Extension
+- provide pre-defined step definitions 
+- installed via composer
+
+---
+# Drupal Extension Examples
+
+```gherkin
+Given I am logged in as a/an :role
+Given a/an :type (content )with the title :title
+Given :vocabulary terms:
+Given the cache has been cleared
+```
 
 ---
 class: center, middle
