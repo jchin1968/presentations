@@ -31,47 +31,18 @@ class: center, middle
 
 
 ---
-# So Much Confusion
-- Manual or automated
-- Methodolgies: Unit, Integration, Acceptance, Performance, Security 
-- Frameworks: Selenium, PhantomJS, Nightwatch, PHPUnit, Codeception, Behat, Drupal Test Traits
-- Test First or Code First?
-
-???
-- clear up some confusion
-- 
-
-
----
-class: center, middle
 # Why Automate?
-- speed
-- consistency
-- accuracy
-
-
-???
-- People generally know it's good to have automated tests
-- But they may not know all the benefits for having or the risks of not having automated tests
-
-
-- We all know why it is necessary to test but why the need to automate it?
-  - speed, consistency, accuracy
-
-
-
----
-# Risk Management
-- What is the cost for
-  - defaced website? - reputation
-  - stolen data? - reputation, angry users, lawsuits, 
-  - site being down? - reputation, lost sales and ad revenue
-
+- Consistency
+- Accuracy
+- Speed
 
 ???
-- starts with risk management
+- Goes without saying, testing is a necessary step in software development
+- Automating the test process improves the consistency and accuracy of the tests  
+- Speed is the driver for automation with changes happening so frequently
+- consider the following slide and see if this applies to you
 
-
+  
 ---
 # Change Happens
 
@@ -88,6 +59,68 @@ class: center, middle
 - Change happens frequently, whether you want it to or not
 - often time, the change is out of your control such as a security patch 
 - Can your manual testers keep up?
+
+
+---
+# Types of Tests
+- performance
+- penetration
+- unit
+- integration
+- functional
+- acceptance
+
+# Tests Tools for Drupal
+- Performance - ApacheBench, JMeter
+- Security - ??
+- Unit - PHP Unit
+- Functional / Acceptance - PHPUnit, Test Traits, Selenium, Behat 
+
+# Behat Concepts
+- PHP implementation of Cucumber
+- follows the philosophy/thinking/methodology of BDD which is a subset of TDD
+
+
+???
+- While proponents of Behat encourages BDD, they also feels it's ok to develop behat tests after the fact 
+- this presentation is not about whether BDD is right or wrong for you but about the Behat tool
+
+
+
+
+
+
+
+
+
+---
+class: center, middle
+# Why Automate?
+
+???
+- But they may not know all the benefits for having or the risks of not having automated tests
+- We all know why it is necessary to test but why the need to automate it?
+  - speed, consistency, accuracy
+
+
+
+
+
+
+
+---
+# Risk Management
+- What is the cost for
+  - defaced website? - reputation
+  - stolen data? - reputation, angry users, lawsuits, 
+  - site being down? - reputation, lost sales and ad revenue
+
+
+???
+- We know testing is important. So let's start off with why we test
+- starts with risk management
+
+
 
 ---
 # Automation Speed, Consistency & Quality
@@ -121,15 +154,18 @@ class: center, middle
 - Easy for non-developers to understand and therefore help define the tests
 
 
-
 ---
 class: center, middle
 # Behavior Driven Development (BDD) Principles
+
+
+---
+# BDD Principles
 From "Behavior-driven_development" in Wikipedia:
-- "define a test set for the unit first;"
-- "make the tests fail;"
-- "then implement the unit;"
-- "finally verify that the implementation of the unit makes the tests succeed."
+- define a test set for the unit first;
+- make the tests fail;
+- then implement the unit;
+- finally verify that the implementation of the unit makes the tests succeed.
 
 
 ---
@@ -238,3 +274,23 @@ class: center, middle
 # Q&amp;A
 
 .center.middle[![image](../../../images/questionmarktie.jpg)]
+
+
+
+
+
+---
+class: center, middle
+# Archive Slides
+
+---
+# So Much Confusion
+- Manual or automated
+- Methodolgies: Unit, Integration, Acceptance, Performance, Security 
+- Frameworks: Selenium, PhantomJS, Nightwatch, PHPUnit, Codeception, Behat, Drupal Test Traits
+- Test First or Code First?
+
+???
+- clear up some confusion
+- 
+
