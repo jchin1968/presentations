@@ -14,15 +14,16 @@ class: center, middle
 
 ---
 # Topics
-- Why Automate?
-- Behat and Drupal
-- Behavior Driven Development (BDD) Principles
+- Why Automate
+- Test Tools
+- Behat Concepts
 - Speaking in Gherkin
 - DrupalExtension Project
 - Demo
 
 ???
 - Why automated testing is necessary 
+- What test frameworks and tools are available for Drupal
 - Where Behat fits amongst the many testing tools available for Drupal
 - The principles behind Behavior Driven Development (BDD)
 - Gherkin, the language used to write Behat tests
@@ -37,14 +38,20 @@ class: center, middle
 - Speed
 
 ???
-- Goes without saying, testing is a necessary step in software development
-- Automating the test process improves the consistency and accuracy of the tests  
-- Speed is the driver for automation with changes happening so frequently
-- consider the following slide and see if this applies to you
+- we all know testing is a necessary step in software development
+- Automating the test process improves the consistency and accuracy of the tests
+- Consistency
+  - Very consistent, does what it's told
+  - Humans tend to skip over tests
+- Accuracy
+  - automated tests can be written to detect details which are easily missed by humans 
+  but this is only as good as the person(s) writing the tests
+  - Human tester can better identify errors which were not thought of  
+- Speed is the real driver for automation since changes happen so frequently these days
 
   
 ---
-# Change Happens
+# Frequency of Change
 
 | Type of Change   | Frequency | Impact   |
 | :---             | :---      | :---     |
@@ -54,7 +61,6 @@ class: center, middle
 | PHP/JS Libraries | Weekly    | Med-Low  |
 | OS and Platform  | Weekly    | Low      |
 
-
 ???
 - Change happens frequently, whether you want it to or not
 - often time, the change is out of your control such as a security patch 
@@ -63,19 +69,33 @@ class: center, middle
 
 ---
 # Types of Tests
-- performance
-- penetration
-- unit
-- integration
-- functional
-- acceptance
+- Unit
+- Integration
+- Functional
+- Acceptance
+- Performance
+- Penetration
 
+???
+- Unit - individual functions or methods
+- Integration - interaction between two systems
+- Functional - verify business requirements by development team
+- Acceptance - validation by end-users
+- Performance - how fast pages load up, handling user load
+- Penetration - security
+
+
+
+---
 # Tests Tools for Drupal
 - Performance - ApacheBench, JMeter
-- Security - ??
+- Security - Kali Linux (Nmap, Metasploit)
 - Unit - PHP Unit
-- Functional / Acceptance - PHPUnit, Test Traits, Selenium, Behat 
+- Functional - PHPUnit, Test Traits, Selenium, Behat
 
+
+
+---
 # Behat Concepts
 - PHP implementation of Cucumber
 - follows the philosophy/thinking/methodology of BDD which is a subset of TDD
@@ -90,49 +110,8 @@ class: center, middle
 
 
 
-
-
-
----
-class: center, middle
-# Why Automate?
-
-???
-- But they may not know all the benefits for having or the risks of not having automated tests
-- We all know why it is necessary to test but why the need to automate it?
-  - speed, consistency, accuracy
-
-
-
-
-
-
-
----
-# Risk Management
-- What is the cost for
-  - defaced website? - reputation
-  - stolen data? - reputation, angry users, lawsuits, 
-  - site being down? - reputation, lost sales and ad revenue
-
-
-???
-- We know testing is important. So let's start off with why we test
-- starts with risk management
-
-
-
 ---
 # Automation Speed, Consistency & Quality
-- Speed
-  - Execution almost always faster
-  - Slow tests can be run on separate machine
-- Consistency
-  - Very consistent, does what it's told
-  - Humans tend to skip over tests
-- Quality
-  - Only as good as the person(s) writing the tests
-  - Human tester can better identify errors
 
 
 ???
