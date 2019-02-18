@@ -16,7 +16,7 @@ class: center, middle
 # Topics
 - Why Automate
 - Test Tools
-- Behat Concepts
+- What is Behat
 - Speaking in Gherkin
 - DrupalExtension Project
 - Demo
@@ -88,54 +88,46 @@ class: center, middle
 
 ---
 # Tests Tools for Drupal
-- Performance - ApacheBench, JMeter
+- Performance - ApacheBench, JMeter, Siege
 - Security - Kali Linux (Nmap, Metasploit)
 - Unit - PHP Unit
 - Functional - PHPUnit, Test Traits, Selenium, Behat
 
+???
+- While PHPUnit can be used for functional and/or user acceptance tests, as we will see later on, 
+Behat provides a framework which makes it easy to transform written user stories into automated tests
+- Behat is easy for non-developers to understand and therefore they can help define the tests
+
+
 
 
 ---
-# Behat Concepts
+# What is Behat?
 - PHP implementation of Cucumber
-- follows the philosophy/thinking/methodology of BDD which is a subset of TDD
+- BDD framework
 
 
 ???
+- PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
+- Other programming languages have their own version of cucumber
+  - python = Behave
+  - java = jBehave
+  - .net = specflow
+  - node = cucumberjs
+- BDD is a development practise that follows the principles of TDD
+  - create the tests first, then implement the solution.
+  - initially, all your tests will fail but as your development progresses, more and more of them will pass until 
+  you have all your tests passing and you know you are done
+  - by defining the tests first, it forces developers to think of all the different possibilities that can occur
+  - it also limits scope creep
+- BDD differs from TDD
+  - TDD is for developers
+  - BDD if for everyone
 - While proponents of Behat encourages BDD, they also feels it's ok to develop behat tests after the fact 
 - this presentation is not about whether BDD is right or wrong for you but about the Behat tool
 
 
 
-
-
-
----
-# Automation Speed, Consistency & Quality
-
-
-???
-- Automation Speed
-  - Once written, automated tests will always be faster than what a human tester can do
-  - Slow running tests can be ran in the background on a separate machine
-- Consistency
-  - Automated tests will always run in the same sequence, performing the same things as instructed
-  - human testers tend to skip over tests when they feel a step may not be necessary   
- 
-
----
-class: center, middle
-# Behat and Drupal
-
-???
-- Testing for performance and security have different requirements which Behat nor PHPUnit does not support
-- While PHPUnit can be used for User Acceptance Tests, as we will see later on, Behat provides a framework which makes it easy to transform written user stories into automated tests.
-- Easy for non-developers to understand and therefore help define the tests
-
-
----
-class: center, middle
-# Behavior Driven Development (BDD) Principles
 
 
 ---
@@ -160,7 +152,6 @@ Scenario: Customer checkout
     When I checkout
     Then I should see an invoice amount for "17.75"
 ```
-
 
 
 ???
