@@ -127,62 +127,29 @@ Behat provides a framework which makes it easy to transform written user stories
 - this presentation is not about whether BDD is right or wrong for you but about the Behat tool
 
 
-
-
-
 ---
-# BDD Principles
-From "Behavior-driven_development" in Wikipedia:
-- define a test set for the unit first;
-- make the tests fail;
-- then implement the unit;
-- finally verify that the implementation of the unit makes the tests succeed.
-
-
----
-# Example Behavior
-
-```
-Scenario: Customer checkout
-	Given I am logged in as a customer
-	And I have placed the following items in my shopping cart:
-      | Soap       | 6.50 |
-      | Toothpaste | 3.25 |
-      | Shampoo    | 8.00 |
-    When I checkout
-    Then I should see an invoice amount for "17.75"
-```
-
-
-???
-- based on the principle of creating your tests first and then developing your application
-- initially, all your tests will fail but as your development progresses, they will all pass
-- the idea is by defining your tests first, it forces you to think of all the scenarios that can occur and it prevents scope creep
-
-
-
-
-
----
-class: center, middle
 # Speaking in Gherkin
-
-
----
-# Gherkin
-
 ```gherkin
-Feature: Customer online ordering
-  Scenario: Add items to shopping cart
-    Given I am on the "catalog" page
-    When I click "Add to cart" for item "Samsung Note 9"
-    Then I should see "Samsung Note 9" in the shopping cart
+Feature: Online Shopping
+  In order to shop online
+  As a customer
+  I want to be able to add items to a cart and checkout  
+
+  Scenario: Add to shopping cart
+    Given I am on the page "catalog/cameras"
+    When I click "Add to cart" for item "GoPro Camera"
+    Then I should see "GoPro Camera" in my shopping cart
  
-  Scenario: Checkout
-    Given I am on the "catalog" page
-    And I see items in the shopping cart
+  Scenario: Checkout Process - Invoicing
+	Given I am logged in as a "customer"
+	And I have the following items in my shopping cart:
+	  | Item          | Price  | Quantity |  
+      | GoPro Camera  | 400.00 | 1        |
+      | GoPro Battery | 50.00  | 3        |
     When I click "checkout"
     Then I should see the heading "Invoice"
+    And I should see the message "Please Pay $550.00"
+  ...
 ```
 
 ???
@@ -197,15 +164,15 @@ Feature: Customer online ordering
 
 ```php
   /**
-   * Determine if an item is in the shopping cart.
+   * Determine if an item is in a shopping cart.
    *
-   * @Then I should see :item in the shopping cart
+   * @Then I should see :item in my shopping cart
    */
   public function ItemIsInShoppingCart($item) {
-    $actual_options = $this->getActualSelectOptions($arg1);
+    $actual_items = $this->getActualItemsFromCart($arg1);
 
     // Check for differences.
-    $diff_1 = array_diff($expected_options, $actual_options);
+    $diff_1 = array_diff($expected_item, $actual_items);
     if (!empty($diff_1)) {
       $diff_1 = implode(', ', $diff_1);
       throw new \Exception(sprintf("Expected item %s not found in shopping cart.", $item));
@@ -215,14 +182,8 @@ Feature: Customer online ordering
 
 
 ---
-class: center, middle
-# Drupal Extension Project
-
-
-
----
 # Drupal Extension
-- provide pre-defined step definitions 
+- provide pre-defined step definitions specific to Drupal
 - installed via composer
 
 ---
