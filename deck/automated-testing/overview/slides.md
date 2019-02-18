@@ -198,30 +198,11 @@ Given the cache has been cleared
 
 ---
 class: center, middle
-# Demo Time
+# Demo
 
 
 ---
 # Q&amp;A
 
 .center.middle[![image](../../../images/questionmarktie.jpg)]
-
-
-
-
-
----
-class: center, middle
-# Archive Slides
-
----
-# So Much Confusion
-- Manual or automated
-- Methodolgies: Unit, Integration, Acceptance, Performance, Security 
-- Frameworks: Selenium, PhantomJS, Nightwatch, PHPUnit, Codeception, Behat, Drupal Test Traits
-- Test First or Code First?
-
-???
-- clear up some confusion
-- 
 
