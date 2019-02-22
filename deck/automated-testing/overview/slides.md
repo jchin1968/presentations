@@ -48,6 +48,7 @@ class: center, middle
   but this is only as good as the person(s) writing the tests
   - Human tester can better identify errors which were not thought of  
 - Speed is the real driver for automation since changes happen so frequently these days
+- Consider the last Drupal security update that was first announced last Wednesday morning giving system admin just one day to apply a highly critical fix. 
 
   
 ---
@@ -87,7 +88,7 @@ class: center, middle
 
 
 ---
-# Tests Tools for Drupal
+# Tools for Drupal
 - Performance - ApacheBench, JMeter, Siege
 - Security - Kali Linux (Nmap, Metasploit)
 - Unit - PHP Unit
