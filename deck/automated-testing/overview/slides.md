@@ -186,7 +186,7 @@ Feature: Online Shopping
 ---
 # Drupal Extension
 - Contributed project
-- Pre-defined step definitions for Drupal
+- Pre-defined step definitions specific to Drupal
 
 
 ```gherkin
@@ -201,6 +201,12 @@ Given "News Category" terms:
 
 Given the cache has been cleared
 ```
+
+???
+- contributed open-source project
+- provides pre-defined steps definitions for Drupal
+- reduces the development time for writing behat tests
+
 
 ---
 class: center, middle
