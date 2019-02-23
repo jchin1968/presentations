@@ -166,22 +166,20 @@ Feature: Online Shopping
 
 ```php
   /**
-   * Determine if an item is in a shopping cart.
+   * Assert item is in shopping cart.
    *
    * @Then I should see :item in my shopping cart
    */
-  public function IsItemInShoppingCart($expected_item) {
-    $actual_items = $this->getActualItemsFromCart();
-
-    // Check for differences.
-    $diff = array_diff($expected_item, $actual_items);
-    if (!empty($diff)) {
-      $diff = implode(', ', $diff);
-      throw new \Exception("Expected item not found in cart.");
+  public function AssertItemInShoppingCart($expected_item) {
+    $session = $this->getSession();
+    $items = $session->getPage()->findAll('css', '.cart-item');
+    foreach ($items as $item) {
+      if ($item->getText() == $expected_item) {
+        return;  
+      };
     }
+    throw new \Exception("Expected item not found in cart.");    
   }
-  
-  public function getActualItemsFromCart
 ```
 
 
