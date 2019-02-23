@@ -80,33 +80,33 @@ class: center, middle
 ???
 - Unit - individual functions or methods
 - Integration - interaction between two systems
-- Functional - verify business requirements by development team
-- Acceptance - validation by end-users
+- Functional - verify business requirements by development team using Behat or PHPUnit
+- Acceptance - validation by end-users using Behat
 - Performance - how fast pages load up, handling user load
 - Penetration - security
 
-
-
 ---
 # Tools for Drupal
-- Performance - ApacheBench, JMeter, Siege
-- Security - Kali Linux (Nmap, Metasploit)
-- Unit - PHP Unit
-- Functional - PHPUnit, Test Traits, Selenium, Behat
+- Unit, Integration
+  - PHPUnit
+- Functional, Acceptance
+  - PHPUnit, Test Traits, Selenium, Behat
+- Performance
+  - ApacheBench, JMeter, Siege
+- Penetration
+  - Kali Linux - Nmap, Metasploit
+
 
 ???
 - While PHPUnit can be used for functional and/or user acceptance tests, as we will see later on, 
 Behat provides a framework which makes it easy to transform written user stories into automated tests
 - Behat is easy for non-developers to understand and therefore they can help define the tests
 
-
-
-
 ---
 # What is Behat?
 - PHP implementation of Cucumber
-- BDD framework
-
+- Behavior Driven Development (BDD)
+- Human-Readable Stories
 
 ???
 - PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
@@ -126,7 +126,8 @@ Behat provides a framework which makes it easy to transform written user stories
   - BDD if for everyone
 - While proponents of Behat encourages BDD, they also feels it's ok to develop behat tests after the fact 
 - this presentation is not about whether BDD is right or wrong for you but about the Behat tool
-
+- Create human-readable stories using a language called Gherkin to create tests based on the behavior (i.e. outcome)
+  - human-readable = understandable by non-programmers
 
 ---
 # Speaking in Gherkin
@@ -134,7 +135,7 @@ Behat provides a framework which makes it easy to transform written user stories
 Feature: Online Shopping
   In order to shop online
   As a customer
-  I want to be able to add items to a cart and checkout  
+  I want to add items to a cart and checkout  
 
   Scenario: Add to shopping cart
     Given I am on the page "catalog/cameras"
@@ -169,31 +170,37 @@ Feature: Online Shopping
    *
    * @Then I should see :item in my shopping cart
    */
-  public function ItemIsInShoppingCart($item) {
-    $actual_items = $this->getActualItemsFromCart($arg1);
+  public function IsItemInShoppingCart($expected_item) {
+    $actual_items = $this->getActualItemsFromCart();
 
     // Check for differences.
-    $diff_1 = array_diff($expected_item, $actual_items);
-    if (!empty($diff_1)) {
-      $diff_1 = implode(', ', $diff_1);
-      throw new \Exception(sprintf("Expected item %s not found in shopping cart.", $item));
+    $diff = array_diff($expected_item, $actual_items);
+    if (!empty($diff)) {
+      $diff = implode(', ', $diff);
+      throw new \Exception("Expected item not found in cart.");
     }
   }
+  
+  public function getActualItemsFromCart
 ```
 
 
 ---
 # Drupal Extension
-- provide pre-defined step definitions specific to Drupal
-- installed via composer
+- Contributed project
+- Pre-defined step definitions for Drupal
 
----
-# Drupal Extension Examples
 
 ```gherkin
-Given I am logged in as a/an :role
-Given a/an :type (content )with the title :title
-Given :vocabulary terms:
+Given I am logged in as a "Content Editor"
+
+Given an "Article" with the title "Hello World"
+
+Given "News Category" terms:
+  | Sports        |
+  | Entertainment |
+  | Science       |
+
 Given the cache has been cleared
 ```
 
@@ -203,7 +210,19 @@ class: center, middle
 
 
 ---
-# Q&amp;A
+# Behat Deep Dive Workshop
+- Two (2) half-day workshops on:
+  - Installing and configuring Behat
+  - Writing tests using Drupal Extension
+  - Creating custom step definitions
+- The Hive Carpenter, 36 Carpenter Road, Level 2
+- 3:00-700 pm, March ? and ?, 2019
+- $75 for both days
+- Sign up at https://www.eventbrite.com 
 
+
+
+---
+# Q&amp;A
 .center.middle[![image](../../../images/questionmarktie.jpg)]
 
