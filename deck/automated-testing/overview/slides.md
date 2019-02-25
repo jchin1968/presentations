@@ -214,16 +214,16 @@ class: center, middle
 
 
 ---
-# Behat Deep Dive Workshop
-- Two (2) half-day workshops on:
+# Behat Workshop
+- Full day workshop:
   - Installing and configuring Behat
   - Writing tests using Drupal Extension
   - Creating custom step definitions
+  - Continuous Integration setup
 - The Hive Carpenter, 36 Carpenter Road, Level 2
-- 3:00-700 pm, March ? and ?, 2019
-- $75 for both days
+- 10am-6pm, March 27, 2019
+- $45 only!
 - Sign up at https://www.eventbrite.com 
-
 
 
 ---
