@@ -90,7 +90,7 @@ Behat provides a framework which makes it easy to transform written user stories
   - Tests first, then Code
 - Based on outcome as it appears to an end-user
 - Writing tests is a shared process between end users and developers
-- Human-readable stories are easily converted to test scripts
+- Human-readable stories are easily automated
 
 ???
 - PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
@@ -204,7 +204,6 @@ class: center, middle
 - 10am-6pm, March 27, 2019
 - $45 only!
 - Sign up at https://www.eventbrite.com/e/drupal-behat-workshop-tickets-57374751426
-
 
 ---
 # Q&amp;A
