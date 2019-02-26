@@ -37,9 +37,9 @@ class: center, middle
 | Type of Change   | Frequency   | Impact   |
 | :---             | :---        | :---     |
 | Business         | Varies      | High     |
-| Drupal Core      | Monthly     | Med-High |
-| Contrib Modules  | Weekly      | Med-High |
-| PHP/JS Libraries | Weekly      | Med-Low  |
+| Drupal Core      | Bi-Monthly  | Med-High |
+| Contrib Modules  | Bi-Weekly   | Med-High |
+| PHP/JS Libraries | Bi-Weekly   | Med-Low  |
 | OS and Platform  | Weekly      | Low      |
 | Security         | Unscheduled | Varies   | 
 
