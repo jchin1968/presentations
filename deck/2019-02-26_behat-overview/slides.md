@@ -202,7 +202,7 @@ class: center, middle
   - Integrating Behat into your workflow
 - The Hive Carpenter, 36 Carpenter Road, Level 2
 - 10am-6pm, March 27, 2019
-- $45 only!
+- $50 only!
 - Sign up at https://www.eventbrite.com/e/drupal-behat-workshop-tickets-57374751426
 
 ---
