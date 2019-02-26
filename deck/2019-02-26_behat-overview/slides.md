@@ -1,7 +1,7 @@
 name: cover
 class: center, middle
-# Drupal Automated Testing<br>Overview
-### Joseph Chin
+# Drupal 8 Behat Overview
+### Joseph Chin<br>Singapore Drupal Meetup<br>February 26, 2019
 
 ---
 # Hello
@@ -9,8 +9,7 @@ class: center, middle
 - Drupal Solution Architect since 2007
 - Singapore Drupal Meetup committee member
 - jchin1968 on .media-icon[![image](../../../images/google.png) ![image](../../../images/twitter.png) ![image](../../../images/linkedin.png) ![image](../../../images/facebook.png) ![image](../../../images/github.png)]
-- Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/automated-testing/overview/index.html
-
+- Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2019-02-26_behat-overview/index.html
 
 ---
 # Topics
@@ -54,13 +53,14 @@ class: center, middle
 ---
 # Frequency of Change
 
-| Type of Change   | Frequency | Impact   |
-| :---             | :---      | :---     |
-| Business         | Varies    | High     |
-| Drupal Core      | Monthly   | Med-High |
-| Contrib Modules  | Weekly    | Med-High |
-| PHP/JS Libraries | Weekly    | Med-Low  |
-| OS and Platform  | Weekly    | Low      |
+| Type of Change   | Frequency   | Impact   |
+| :---             | :---        | :---     |
+| Business         | Varies      | High     |
+| Drupal Core      | Monthly     | Med-High |
+| Contrib Modules  | Weekly      | Med-High |
+| PHP/JS Libraries | Weekly      | Med-Low  |
+| OS and Platform  | Weekly      | Low      |
+| Security         | Unscheduled | Varies   | 
 
 ???
 - Change happens frequently, whether you want it to or not
@@ -88,9 +88,9 @@ class: center, middle
 ---
 # Tools for Drupal
 - Unit, Integration
-  - PHPUnit
+  - PHPUnit, SimpleTest
 - Functional, Acceptance
-  - PHPUnit, Test Traits, Selenium, Behat
+  - PHPUnit, SimpleTest, Test Traits, Selenium, Behat
 - Performance
   - ApacheBench, JMeter, Siege
 - Penetration
@@ -105,10 +105,11 @@ Behat provides a framework which makes it easy to transform written user stories
 ---
 # What is Behat?
 - Behavior Driven Development (BDD) Framework For PHP
-  - Extends from (Test Driven Development) TDD - Tests first, then Code
-  - Based on outcome as it appears to an end-user
-  - Shared process between business users and developers
-- Human-Readable Stories that are easily converted to automated tests
+- Extends from Test Driven Development (TDD)
+  - Tests first, then Code
+- Based on outcome as it appears to an end-user
+- Writing tests is a shared process between end users and developers
+- Human-readable stories are easily converted to test scripts
 
 ???
 - PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
