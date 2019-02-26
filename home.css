@@ -1,0 +1,10 @@
+li {
+    font-size: 125%;
+    line-height: 150%;
+    word-wrap: break-word;
+}
+
+li ul li {
+    font-size: 75%;
+    word-wrap: break-word;
+}
