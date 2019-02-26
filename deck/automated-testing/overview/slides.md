@@ -104,9 +104,11 @@ Behat provides a framework which makes it easy to transform written user stories
 
 ---
 # What is Behat?
-- PHP implementation of Cucumber
-- Behavior Driven Development (BDD)
-- Human-Readable Stories
+- Behavior Driven Development (BDD) Framework For PHP
+  - Extends from (Test Driven Development) TDD - Tests first, then Code
+  - Based on outcome as it appears to an end-user
+  - Shared process between business users and developers
+- Human-Readable Stories that are easily converted to automated tests
 
 ???
 - PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
