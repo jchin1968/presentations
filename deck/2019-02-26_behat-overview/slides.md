@@ -12,25 +12,6 @@ class: center, middle
 - Follow along here: https://rawgit.com/jchin1968/presentations/master/deck/2019-02-26_behat-overview/index.html
 
 ---
-# Topics
-- Why Automate
-- Test Tools
-- What is Behat
-- Speaking in Gherkin
-- DrupalExtension Project
-- Demo
-
-???
-- Why automated testing is necessary 
-- What test frameworks and tools are available for Drupal
-- Where Behat fits amongst the many testing tools available for Drupal
-- The principles behind Behavior Driven Development (BDD)
-- Gherkin, the language used to write Behat tests
-- Writing tests using the DrupalExtension project
-- Executing Behat tests
-
-
----
 # Why Automate?
 - Consistency
 - Accuracy
@@ -154,7 +135,6 @@ Feature: Online Shopping
     When I click "checkout"
     Then I should see the heading "Invoice"
     And I should see the message "Please Pay $550.00"
-  ...
 ```
 
 ???
@@ -171,7 +151,7 @@ Feature: Online Shopping
   /**
    * Assert item is in shopping cart.
    *
-   * @Then I should see :item in my shopping cart
+   * @Then I should see :expected_item in my shopping cart
    */
   public function AssertItemInShoppingCart($expected_item) {
     $session = $this->getSession();
@@ -185,23 +165,20 @@ Feature: Online Shopping
   }
 ```
 
-
 ---
 # Drupal Extension
 - Contributed project
+- Install using Composer
 - Pre-defined step definitions specific to Drupal
 
 
 ```gherkin
 Given I am logged in as a "Content Editor"
-
 Given an "Article" with the title "Hello World"
-
 Given "News Category" terms:
   | Sports        |
   | Entertainment |
   | Science       |
-
 Given the cache has been cleared
 ```
 
@@ -221,15 +198,21 @@ class: center, middle
 - Full day workshop:
   - Installing and configuring Behat
   - Writing tests using Drupal Extension
-  - Creating custom step definitions
-  - Continuous Integration setup
+  - Writing custom step definitions
+  - Integrating Behat into your workflow
 - The Hive Carpenter, 36 Carpenter Road, Level 2
 - 10am-6pm, March 27, 2019
 - $45 only!
-- Sign up at https://www.eventbrite.com 
+- Sign up at https://www.eventbrite.com/e/drupal-behat-workshop-tickets-57374751426
 
 
 ---
 # Q&amp;A
 .center.middle[![image](../../images/questionmarktie.jpg)]
 
+---
+# References
+- https://www.drupal.org/project/drupalextension
+- https://behat-drupal-extension.readthedocs.io/en/3.1
+- http://kevinquillen.com/bdd/2014/06/08/your-first-behat-test
+- https://www.lullabot.com/articles/an-overview-of-testing-in-drupal-8
