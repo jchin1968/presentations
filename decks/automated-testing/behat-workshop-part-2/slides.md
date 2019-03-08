@@ -15,4 +15,4 @@ class: center, middle
 ---
 # Q&amp;A
 
-.center.middle[![image](../../images/questionmarktie.jpg)]
+.center.middle[![image](../../../images/questionmarktie.jpg)]
