@@ -1,7 +1,7 @@
 name: cover
 class: center, middle
-# Drupal 8 Behat Overview
-### Joseph Chin<br>Solution Architect
+# Drupal Behat Overview
+### Joseph Chin<br>Drupal Solution Architect
 
 ---
 # Hello
