@@ -23,16 +23,15 @@ li ul li {
 }
 
 
-code.remark-code {
-  font-family: 'Ubuntu Mono';
-	font-size: 110%;
-	line-height: 120%;
-}
-
 .remark-code, .remark-inline-code {
-  font-family: 'Ubuntu Mono';
-
+    font-family: 'Ubuntu Mono';
 }
+
+code.remark-code {
+    font-size: 110%;
+    line-height: 110%;
+}
+
 
 .media-icon img {
   width: 3%;
