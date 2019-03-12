@@ -179,16 +179,19 @@ Feature: Online Shopping
 class: center, middle
 # Setting Up Behat
 
-
 ---
-# Set Up Overview
-
-- composer require drupal/drupal-extension
-
-
----
-# behat.yml
+# Install Drupal Extension
 ```
+cd {project_folder}
+composer require drupal/drupal-extension
+vendor/bin/behat -V
+```
+
+
+---
+name: behat-yml
+# Create behat.yml
+```yaml
 default:
   suites:
     default:
@@ -230,4 +233,4 @@ class: center, middle
 ---
 # Q&amp;A
 
-.center.middle[![image](../../images/questionmarktie.jpg)]
+.center.middle[![image](../../../images/questionmarktie.jpg)]
