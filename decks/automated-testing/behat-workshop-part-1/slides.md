@@ -181,11 +181,29 @@ class: center, middle
 
 ---
 # Install Drupal Extension
-```
+```bash
 cd {project_folder}
 composer require drupal/drupal-extension
 vendor/bin/behat -V
+alias behat="/var/www/workshop/vendor/bin/behat"
 ```
+
+---
+# Install Selenium
+- Prerequisites
+  - Chrome Browser
+  - Java JRE
+- Download Selenium Standalone Server from https://www.seleniumhq.org/download/
+- Download Google Chrome Driver from https://sites.google.com/a/chromium.org/chromedriver/
+
+```bash
+mkdir /opt/selenium
+cd /opt/selenium
+wget https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar
+wget  
+
+```
+
 
 
 ---
@@ -229,6 +247,97 @@ class: center, middle
 # Writing Basic Tests
 
 
+
+---
+# Requirement Overview
+Company want employees to request conference attendance and training using an online form. 
+The form will be visible to employees only and managers will have the ability to request or 
+deny submissions online.
+
+---
+# Business Requirements
+- Only logged in employees will be able to access and submit requests for attending conferences and training
+- Only the requester and their manager can see the application
+- Request Form should contain following fields
+  - Name - automatically filled with logged in user
+  - Manager - automatically filled with value from user profile
+  - Title - short description of event
+  - Purpose
+  - Date of attendance - from and to dates required
+  - Estimated Cost
+  - Status
+- Workflow
+  - Employee fills out form and submit
+  - Manager receives notification
+  - Manager approves or rejects application
+  - Employee receives notification of decision
+
+---
+name: application-feature
+# application.feature
+
+```Gherkin
+Feature: Request for conference and training
+  In order to generate sales leads and/or to further my skills 
+  As an employee
+  I would like to request attendance for conferences and training courses
+
+  Background:
+    Given users:
+      | name    | email           | roles   | status | manager |
+      | Joe     | joe@test.bot    | Manager | 1      | Moira   |
+      | Jill    | joe@test.bot    | Manager | 1      | Moira   |
+      | Martin  | martin@test.bot | Staff   | 1      | Joe     |
+      | Oliver  | oliver@test.bot | Staff   | 1      | Jill    |
+
+  Scenario: Auto-filled fields
+    Given I am logged in as "Oliver" 
+    When I am on "conference-request"
+    Then I should see "Oliver" in the "Name" field
+    And I should see "Joe" in the "Manager" field
+    
+  Scenario: Submit Form
+    Given I am logged in as "Martin"
+    And I am on "conference-request"
+    When I fill in the following:
+      | Name           | Martin |
+      | Manager        | Joe    |
+      | Title          | DrupalCon Seattle 2019 |
+      | Purpose        | To meet cool people |
+      | Date Start     | 2019-04-08 |
+      | Date End       | 2019-04-12 |
+      | Estimated Cost | 5000 |
+    And I click on "Submit"
+    Then I should see "Thank you for submitting ...."
+
+  Scenario: Notify manager of new request
+  
+  
+
+  Scenario: Request form not accessible to anonymous users
+    Given I am an anonymous user
+    When I visit "conference-request"
+    Then I should see the error message "No Access"
+ 
+```
+
+---
+name: approval-feature
+#approval.feature
+```gherkin
+Feature: Approve conference and training requests
+  In order to streamline approval for conference and training requests
+  As a manager
+  I should be able to 
+  
+  Scenario
+    Given "conferent request" content:
+      | title   	   | Name   | Manager | Date Start | Date End   | moderation_state |
+      | Behat Training | Martin | Joe     | 2019-03-27 | 2019-03-27 | Submitted        | 
+    When I visit "pending-conference-request"
+    Then I should see "Behat Training" in the "" region
+
+```
 
 ---
 # Q&amp;A

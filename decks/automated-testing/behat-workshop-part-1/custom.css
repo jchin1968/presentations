@@ -1,5 +1,11 @@
-#slide-behat-yml code.remark-code {
+code.remark-code {
     font-size: 90%;
     line-height: 100%;
 }
 
+#slide-approval-feature code.remark-code,
+#slide-application-feature code.remark-code {
+    overflow-y: scroll;
+    height: 450px;
+
+}
