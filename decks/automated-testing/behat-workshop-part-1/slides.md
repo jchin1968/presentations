@@ -181,34 +181,14 @@ class: center, middle
 
 ---
 # Install Drupal Extension
-```bash
-cd {project_folder}
-composer require drupal/drupal-extension
-vendor/bin/behat -V
-alias behat="/var/www/workshop/vendor/bin/behat"
-```
-
----
-# Install Selenium
-- Prerequisites
-  - Chrome Browser
-  - Java JRE
-- Download Selenium Standalone Server from https://www.seleniumhq.org/download/
-- Download Google Chrome Driver from https://sites.google.com/a/chromium.org/chromedriver/
-
-```bash
-mkdir /opt/selenium
-cd /opt/selenium
-wget https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar
-wget  
-
-```
-
-
+- cd /var/www/workshop
+- composer require drupal/drupal-extension
+- vendor/bin/behat -V
+- alias behat="/var/www/workshop/vendor/bin/behat -c /var/www/workshop/tests/behat/behat.yml"
 
 ---
 name: behat-yml
-# Create behat.yml
+# Create ../tests/behat/behat.yml
 ```yaml
 default:
   suites:
@@ -224,11 +204,11 @@ default:
       goutte: ~
       javascript_session: selenium2
       selenium2: ~
-*     base_url: http://autotest
+*     base_url: http://workshop
     Drupal\DrupalExtension:
       api_driver: "drupal"
       drupal:
-*       drupal_root: '/var/www/autotest/web'
+*       drupal_root: '/var/www/workshop/web'
       region_map:
         header: "#header"
         page_title: ".page-title"
@@ -238,53 +218,136 @@ default:
         success_message_selector: '.messages.messages--status'
 ```
 
+---
+# Initialize Behat
+- cd /var/www/workshop/tests/behat
+- behat --init
+- behat -dl
+
+---
+# Create homepage.feature
+```gherkin
+Feature: Homepage
+  In order to have a good user experience
+  As a user
+  I want to have a starting point for my journey
+
+  Scenario: Welcome
+    Given I am an anonymous user
+    When I am on the homepage
+    Then I should see the heading "Welcome to Workshop"
+```
+
+???
+- this is just a test feature to make sure Behat and Drupal Extension are working
+- while this is a test feature, it can be used later on to test out the homepage if required
+- create in ../features directory
+- enter behat to execute test
 
 
+---
+# Install and Start Selenium Server
+- Prerequisites: Chrome Browser, Java JRE
+- Download Selenium Standalone Server from https://www.seleniumhq.org/download/
+- Download Google Chrome Driver from https://sites.google.com/a/chromium.org/chromedriver/
+
+```bash
+mkdir /opt/selenium
+cd /opt/selenium
+wget https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar
+wget https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+java -jar -Dwebdriver.chrome.driver=chromedriver selenium-server-standalone-3.141.59.jar
+
+```
+
+---
+# Update behat.yml
+
+```yaml
+default:
+  suites:
+    ...
+    ...
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      javascript_session: selenium2
+*     selenium2:
+*       wd_host: http://localhost:4444/wd/hub
+*       capabilities:
+*         chrome:
+*           switches:
+*#             - "--headless"
+*             - "--no-sandbox"
+*             - "--window-size=1280,800"
+*     browser_name: 'chrome'
+      base_url: http://workshop
+    Drupal\DrupalExtension:
+      ...
+      ...
+```
+
+---
+# Update homepage.feature
+```gherkin
+Feature: Homepage
+  In order to have a good user experience
+  As a user
+  I want to have a starting point for my journey
+
+* @javascript
+  Scenario: Welcome
+    Given I am an anonymous user
+    When I am on the homepage
+    Then I should see the heading "Welcome to Workshop"
+
+```
 
 
 ---
 class: center, middle
 # Writing Basic Tests
 
-
+---
+# Requirements - General
+- Employees requesting training must use an online form 
+- Form will be visible to employees only
+- Managers will approve or deny requests online
+- Only the requester and their manager can see the application  
+  
+---
+# Requirements - Request Form
+- Name - automatically filled with logged in user
+- Manager - automatically filled with value from user profile
+- Short Description
+- Justification
+- Training Dates
+- Date of submission
+- Estimated Cost
 
 ---
-# Requirement Overview
-Company want employees to request conference attendance and training using an online form. 
-The form will be visible to employees only and managers will have the ability to request or 
-deny submissions online.
+# Requirements - Workflow
+- Employee fills out form and submit
+- Manager receives notification
+- Manager approves or rejects application
+- Employee receives notification of decision
 
----
-# Business Requirements
-- Only logged in employees will be able to access and submit requests for attending conferences and training
-- Only the requester and their manager can see the application
-- Request Form should contain following fields
-  - Name - automatically filled with logged in user
-  - Manager - automatically filled with value from user profile
-  - Title - short description of event
-  - Purpose
-  - Date of attendance - from and to dates required
-  - Estimated Cost
-  - Status
-- Workflow
-  - Employee fills out form and submit
-  - Manager receives notification
-  - Manager approves or rejects application
-  - Employee receives notification of decision
-
+  
 ---
 name: application-feature
 # application.feature
 
 ```Gherkin
-Feature: Request for conference and training
-  In order to generate sales leads and/or to further my skills 
+Feature: Request for training
+  In order to further my skills 
   As an employee
-  I would like to request attendance for conferences and training courses
+  I would like to request training courses
 
   Background:
     Given users:
       | name    | email           | roles   | status | manager |
+      | Moira   | joe@test.bot    | Manager | 1      |         |
       | Joe     | joe@test.bot    | Manager | 1      | Moira   |
       | Jill    | joe@test.bot    | Manager | 1      | Moira   |
       | Martin  | martin@test.bot | Staff   | 1      | Joe     |
@@ -292,21 +355,21 @@ Feature: Request for conference and training
 
   Scenario: Auto-filled fields
     Given I am logged in as "Oliver" 
-    When I am on "conference-request"
+    When I am on "training-request"
     Then I should see "Oliver" in the "Name" field
     And I should see "Joe" in the "Manager" field
     
   Scenario: Submit Form
     Given I am logged in as "Martin"
-    And I am on "conference-request"
+    And I am on "training-request"
     When I fill in the following:
-      | Name           | Martin |
-      | Manager        | Joe    |
-      | Title          | DrupalCon Seattle 2019 |
-      | Purpose        | To meet cool people |
-      | Date Start     | 2019-04-08 |
-      | Date End       | 2019-04-12 |
-      | Estimated Cost | 5000 |
+      | Name              | Martin                    |
+      | Manager           | Joe                       |
+      | Short Description | Behat Workshop            |
+      | Justification     | We need automated testing |
+      | Date Start        | 2019-03-27                |
+      | Date End          | 2019-03-27                |
+      | Estimated Cost    | 50.00                     |
     And I click on "Submit"
     Then I should see "Thank you for submitting ...."
 
