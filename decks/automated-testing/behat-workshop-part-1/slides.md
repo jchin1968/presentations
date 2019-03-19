@@ -261,6 +261,11 @@ java -jar -Dwebdriver.chrome.driver=chromedriver selenium-server-standalone-3.14
 
 ```
 
+???
+- Selenium can be run from a separate server than Drupal. Does not have to be localhost
+- install chrome, java and chromedriver on host machine (for example) 
+- then in behat.yml, selenium server IP address would be the host machine on the VM network interface, not the actual host machine IP address  
+
 ---
 # Update behat.yml
 
@@ -307,24 +312,31 @@ Feature: Homepage
 
 ---
 class: center, middle
-# Writing Basic Tests
+# Writing Features
+
 
 ---
 # Requirements - General
 - Employees requesting training must use an online form 
-- Form will be visible to employees only
+- Request form will be visible to employees only
 - Managers will approve or deny requests online
-- Only the requester and their manager can see the application  
-  
+- Managers can see all applications. Requester can see only their own
+
+???
+- define some general business requirements, what the request form looks like and the workflow
+
+
 ---
 # Requirements - Request Form
 - Name - automatically filled with logged in user
 - Manager - automatically filled with value from user profile
 - Short Description
-- Justification
-- Training Dates
+- Purpose
+- Training Dates (start and end)
 - Date of submission
 - Estimated Cost
+- Status: Under Review, Approved, Rejected
+
 
 ---
 # Requirements - Workflow
@@ -333,6 +345,126 @@ class: center, middle
 - Manager approves or rejects application
 - Employee receives notification of decision
 
+???
+- Will not be testing workflow due to time limitation
+
+
+
+---
+# Request Form Tests
+
+```Gherkin
+Feature: Request for training
+  In order to further my skills 
+  As an employee
+  I would like to request training courses
+
+```
+Define overall goal of feature
+
+
+---
+# Request Form Tests
+
+```Gherkin
+Feature: Request for training
+  In order to further my skills 
+  As an employee
+  I would like to request training courses
+
+  Scenario: Request form not accessible to anonymous users
+    Given I am an anonymous user
+    When I visit the page "training-request"
+    Then I should see the message "No Access Allowed"
+```
+Validate no access for anonymous users
+
+
+???
+- writing feature tests without being too specific to Drupal Extension syntax 
+
+
+---
+# Request Form Tests
+
+```Gherkin
+Feature: Request for training
+  In order to further my skills 
+  As an employee
+  I would like to request training courses
+
+  Scenario: Request form not accessible to anonymous users
+    Given I am an anonymous user
+    When I visit the page "training-request"
+    Then I should see the message "No Access Allowed"
+
+  Scenario: Auto-filled fields
+    Given I am logged in as "Oliver" 
+    When I visit "training-request"
+    Then I should see "Oliver" in the "Name" field
+    And I should see "Joe" in the "Manager" field  
+```
+Validate fields are auto-filled
+
+
+---
+name: application-feature-submit-form
+# Request Form Tests
+
+```Gherkin
+Feature: Request for training
+  In order to further my skills 
+  As an employee
+  I would like to request training courses
+
+  Scenario: Request form not accessible to anonymous users
+    Given I am an anonymous user
+    When I visit "training-request"
+    Then I should see the message "No Access Allowed"
+
+  Scenario: Auto-filled fields
+    Given I am logged in as "Oliver" 
+    When I visit "training-request"
+    Then I should see "Oliver" in the "Name" field
+    And I should see "Joe" in the "Manager" field  
+
+  Scenario: Submit Training Request
+    Given I am logged in as "Martin"
+    And I visit "training-request"
+    When I fill in the following:
+      | Name              | Martin                    |
+      | Manager           | Joe                       |
+      | Short Description | Behat Workshop            |
+      | Purpose           | We need automated testing |
+      | Date Start        | 2019-03-27                |
+      | Date End          | 2019-03-27                |
+      | Estimated Cost    | 50.00                     |
+    And I click on "Submit"
+    Then I should see "Thank you for submitting ...."
+
+```
+Validate submitting training request
+
+
+
+
+---
+name: application-feature-2
+# application.feature (2)
+
+```Gherkin
+Feature: Request for training
+  In order to further my skills 
+  As an employee
+  I would like to request training courses
+  
+  Scenario: Auto-filled fields
+    Given I am logged in as "Oliver" 
+    When I visit "training-request"
+    Then I should see "Oliver" in the "Name" field
+    And I should see "Joe" in the "Manager" field  
+
+```
   
 ---
 name: application-feature
@@ -355,27 +487,23 @@ Feature: Request for training
 
   Scenario: Auto-filled fields
     Given I am logged in as "Oliver" 
-    When I am on "training-request"
+    When I visit "training-request"
     Then I should see "Oliver" in the "Name" field
     And I should see "Joe" in the "Manager" field
     
   Scenario: Submit Form
     Given I am logged in as "Martin"
-    And I am on "training-request"
+    And I visit "training-request"
     When I fill in the following:
       | Name              | Martin                    |
       | Manager           | Joe                       |
       | Short Description | Behat Workshop            |
-      | Justification     | We need automated testing |
+      | Purpose           | We need automated testing |
       | Date Start        | 2019-03-27                |
       | Date End          | 2019-03-27                |
       | Estimated Cost    | 50.00                     |
     And I click on "Submit"
     Then I should see "Thank you for submitting ...."
-
-  Scenario: Notify manager of new request
-  
-  
 
   Scenario: Request form not accessible to anonymous users
     Given I am an anonymous user
@@ -383,6 +511,50 @@ Feature: Request for training
     Then I should see the error message "No Access"
  
 ```
+
+
+---
+# Configure Drupal - Content Type
+- Content Type = Training Request
+- Title = Short Description
+
+---
+# Configure Drupal - Users
+- Create user referenced field "Manager"
+- Create user roles "Manager" and "Staff"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 name: approval-feature
