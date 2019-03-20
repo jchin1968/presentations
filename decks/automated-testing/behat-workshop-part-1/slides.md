@@ -199,6 +199,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\MarkupContext
   extensions:
     Behat\MinkExtension:
       goutte: ~
@@ -264,7 +265,7 @@ java -jar -Dwebdriver.chrome.driver=chromedriver selenium-server-standalone-3.14
 ???
 - Selenium can be run from a separate server than Drupal. Does not have to be localhost
 - install chrome, java and chromedriver on host machine (for example) 
-- then in behat.yml, selenium server IP address would be the host machine on the VM network interface, not the actual host machine IP address  
+- then in behat.yml, selenium server IP address would be the host machine on the VM network interface, not the actual host machine IP address
 
 ---
 # Update behat.yml
@@ -328,10 +329,9 @@ class: center, middle
 
 ---
 # Requirements - Request Form
-- Name - automatically filled with logged in user
 - Manager - automatically filled with value from user profile
 - Short Description
-- Purpose
+- Purpose (future requirement)
 - Training Dates (start and end)
 - Date of submission
 - Estimated Cost
@@ -349,9 +349,8 @@ class: center, middle
 - Will not be testing workflow due to time limitation
 
 
-
 ---
-# Request Form Tests
+# Agile Story - Request Form
 
 ```Gherkin
 Feature: Request for training
@@ -360,11 +359,12 @@ Feature: Request for training
   I would like to request training courses
 
 ```
-Define overall goal of feature
 
+???
+Define overall goal of the feature
 
 ---
-# Request Form Tests
+# Agile Story - Request Form
 
 ```Gherkin
 Feature: Request for training
@@ -372,20 +372,21 @@ Feature: Request for training
   As an employee
   I would like to request training courses
 
-  Scenario: Request form not accessible to anonymous users
-    Given I am an anonymous user
-    When I visit the page "training-request"
-    Then I should see the message "No Access Allowed"
+  Scenario 1: Request form available to staff but not anonymous users
+    As a staff user, I want to access the training request form
+    As an anonymous user, I should not be able to access the training 
+    request form
+
 ```
-Validate no access for anonymous users
 
 
 ???
-- writing feature tests without being too specific to Drupal Extension syntax 
+- writing agile user stories without being too specific to Drupal 
+- Scenario 1 - Who get and don't get access to Training Request form
 
 
 ---
-# Request Form Tests
+# Agile Story - Request Form
 
 ```Gherkin
 Feature: Request for training
@@ -393,23 +394,31 @@ Feature: Request for training
   As an employee
   I would like to request training courses
 
-  Scenario: Request form not accessible to anonymous users
-    Given I am an anonymous user
-    When I visit the page "training-request"
-    Then I should see the message "No Access Allowed"
+  Scenario 1: Request form available to staff but not anonymous users
+    As a staff user, I want to access the training request form
+    As an anonymous user, I should not be able to access the training request form
 
-  Scenario: Auto-filled fields
-    Given I am logged in as "Oliver" 
-    When I visit "training-request"
-    Then I should see "Oliver" in the "Name" field
-    And I should see "Joe" in the "Manager" field  
+  Scenario 2: Submit Training Request
+    As a staff user, when I go to the training request form
+    I fill in the following: 
+    - Manager
+    - Short Description
+    - Purpose
+    - Start Date
+    - End Date
+    - Estimated Cost
+    
+    After I save the form, I should see a confirmation page with:
+    - a success message
+    - the values I have entered
 ```
-Validate fields are auto-filled
 
+???
+Scenario 2 - Submitting training request
+ 
 
 ---
-name: application-feature-submit-form
-# Request Form Tests
+# Agile Story - Request Form
 
 ```Gherkin
 Feature: Request for training
@@ -417,100 +426,95 @@ Feature: Request for training
   As an employee
   I would like to request training courses
 
-  Scenario: Request form not accessible to anonymous users
-    Given I am an anonymous user
-    When I visit "training-request"
-    Then I should see the message "No Access Allowed"
+  Scenario 1: Request form available to staff but not anonymous users
+    As a staff user, I want to access the training request form
+    As an anonymous user, I should not be able to access the training request form
 
-  Scenario: Auto-filled fields
-    Given I am logged in as "Oliver" 
-    When I visit "training-request"
-    Then I should see "Oliver" in the "Name" field
-    And I should see "Joe" in the "Manager" field  
-
-  Scenario: Submit Training Request
-    Given I am logged in as "Martin"
-    And I visit "training-request"
-    When I fill in the following:
-      | Name              | Martin                    |
-      | Manager           | Joe                       |
-      | Short Description | Behat Workshop            |
-      | Purpose           | We need automated testing |
-      | Date Start        | 2019-03-27                |
-      | Date End          | 2019-03-27                |
-      | Estimated Cost    | 50.00                     |
-    And I click on "Submit"
-    Then I should see "Thank you for submitting ...."
-
+  Scenario 2: Submit Training Request
+    As a staff user, when I go to the training request form
+    I fill in the following: 
+    - Manager
+    - Short Description
+    - Purpose
+    - Start Date
+    - End Date
+    - Estimated Cost
+    
+    After I save the form, I should see a confirmation page with:
+    - a success message
+    - the values I have entered
+        
+  Scenario 3: Auto-filled fields
+    As a staff user, when I go to the training request form
+    I want to see the manager field pre-populated with my manager's name  
 ```
-Validate submitting training request
 
-
+???
+Scenario 3 - Validate fields are auto-filled
 
 
 ---
-name: application-feature-2
-# application.feature (2)
+class: lengthy-code
+# Convert Story to Behat
 
-```Gherkin
+```gherkin
+@api @javascript
 Feature: Request for training
-  In order to further my skills 
-  As an employee
-  I would like to request training courses
-  
-  Scenario: Auto-filled fields
-    Given I am logged in as "Oliver" 
-    When I visit "training-request"
-    Then I should see "Oliver" in the "Name" field
-    And I should see "Joe" in the "Manager" field  
-
-```
-  
----
-name: application-feature
-# application.feature
-
-```Gherkin
-Feature: Request for training
-  In order to further my skills 
+  In order to further my skills
   As an employee
   I would like to request training courses
 
   Background:
     Given users:
-      | name    | email           | roles   | status | manager |
-      | Moira   | joe@test.bot    | Manager | 1      |         |
-      | Joe     | joe@test.bot    | Manager | 1      | Moira   |
-      | Jill    | joe@test.bot    | Manager | 1      | Moira   |
-      | Martin  | martin@test.bot | Staff   | 1      | Joe     |
-      | Oliver  | oliver@test.bot | Staff   | 1      | Jill    |
+      | name    | email           | roles   | status | field_manager |
+      | Moira   | joe@test.bot    | Manager | 1      |               |
+      | Joe     | joe@test.bot    | Manager | 1      | Moira         |
+      | Jill    | joe@test.bot    | Manager | 1      | Moira         |
+      | Martin  | martin@test.bot | Staff   | 1      | Joe           |
+      | Oliver  | oliver@test.bot | Staff   | 1      | Jill          |
 
-  Scenario: Auto-filled fields
-    Given I am logged in as "Oliver" 
-    When I visit "training-request"
-    Then I should see "Oliver" in the "Name" field
-    And I should see "Joe" in the "Manager" field
-    
-  Scenario: Submit Form
-    Given I am logged in as "Martin"
-    And I visit "training-request"
-    When I fill in the following:
-      | Name              | Martin                    |
-      | Manager           | Joe                       |
-      | Short Description | Behat Workshop            |
-      | Purpose           | We need automated testing |
-      | Date Start        | 2019-03-27                |
-      | Date End          | 2019-03-27                |
-      | Estimated Cost    | 50.00                     |
-    And I click on "Submit"
-    Then I should see "Thank you for submitting ...."
+  Scenario: Request form accessible to staff users
+    Given I am logged in as a "Staff"
+    When I visit "node/add/training_request"
+    Then I should see the heading "Create Training Request"
 
   Scenario: Request form not accessible to anonymous users
     Given I am an anonymous user
-    When I visit "conference-request"
-    Then I should see the error message "No Access"
- 
+    When I visit "node/add/training_request"
+    Then I should see the heading "Access denied"
+    And I should see the text "You are not authorized to access this page."
+
+  Scenario: Submit Form
+    Given I am logged in as "Martin"
+    And I visit "node/add/training_request"
+    When I fill in the following:
+      | Manager           | Joe                                 |
+      | Short Description | Behat Workshop                      |
+      | Purpose           | Need to implement automated testing |
+      | Start Date        | 03/28/2019                          |
+      | End Date          | 03/29/2019                          |
+      | Estimated Cost    | 50.00                               |
+    And I press the "Save" button
+    Then I should see the success message "Training Request Behat Workshop has been created."
+
+  Scenario: Auto-filled fields
+    Given I am logged in as "Oliver"
+    When I visit "node/add/training_request"
+    Then the "Manager" field should contain "Joe"
 ```
+
+???
+- create the file ../features/request.feature
+- @api - required if we want to use Drupal specific steps definitions to setup or validate
+- Background - execute the step definitions for every scenario
+  - Creating users in the background so they can be referenced in later scenarios within the same feature 
+
+- Note how rewriting the features required some changes in syntax but the general format did not change
+
+- running the feature at this point will result in errors. Two reasons are:
+  - website has not been configured
+  - step definitions have not been defined (correctly) as indicated by the message "FeatureContext has missing steps"  
+
 
 
 ---

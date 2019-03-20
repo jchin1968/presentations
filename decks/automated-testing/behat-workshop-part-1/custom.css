@@ -3,7 +3,7 @@ code.remark-code {
     line-height: 100%;
 }
 
-#slide-application-feature-submit-form code.remark-code {
+.lengthy-code code.remark-code {
     overflow-y: scroll;
     height: 450px;
 }
