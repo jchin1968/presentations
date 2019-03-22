@@ -211,7 +211,6 @@ default:
       drupal:
 *       drupal_root: '/var/www/workshop/web'
       region_map:
-        header: "#header"
         page_title: ".page-title"
       selectors:
         message_selector: '.messages'
@@ -236,7 +235,7 @@ Feature: Homepage
   Scenario: Welcome
     Given I am an anonymous user
     When I am on the homepage
-    Then I should see the heading "Welcome to Workshop"
+    Then I should see the heading "Welcome to Behat Workshop" in the "page_title"
 ```
 
 ???
@@ -515,25 +514,48 @@ Feature: Request for training
   - website has not been configured
   - step definitions have not been defined (correctly) as indicated by the message "FeatureContext has missing steps"  
 
-
-
 ---
-# Configure Drupal - Content Type
-- Content Type = Training Request
-- Title = Short Description
-
----
-# Configure Drupal - Users
-- Create user referenced field "Manager"
+#Site Building - Users
 - Create user roles "Manager" and "Staff"
+- Create user entity referenced field "Manager"
+  - Type: User
+  - Label: Manager
+  - Type of item to reference: User
+  - Limited: 1
+  - Required field: No
 
+???
+- first error we see is "No role Manager exists".
+- Create Manager and Staff roles and rerun test
+- Note field_manager has not been created yet but no errors!
 
+---
+# Site Building - Content Type
+- Create Training Request Content Type
+  - Name: Training Request
+  - Description: Request approval for training
+  - Title field label: Short Description
+  - Add Fields:
+      - Manager - User Reference
+      - Start Date - Date, Date only, Default to Current date
+      - End Date - Date, Date only, Default to Current date
+      - Estimated Cost - Number (float), Prefix $, Suffix SGD
+      - NB. all new fields should be required and limited to 1 
+  - Rename Body field to Purpose, required unchecked
+  
+---
+# Site Building - User Permission
 
-
-
-
-
-
+| Permission         | Manager | Staff |
+| :---               | :---    | :---  |
+| Create new content | ✔       | ✔     |
+| Delete any content | ✔       |       |
+| Delete own content | ✔       | ✔     |
+| Delete revisions   | ✔       |       |
+| Edit any content   | ✔       |       |
+| Edit own content   | ✔       | ✔     |
+| Revert revisions   | ✔       |       |
+| View revisions     | ✔       | ✔     |
 
 
 
