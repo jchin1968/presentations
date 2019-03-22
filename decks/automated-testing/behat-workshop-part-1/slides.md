@@ -184,7 +184,7 @@ class: center, middle
 - cd /var/www/workshop
 - composer require drupal/drupal-extension
 - vendor/bin/behat -V
-- alias behat="/var/www/workshop/vendor/bin/behat -c /var/www/workshop/tests/behat/behat.yml"
+- alias behat="/var/www/workshop/vendor/bin/behat -c /var/www/workshop/tests/behat/behat.yml /var/www/workshop/tests/behat/features"
 
 ---
 name: behat-yml
@@ -237,6 +237,8 @@ Feature: Homepage
     When I am on the homepage
     Then I should see the heading "Welcome to Behat Workshop" in the "page_title"
 ```
+
+Create in .../test/behat/features
 
 ???
 - this is just a test feature to make sure Behat and Drupal Extension are working
