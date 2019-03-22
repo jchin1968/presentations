@@ -559,48 +559,56 @@ Feature: Request for training
 | Revert revisions   | ✔       |       |
 | View revisions     | ✔       | ✔     |
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+???
+- running test at this point will allow Scenarios #1 & #2 to pass but fails #3
+- Comment out "Purpose", "Start Date" and "End Date" fields in test so we can test the submit feature
+- 
 
 ---
-name: approval-feature
-#approval.feature
-```gherkin
-Feature: Approve conference and training requests
-  In order to streamline approval for conference and training requests
-  As a manager
-  I should be able to 
-  
-  Scenario
-    Given "conferent request" content:
-      | title   	   | Name   | Manager | Date Start | Date End   | moderation_state |
-      | Behat Training | Martin | Joe     | 2019-03-27 | 2019-03-27 | Submitted        | 
-    When I visit "pending-conference-request"
-    Then I should see "Behat Training" in the "" region
-
+# Site Building - Auto-Filled Field
+behat_workshop.info.yml
+```yaml
+name: Behat Workshop
+description: Custom module for Behat Workshop
+package: Miscellaneous
+type: module
+core: '8.x'
 ```
+
+---
+# Site Building - Auto-Filled Field (cont.)
+behat_workshop.module
+```php
+<?php
+
+use \Drupal\Core\Form\FormStateInterface;
+use \Drupal\user\Entity\User;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function behat_workshop_form_node_training_request_form_alter(&$form, FormStateInterface $form_state) {
+  // Get logged in user's manager account and set it as the default value
+  // for the Training Request form manager field.
+  $current_user = User::load(\Drupal::currentUser()->id());
+  $manager = User::load($current_user->get('field_manager')->target_id);
+  if (!empty($manager)) {
+    $form['field_manager']['widget'][0]['target_id']['#default_value'] = $manager;
+  }
+}
+```
+
+---
+# Drupal Behat "Gotchas!"
+- Cannot set CKEditor field using Selenium
+  - Because CKEditor WYSIWYG is within an iframe
+  - But, works fine for default text browser i.e. Goute
+- Cannot find Date fields
+  - Most fields use ```<label>``` tags but Date with calendar popup uses ```<h4 class="label">```
+  - Can use ID or Name attribute instead of label but it's ugly. i.e. edit-field-start-date-0-value-date
+- Cannot compare entity reference fields
+  - Reference field value has entity ID appended to it that changes. i.e. Joe (123)
+
 
 ---
 # Q&amp;A
