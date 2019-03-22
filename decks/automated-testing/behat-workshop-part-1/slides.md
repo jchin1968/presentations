@@ -516,10 +516,16 @@ Feature: Request for training
   - website has not been configured
   - step definitions have not been defined (correctly) as indicated by the message "FeatureContext has missing steps"  
 
+
 ---
-#Site Building - Users
+class: center, middle
+# Site Building
+
+
+---
+# User Roles and Profile
 - Create user roles "Manager" and "Staff"
-- Create user entity referenced field "Manager"
+- Create user entity reference field "Manager"
   - Type: User
   - Label: Manager
   - Type of item to reference: User
@@ -532,21 +538,23 @@ Feature: Request for training
 - Note field_manager has not been created yet but no errors!
 
 ---
-# Site Building - Content Type
-- Create Training Request Content Type
-  - Name: Training Request
-  - Description: Request approval for training
-  - Title field label: Short Description
-  - Add Fields:
-      - Manager - User Reference
-      - Start Date - Date, Date only, Default to Current date
-      - End Date - Date, Date only, Default to Current date
-      - Estimated Cost - Number (float), Prefix $, Suffix SGD
-      - NB. all new fields should be required and limited to 1 
-  - Rename Body field to Purpose, required unchecked
-  
+# Training Request Content Type
+- Name: Training Request
+- Description: Request approval for training
+- Title field label: Short Description
+- Add fields:
+  - Manager - User Reference
+  - Start Date - Date, Date only, Default to Current date
+  - End Date - Date, Date only, Default to Current date
+  - Estimated Cost - Number (float), Prefix $, Suffix SGD
+- Rename Body field to Purpose
+
+???
+- New fields set to required and limited 1
+- Purpose field - required should be unchecked
+
 ---
-# Site Building - User Permission
+# User Permissions
 
 | Permission         | Manager | Staff |
 | :---               | :---    | :---  |
@@ -565,7 +573,7 @@ Feature: Request for training
 - 
 
 ---
-# Site Building - Auto-Filled Field
+# Customization - Auto-Fill Manager Field
 behat_workshop.info.yml
 ```yaml
 name: Behat Workshop
@@ -576,7 +584,7 @@ core: '8.x'
 ```
 
 ---
-# Site Building - Auto-Filled Field (cont.)
+# Customization - Auto-Fill Manager Field (cont.)
 behat_workshop.module
 ```php
 <?php
