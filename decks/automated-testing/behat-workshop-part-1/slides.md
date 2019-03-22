@@ -327,17 +327,15 @@ class: center, middle
 ???
 - define some general business requirements, what the request form looks like and the workflow
 
-
 ---
 # Requirements - Request Form
 - Manager - automatically filled with value from user profile
 - Short Description
-- Purpose (future requirement)
+- Purpose
 - Training Dates (start and end)
 - Date of submission
 - Estimated Cost
 - Status: Under Review, Approved, Rejected
-
 
 ---
 # Requirements - Workflow
@@ -397,7 +395,8 @@ Feature: Request for training
 
   Scenario 1: Request form available to staff but not anonymous users
     As a staff user, I want to access the training request form
-    As an anonymous user, I should not be able to access the training request form
+    As an anonymous user, I should not be able to access the training request
+    form
 
   Scenario 2: Submit Training Request
     As a staff user, when I go to the training request form
@@ -409,9 +408,8 @@ Feature: Request for training
     - End Date
     - Estimated Cost
     
-    After I save the form, I should see a confirmation page with:
-    - a success message
-    - the values I have entered
+    After I save the form, I should see a confirmation page with a success 
+    message and the values I have entered
 ```
 
 ???
@@ -429,7 +427,8 @@ Feature: Request for training
 
   Scenario 1: Request form available to staff but not anonymous users
     As a staff user, I want to access the training request form
-    As an anonymous user, I should not be able to access the training request form
+    As an anonymous user, I should not be able to access the training request
+    form
 
   Scenario 2: Submit Training Request
     As a staff user, when I go to the training request form
@@ -441,17 +440,124 @@ Feature: Request for training
     - End Date
     - Estimated Cost
     
-    After I save the form, I should see a confirmation page with:
-    - a success message
-    - the values I have entered
-        
+    After I save the form, I should see a confirmation page with a success 
+    message and the values I have entered
+            
   Scenario 3: Auto-filled fields
     As a staff user, when I go to the training request form
-    I want to see the manager field pre-populated with my manager's name  
+    I want to see the manager field automatically filled with my manager's name  
 ```
 
 ???
 Scenario 3 - Validate fields are auto-filled
+
+
+---
+# Convert Story to Gherkin
+
+```gherkin
+*@api @javascript
+Feature: Request for training
+  In order to further my skills
+  As an employee
+  I would like to request training courses
+```
+
+???
+- feature description can be copied verbatim
+- note @api and @javascript at top -indicate to use Drupal APIs and Selenium for all tests within this feature file
+
+
+---
+# Convert Story to Gherkin
+
+```gherkin
+@api @javascript
+Feature: Request for training
+  In order to further my skills
+  As an employee
+  I would like to request training courses
+
+* Scenario: Request form accessible to staff users
+    Given I am logged in as a "Staff"
+    When I visit "node/add/training_request"
+    Then I should see the heading "Create Training Request"
+
+* Scenario: Request form not accessible to anonymous users
+    Given I am an anonymous user
+    When I visit "node/add/training_request"
+    Then I should see the heading "Access denied"
+    And I should see the text "You are not authorized to access this page."
+```
+
+???
+- split Scenario 1 into two separate ones  
+
+
+
+---
+# Convert Story to Gherkin
+
+```gherkin
+@api @javascript
+Feature: Request for training
+  ...
+  ...
+  
+  Scenario: Submit Form
+    Given users:
+      | name    | email           | roles   | status | field_manager |
+      | Joe     | joe@test.bot    | Manager | 1      |               |
+      | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |  
+    And I am logged in as "Oliver"
+    And I visit "node/add/training_request"
+    When I fill in the following:
+      | Short Description | Behat Workshop                      |
+      | Purpose           | Need to implement automated testing |
+      | Manager           | Joe                                 |
+      | Start Date        | 04/20/2019                          |
+      | End Date          | 04/22/2019                          |
+      | Estimated Cost    | 75.00                               |
+    And I press the "Save" button
+    Then I should see the success message "Training Request Behat Workshop has been created."
+    And I should see the link "Joe" in the "manager" region
+    And I should see "$75.00SGD" in the "estimated_cost" region   
+```
+
+???
+ - two examples of tables to specify a set of date
+ - for users, we are creating multiple user records
+ - for node, we are assigning values to fields
+
+
+
+
+---
+# Convert Story to Gherkin
+
+```gherkin
+@api @javascript
+Feature: Request for training
+  ...
+  ...
+  
+  Scenario: Auto-filled fields
+    Given users:
+      | name    | email           | roles   | status | field_manager |
+      | Joe     | joe@test.bot    | Manager | 1      |               |
+      | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |   
+    And I am logged in as "Oliver"
+    When I visit "node/add/training_request"
+    Then the "Manager" reference field should contain "Joe"  
+```
+
+
+
+
+
+
+
+
 
 
 ---
@@ -606,16 +712,48 @@ function behat_workshop_form_node_training_request_form_alter(&$form, FormStateI
 }
 ```
 
+
 ---
 # Drupal Behat "Gotchas!"
 - Cannot set CKEditor field using Selenium
   - Because CKEditor WYSIWYG is within an iframe
   - But, works fine for default text browser i.e. Goute
 - Cannot find Date fields
-  - Most fields use ```<label>``` tags but Date with calendar popup uses ```<h4 class="label">```
+  - Most fields use &lt;label&gt; tags but Date with calendar popup uses &lt;h4 class="label"&gt;
   - Can use ID or Name attribute instead of label but it's ugly. i.e. edit-field-start-date-0-value-date
 - Cannot compare entity reference fields
-  - Reference field value has entity ID appended to it that changes. i.e. Joe (123)
+  - Reference field value has entity ID appended to it that changes. i.e. Joe (123) 
+
+---
+class: center, middle
+# Creating Custom Context
+
+
+
+---
+# Cannot set CKEditor field using Selenium
+- Solution: Override default MinkContext fillField() method
+  - Create a class (i.e. MyMinkContext) that extends Drupal\DrupalExtension\Context\MinkContext
+  - Override the fillField() method
+  - Configure behat.yml to use your MyMinkContext class instead of the default MinkContext
+
+---
+# Cannot find Date fields
+- Solution: Create alternate findField() method
+  - In MyMinkContext class, create a findField() method
+  - in overridden FillField() method, use custom findField() instead of default one 
+  
+???
+- Wasn't able to override Behat\Mink\Element\TraversableElement::findField()
+- Probably should rename custom findField() method to avoid confusion  
+
+---
+# Cannot compare entity reference fields
+- Solution: Create new step definition
+  - Update request.feature to use new step definition
+  - In MyMinkContext class, create step definition method using template provided by Behat
+
+
 
 
 ---
