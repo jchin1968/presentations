@@ -186,11 +186,12 @@ class: center, middle
 - cd /var/www/workshop
 - composer require drupal/drupal-extension
 - vendor/bin/behat -V
-- alias behat="/var/www/workshop/vendor/bin/behat -c /var/www/workshop/tests/behat/behat.yml /var/www/workshop/tests/behat/features"
+- Optional
+  - alias behat="/var/www/workshop/vendor/bin/behat -c /var/www/workshop/tests/behat/behat.yml /var/www/workshop/tests/behat/features"
 
 ---
 name: behat-yml
-# Create ../tests/behat/behat.yml
+# Create behat.yml
 ```yaml
 default:
   suites:
@@ -219,6 +220,9 @@ default:
         error_message_selector: '.messages.messages--error'
         success_message_selector: '.messages.messages--status'
 ```
+???
+- Create in ../tests/behat/ folder
+
 
 ---
 # Initialize Behat
