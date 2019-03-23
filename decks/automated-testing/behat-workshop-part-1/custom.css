@@ -7,3 +7,7 @@ code.remark-code {
     overflow-y: scroll;
     height: 450px;
 }
+
+#slide-useful-behat-commands {
+    font-size: 75%;
+}

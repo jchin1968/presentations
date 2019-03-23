@@ -12,11 +12,12 @@ class: center, middle
 
 
 ---
-# Topics
+# Topics For Today
 - Test Basics
 - Behat and Gherkin
-- Set Up
+- Setting Up
 - Writing Tests
+- 
 
 ---
 class: center, middle
@@ -245,6 +246,46 @@ Create in .../test/behat/features
 - while this is a test feature, it can be used later on to test out the homepage if required
 - create in ../features directory
 - enter behat to execute test
+
+
+---
+name: useful-behat-commands
+# Useful Behat Commands
+- behat --init
+  - Initialize behat environment
+- behat -dl
+  - list all step definitions
+- behat -dl | grep {some_word}
+  - list step definitions filtered by {some_word}
+- behat -d {some_word} 
+  - list detailed step definitions filtered by {some_word}
+- behat
+  - run all behat test
+- behat {...}/features/specific_file.feature
+  - run tests for a specific feature file. BUT, currently not working!   
+- behat --tags={some_word}
+  - run all tests that are tagged with {some_word}
+- behat -v
+  - run tests with detailed output
+- behat -h
+  - display help information   
+
+
+---
+# What is Selenium?
+- Framework for testing web applications
+- Selenium IDE 
+  - record browser interactions into a script that can be played back
+  - does not require coding
+  - Firefox and Chrome add-ons
+- Selenium WebDriver
+  - Create test scripts using one of many supported languages including Java, C#, Ruby, Python and JavaScript
+  - PHP not offically supported by SeleniumHQ but Behat provides a Mink Selenium driver
+  
+???
+- Mink is a middleware between your web application and a browser
+- By default behat uses the Goutte browser which is a text-based browser for executing tests
+- With Selenium WebDriver, the tests can be executed using a graphical browser such as Chrome or Firefox which allows for javascript and css testing  
 
 
 ---
@@ -530,8 +571,6 @@ Feature: Request for training
  - for node, we are assigning values to fields
 
 
-
-
 ---
 # Convert Story to Gherkin
 
@@ -550,6 +589,13 @@ Feature: Request for training
     When I visit "node/add/training_request"
     Then the "Manager" reference field should contain "Joe"  
 ```
+
+
+---
+# Convert Story to Gherkin
+
+Use background example
+
 
 
 
