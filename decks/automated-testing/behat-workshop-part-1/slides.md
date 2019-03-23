@@ -59,7 +59,7 @@ class: center, middle
 
 
 ---
-# Frequency of Change
+# Why Speed Matter
 
 | Type of Change   | Frequency   | Impact   |
 | :---             | :---        | :---     |
