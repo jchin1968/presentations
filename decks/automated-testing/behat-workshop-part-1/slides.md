@@ -13,15 +13,15 @@ class: center, middle
 
 ---
 # Topics For Today
-- Test Basics
-- Behat and Gherkin
-- Setting Up
-- Writing Tests
-- 
+- Testing Basics
+- Understanding Behat and Gherkin
+- Installing and Configuring
+- Writing Features
+- Writing Custom Step Definitions
 
 ---
 class: center, middle
-# Understanding The Basics
+# Testing Basics
 
 ---
 # Why Test?
@@ -111,7 +111,7 @@ Behat provides a framework which makes it easy to transform written user stories
 
 ---
 class: center, middle
-# Behat and Gherkin
+# Understanding Behat and Gherkin
 
 ---
 # What is Behat?
@@ -178,7 +178,7 @@ Feature: Online Shopping
 
 ---
 class: center, middle
-# Setting Up Behat
+# Installing and Configuring
 
 ---
 # Install Drupal Extension
@@ -772,9 +772,7 @@ function behat_workshop_form_node_training_request_form_alter(&$form, FormStateI
 
 ---
 class: center, middle
-# Creating Custom Context
-
-
+# Writing Custom Context
 
 ---
 # Cannot set CKEditor field using Selenium
