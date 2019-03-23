@@ -25,9 +25,11 @@ class: center, middle
 
 ---
 # Why Test?
-- Expose bugs 
-- Improve user experience (UX)
--  
+- Expose bugs
+- Improve quality
+- Force users to think through business rules and processes
+- Validate requirements are met
+
 
 ???
 - bugs can cause significant monetary damage and even loss of human lives
@@ -35,7 +37,6 @@ class: center, middle
 - Bugs in navigational equipment have caused planes to crash 
 - Bugs in medical software have prescribed incorrect dosages leading to patient deaths
 - Fortunately, us in the Drupal world generally don't have such mission critical applications to worry about
-
 
 ---
 # Why Automate?
