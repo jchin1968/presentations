@@ -599,14 +599,29 @@ Feature: Request for training
 ---
 # Convert Story to Gherkin
 
-Use background example
+Use background to add context for all scenarios in a single feature 
 
+```gherkin
+@api @javascript
+Feature: Request for training
+  ...
+  ...
+  
+  Background:
+    Given users:
+      | name    | email           | roles   | status | field_manager |
+      | Joe     | joe@test.bot    | Manager | 1      |               |
+      | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |
 
+  Scenario: Submit Form
+    Given I am logged in as "Oliver"
+    ...
+      
+  Scenario: Auto-filled fields      
+    Given I am logged in as "Oliver"
+    ...
 
-
-
-
-
+```
 
 
 
@@ -803,6 +818,10 @@ class: center, middle
   - In MyMinkContext class, create step definition method using template provided by Behat
 
 
+---
+# Other Gotchas
+- Success messages
+- Asserting case sensitive text
 
 
 ---
