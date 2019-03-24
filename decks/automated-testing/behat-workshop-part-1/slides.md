@@ -185,18 +185,18 @@ Feature: Title
 
   Background:
      Step Definitions that will be repeated for all scenarios
+     ...
+     ...
      
   Scenario: Title
     Step Definitions beginning with Given, When, Then, And or But
+    ...
     ...
 
   @tags
   Scenario: Title
     ...
-    
-  Scenario Outline
-    Given
-      
+    ...      
 ```
 
 
