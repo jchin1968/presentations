@@ -176,6 +176,29 @@ Feature: Online Shopping
 - Behind the scene, there are PHP methods which recognizes the step definition and execute them accordingly
 
 
+---
+# Feature File Structure 
+```gherkin
+@tags
+Feature: Title
+  Description
+
+  Background:
+     Step Definitions that will be repeated for all scenarios
+     
+  Scenario: Title
+    Step Definitions beginning with Given, When, Then, And or But
+    ...
+
+  @tags
+  Scenario: Title
+    ...
+    
+  Scenario Outline
+    Given
+      
+```
+
 
 ---
 class: center, middle
