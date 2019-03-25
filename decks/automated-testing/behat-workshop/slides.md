@@ -385,36 +385,27 @@ Feature: Homepage
 class: center, middle
 # Writing Features
 
-
 ---
-# Requirements - General
-- Employees requesting training must use an online form 
-- Request form will be visible to employees only
+# General Requirements 
+- Create an online training request form for employees to use
+- The request form will need to have a description, training dates, the estimated cost and the approving manager's name 
+- The request form will be visible to employees only
 - Managers will approve or deny requests online
-- Managers can see all applications. Requester can see only their own
-
-???
-- define some general business requirements, what the request form looks like and the workflow
+- Managers can see any application while regular employees can see only their own
 
 ---
-# Requirements - Request Form
-- Manager - automatically filled with value from user profile
-- Short Description
-- Purpose
-- Training Dates (start and end)
-- Date of submission
-- Estimated Cost
-- Status: Under Review, Approved, Rejected
+# User Stories
+As a &lt;type of user&gt;, I want &lt;some goal&gt; so that &lt;some reason&gt;
+- As an employee, I want to request training courses to improve my skills (Epic)
+- As an employee, I want to have access to the training request form
+- As an anonymous user, I should not have access to the training request form
 
 ---
-# Requirements - Workflow
-- Employee fills out form and submit
-- Manager receives notification
-- Manager approves or rejects application
-- Employee receives notification of decision
+# User Stories (cont.)
+- As an employee, when I go to the training request form, I should see the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
+- As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
+- As an employee, after I submit a training request form, I should see a confirmation message and a summary of the values I entered
 
-???
-- Will not be testing workflow due to time limitation
 
 
 ---
