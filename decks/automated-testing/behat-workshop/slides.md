@@ -396,127 +396,23 @@ class: center, middle
 ---
 # User Stories
 As a &lt;type of user&gt;, I want &lt;some goal&gt; so that &lt;some reason&gt;
-- As an employee, I want to request training courses to improve my skills (Epic)
-- As an employee, I want to have access to the training request form
-- As an anonymous user, I should not have access to the training request form
+1. As an employee, I want to request training courses to further my skills (Epic)
+1. As an employee, I want to have access to the training request form
+1. As an anonymous user, I should not have access to the training request form
 
 ---
+name:user-stories-cont
 # User Stories (cont.)
-- As an employee, when I go to the training request form, I should see the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
-- As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
-- As an employee, after I submit a training request form, I should see a confirmation message and a summary of the values I entered
-
-
-
----
-# Agile Story - Request Form
-
-```Gherkin
-Feature: Request for training
-  In order to further my skills 
-  As an employee
-  I would like to request training courses
-
-```
-
-???
-Define overall goal of the feature
-
----
-# Agile Story - Request Form
-
-```Gherkin
-Feature: Request for training
-  In order to further my skills 
-  As an employee
-  I would like to request training courses
-
-  Scenario 1: Request form available to staff but not anonymous users
-    As a staff user, I want to access the training request form
-    As an anonymous user, I should not be able to access the training 
-    request form
-
-```
-
-
-???
-- writing agile user stories without being too specific to Drupal 
-- Scenario 1 - Who get and don't get access to Training Request form
+4. As an employee, when I go to the training request form, I want to fill in the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
+5. As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
+6. As an employee, after I submit a training request form, I should see a confirmation message and a summary of the values I entered
 
 
 ---
-# Agile Story - Request Form
-
-```Gherkin
-Feature: Request for training
-  In order to further my skills 
-  As an employee
-  I would like to request training courses
-
-  Scenario 1: Request form available to staff but not anonymous users
-    As a staff user, I want to access the training request form
-    As an anonymous user, I should not be able to access the training request
-    form
-
-  Scenario 2: Submit Training Request
-    As a staff user, when I go to the training request form
-    I fill in the following: 
-    - Manager
-    - Short Description
-    - Purpose
-    - Start Date
-    - End Date
-    - Estimated Cost
-    
-    After I save the form, I should see a confirmation page with a success 
-    message and the values I have entered
-```
-
-???
-Scenario 2 - Submitting training request
- 
-
----
-# Agile Story - Request Form
-
-```Gherkin
-Feature: Request for training
-  In order to further my skills 
-  As an employee
-  I would like to request training courses
-
-  Scenario 1: Request form available to staff but not anonymous users
-    As a staff user, I want to access the training request form
-    As an anonymous user, I should not be able to access the training request
-    form
-
-  Scenario 2: Submit Training Request
-    As a staff user, when I go to the training request form
-    I fill in the following: 
-    - Manager
-    - Short Description
-    - Purpose
-    - Start Date
-    - End Date
-    - Estimated Cost
-    
-    After I save the form, I should see a confirmation page with a success 
-    message and the values I have entered
-            
-  Scenario 3: Auto-filled fields
-    As a staff user, when I go to the training request form
-    I want to see the manager field automatically filled with my manager's name  
-```
-
-???
-Scenario 3 - Validate fields are auto-filled
-
-
----
-# Convert Story to Gherkin
+# Convert User Stories to Gherkin (1)
+As an employee, I want to request training courses to further my skills (Epic)
 
 ```gherkin
-*@api @javascript
 Feature: Request for training
   In order to further my skills
   As an employee
@@ -525,41 +421,45 @@ Feature: Request for training
 
 ???
 - feature description can be copied verbatim
-- note @api and @javascript at top -indicate to use Drupal APIs and Selenium for all tests within this feature file
 
 
 ---
-# Convert Story to Gherkin
+# Convert User Stories to Gherkin (2)
+As an employee, I want to have access to the training request form
 
 ```gherkin
-@api @javascript
 Feature: Request for training
-  In order to further my skills
-  As an employee
-  I would like to request training courses
+  ...
+  ... 
 
-* Scenario: Request form accessible to staff users
+  Scenario: Request form accessible to staff users
     Given I am logged in as a "Staff"
     When I visit "node/add/training_request"
     Then I should see the heading "Create Training Request"
+```
 
-* Scenario: Request form not accessible to anonymous users
+
+---
+# Convert User Stories to Gherkin (3)
+As an anonymous user, I should not have access to the training request form
+
+```gherkin
+Feature: Request for training
+  ...
+  ...
+
+  Scenario: Request form not accessible to anonymous users
     Given I am an anonymous user
     When I visit "node/add/training_request"
     Then I should see the heading "Access denied"
     And I should see the text "You are not authorized to access this page."
 ```
 
-???
-- split Scenario 1 into two separate ones  
-
-
 
 ---
-# Convert Story to Gherkin
-
+# Convert User Stories to Gherkin (4)
+As an employee, when I go to the training request form, I want to fill in the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
 ```gherkin
-@api @javascript
 Feature: Request for training
   ...
   ...
@@ -591,7 +491,8 @@ Feature: Request for training
 
 
 ---
-# Convert Story to Gherkin
+# Convert User Stories to Gherkin (5)
+As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
 
 ```gherkin
 @api @javascript
@@ -723,6 +624,7 @@ Feature: Request for training
 
 ???
 - create the file ../features/request.feature
+- note @api and @javascript at top -indicate to use Drupal APIs and Selenium for all tests within this feature file
 - @api - required if we want to use Drupal specific steps definitions to setup or validate
 - Background - execute the step definitions for every scenario
   - Creating users in the background so they can be referenced in later scenarios within the same feature 
