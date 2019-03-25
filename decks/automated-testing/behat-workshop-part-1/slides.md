@@ -1,6 +1,6 @@
 name: cover
 class: center, middle
-# Drupal Behat Workshop Part 1
+# Drupal Behat Workshop
 ### Joseph Chin<br>Drupal Solution Architect
 
 ---
@@ -630,11 +630,11 @@ Feature: Request for training
   ...
   ...
   
-  Background:
-    Given users:
-      | name    | email           | roles   | status | field_manager |
-      | Joe     | joe@test.bot    | Manager | 1      |               |
-      | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |
+* Background:
+*   Given users:
+*     | name    | email           | roles   | status | field_manager |
+*     | Joe     | joe@test.bot    | Manager | 1      |               |
+*     | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |
 
   Scenario: Submit Form
     Given I am logged in as "Oliver"
@@ -647,6 +647,37 @@ Feature: Request for training
 ```
 
 
+
+
+
+
+---
+# Convert Story to Gherkin
+
+Use Scenario Outline to run the same test but with different inputs  
+
+```gherkin
+@api @javascript
+Feature: Request for training
+  ...
+  ...
+  
+Background:
+   Given users:
+     ...
+     ...
+      
+  Scenario Outline: Auto-filled fields
+    Given I am logged in as "<user>"
+    When I visit "node/add/training_request"
+    Then the "Manager" reference field should contain "<manager>"
+    Examples:
+      | user   | manager |
+      | Martin | Jill    |
+      | Oliver | Joe     |
+      | Jill   | Moira   |
+      | Joe    | Moira   |      
+```
 
 
 ---
