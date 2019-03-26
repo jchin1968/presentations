@@ -1129,8 +1129,14 @@ class MyMinkContext extends MinkContext {
 ---
 # Other Gotchas
 - Success messages
+  - Success messages in Drupal 8 are rendered using Javascript. Therefore, use @javascript
 - Asserting case sensitive text
+  - Use region for asserting case-sensitive text
+  - If actual text is "abc"
+      - Then I should see the text "ABC" - PASS
+      - Then I should see the text "ABC" in the "header" region - FAIL
 - Different date formats on different browsers
+  - Set language display on browsers to be consistent
 
 
 ---
