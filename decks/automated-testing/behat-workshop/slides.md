@@ -109,6 +109,25 @@ class: center, middle
 Behat provides a framework which makes it easy to transform written user stories into automated tests
 - Behat is easy for non-developers to understand and therefore they can help define the tests
 
+---
+# PHPUnit vs Behat vs Test Traits
+- PHPUnit
+  - PHP coding - Fast
+  - Cannot test existing site  
+  - Better suited for testing individual classes and APIs
+- Behat
+  - Human-readable tests but some PHP still required
+  - Can test existing sites
+  - Slow
+- Test Trait
+  - PHP Coding (extends PHPUnit)
+  - Can test existing site
+  - Limited documentation
+  
+
+
+
+
 
 ---
 class: center, middle
@@ -117,11 +136,11 @@ class: center, middle
 ---
 # What is Behat?
 - Behavior Driven Development (BDD) Framework For PHP
-- Extends from Test Driven Development (TDD)
-  - Tests first, then Code
+- Extends from Test Driven Development (TDD) - *Tests first, then Code*
 - Based on outcome as it appears to an end-user
+- Tests are written in a human-readable format using a language called Gherkin
 - Writing tests is a shared process between end users and developers
-- Human-readable stories are easily automated
+
 
 ???
 - PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
@@ -230,6 +249,7 @@ class: center, middle
 ---
 name: behat-yml
 # Create behat.yml
+../tests/behat/behat.yml
 ```yaml
 default:
   suites:
@@ -789,12 +809,11 @@ function behat_workshop_form_node_training_request_form_alter(&$form, FormStateI
 }
 ```
 
-
 ---
 # Drupal Behat "Gotchas!"
 - Cannot set CKEditor field using Selenium
   - Because CKEditor WYSIWYG is within an iframe
-  - But, works fine for default text browser i.e. Goute
+  - But, works fine for default Goute text browser
 - Cannot find Date fields
   - Most fields use &lt;label&gt; tags but Date with calendar popup uses &lt;h4 class="label"&gt;
   - Can use ID or Name attribute instead of label but it's ugly. i.e. edit-field-start-date-0-value-date
