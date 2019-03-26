@@ -387,30 +387,31 @@ class: center, middle
 
 ---
 # General Requirements 
-- Create an online training request form for employees to use
+- Create an online training request form for all employees to use
 - The request form will need to have a description, training dates, the estimated cost and the approving manager's name 
 - The request form will be visible to employees only
 - Managers will approve or deny requests online
-- Managers can see any application while regular employees can see only their own
+- Managers can see any application while staff employees can see only their own
 
 ---
 # User Stories
 As a &lt;type of user&gt;, I want &lt;some goal&gt; so that &lt;some reason&gt;
-1. As an employee, I want to request training courses to further my skills (Epic)
-1. As an employee, I want to have access to the training request form
-1. As an anonymous user, I should not have access to the training request form
+
+1. As an employee, I want to request training courses to further my skills (Epic story)
+1. As an employee, I want to access the training request form
+1. As a non-employee, I should not have access to the training request form
 
 ---
 name:user-stories-cont
 # User Stories (cont.)
-4. As an employee, when I go to the training request form, I want to fill in the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
-5. As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
-6. As an employee, after I submit a training request form, I should see a confirmation message and a summary of the values I entered
+1. As an employee, when I go to the training request form, I want to fill in the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
+1. As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
+1. As an employee, after I submit a training request form, I should see a confirmation message and a summary of the values I entered
 
 
 ---
-# Convert User Stories to Gherkin (1)
-As an employee, I want to request training courses to further my skills (Epic)
+# Convert User Stories to Gherkin
+(1) As an employee, I want to request training courses to further my skills (Epic story)
 
 ```gherkin
 Feature: Request for training
@@ -421,11 +422,12 @@ Feature: Request for training
 
 ???
 - feature description can be copied verbatim
+- note the feature description is not interreted by behat. It is for information purposes only
 
 
 ---
-# Convert User Stories to Gherkin (2)
-As an employee, I want to have access to the training request form
+# Convert User Stories to Gherkin
+(2) As an employee, I want to access the training request form
 
 ```gherkin
 Feature: Request for training
@@ -438,10 +440,9 @@ Feature: Request for training
     Then I should see the heading "Create Training Request"
 ```
 
-
 ---
-# Convert User Stories to Gherkin (3)
-As an anonymous user, I should not have access to the training request form
+# Convert User Stories to Gherkin
+(3) As a non-employee, I should not have access to the training request form
 
 ```gherkin
 Feature: Request for training
@@ -455,10 +456,10 @@ Feature: Request for training
     And I should see the text "You are not authorized to access this page."
 ```
 
-
 ---
-# Convert User Stories to Gherkin (4)
-As an employee, when I go to the training request form, I want to fill in the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
+# Convert User Stories to Gherkin
+(4) As an employee, when I go to the training request form, I want to fill in the following fields: Short Description, Purpose, Manager, Start Date, End Date and Estimated Cost
+
 ```gherkin
 Feature: Request for training
   ...
@@ -478,24 +479,51 @@ Feature: Request for training
       | Start Date        | 04/20/2019                          |
       | End Date          | 04/22/2019                          |
       | Estimated Cost    | 75.00                               |
-    And I press the "Save" button
-    Then I should see the success message "Training Request Behat Workshop has been created."
-    And I should see the link "Joe" in the "manager" region
-    And I should see "$75.00SGD" in the "estimated_cost" region   
 ```
 
 ???
- - two examples of tables to specify a set of date
+ - two examples of tables to specify a set of data
  - for users, we are creating multiple user records
- - for node, we are assigning values to fields
-
+ - for node, we are assigning values to fields for one node
+ - Note the use of field ids for users and field labels for node 
 
 ---
-# Convert User Stories to Gherkin (5)
-As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
+# Convert User Stories to Gherkin
+(6) As an employee, after I submit a training request form, I should see a confirmation message and a summary of the values I entered
 
 ```gherkin
-@api @javascript
+Feature: Request for training
+  ...
+  ...
+  
+  Scenario: Submit Form
+    Given users:
+      | name    | email           | roles   | status | field_manager |
+      | Joe     | joe@test.bot    | Manager | 1      |               |
+      | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |  
+    And I am logged in as "Oliver"
+    And I visit "node/add/training_request"
+    When I fill in the following:
+      | Short Description | Behat Workshop                      |
+      | Purpose           | Need to implement automated testing |
+      | Manager           | Joe                                 |
+      | Start Date        | 04/20/2019                          |
+      | End Date          | 04/22/2019                          |
+      | Estimated Cost    | 75.00                               |
+*   And I press the "Save" button
+*   Then I should see the success message "Training Request Behat Workshop has been created."
+*   And I should see the link "Joe" in the "manager" region
+*   And I should see "$75.00SGD" in the "estimated_cost" region   
+```
+
+???
+- combining user story 4 and 6 into one scenario
+
+---
+# Convert User Stories to Gherkin
+(5) As an employee, when I go to the training request form, the manager field should be pre-filled with my manager's name
+
+```gherkin
 Feature: Request for training
   ...
   ...
@@ -512,21 +540,20 @@ Feature: Request for training
 
 
 ---
-# Convert Story to Gherkin
+# Background
 
 Use background to add context for all scenarios in a single feature 
 
 ```gherkin
-@api @javascript
 Feature: Request for training
   ...
   ...
   
-* Background:
-*   Given users:
-*     | name    | email           | roles   | status | field_manager |
-*     | Joe     | joe@test.bot    | Manager | 1      |               |
-*     | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |
+*  Background:
+*    Given users:
+*      | name    | email           | roles   | status | field_manager |
+*      | Joe     | joe@test.bot    | Manager | 1      |               |
+*      | Oliver  | oliver@test.bot | Staff   | 1      | Joe           |
 
   Scenario: Submit Form
     Given I am logged in as "Oliver"
@@ -540,24 +567,20 @@ Feature: Request for training
 
 
 
-
-
-
 ---
-# Convert Story to Gherkin
+# Scenario Outline
 
 Use Scenario Outline to run the same test but with different inputs  
 
 ```gherkin
-@api @javascript
 Feature: Request for training
   ...
   ...
   
-Background:
-   Given users:
-     ...
-     ...
+  Background:
+    Given users:
+      ...
+      ...
       
   Scenario Outline: Auto-filled fields
     Given I am logged in as "<user>"
@@ -571,10 +594,36 @@ Background:
       | Joe    | Moira   |      
 ```
 
+---
+# Tagging
+
+```gherkin
+@api @javascript
+Feature: Request for training
+  ...
+  ...
+  
+  @security
+  Scenario: Request form accessible to staff users
+    ...
+    ...
+
+  @current      
+  Scenario: Auto-filled fields
+    ...
+    ...
+  
+```
+
+???
+- @api and @javascript are pre-existing tags
+- @api allow use of step definitions that calls Drupal APIs
+- @javascript executes using Selenium
+
 
 ---
 class: lengthy-code
-# Convert Story to Behat
+# Completed Request Feature
 
 ```gherkin
 @api @javascript
