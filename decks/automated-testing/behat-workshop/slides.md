@@ -9,7 +9,6 @@ class: center, middle
 - Drupal Solution Architect since 2007
 - Singapore Drupal Meetup committee member
 - jchin1968 on .media-icon[![image](../../../images/google.png) ![image](../../../images/twitter.png) ![image](../../../images/linkedin.png) ![image](../../../images/facebook.png) ![image](../../../images/github.png)]
-- Follow along here: https://rawgit.com/jchin1968/presentations/automated_testing/decks/automated_testing/behat-workshop/index.html
 
 ---
 # Topics For Today
@@ -57,9 +56,8 @@ class: center, middle
 - Speed is the real driver for automation since changes happen so frequently these days
 - Consider the last Drupal security update that was first announced last Wednesday morning giving system admin just one day to apply a highly critical fix. 
 
-
 ---
-# Why Speed Matter
+# Speed Matters
 
 | Type of Change   | Frequency   | Impact   |
 | :---             | :---        | :---     |
@@ -280,7 +278,6 @@ default:
 ???
 - Create in ../tests/behat/ folder
 
-
 ---
 # Initialize Behat
 - cd /var/www/workshop/tests/behat
@@ -288,7 +285,7 @@ default:
 - behat -dl
 
 ---
-# Create homepage.feature
+# Your First Feature
 
 .../test/behat/features/homepage.feature
 
@@ -435,7 +432,6 @@ Feature: Homepage
 
 ```
 
-
 ---
 class: center, middle
 # Writing Features
@@ -535,6 +531,7 @@ Feature: Request for training
       | End Date          | 04/22/2019                          |
       | Estimated Cost    | 75.00                               |
 ```
+n.b. Change date format according to your browser
 
 ???
  - two examples of tables to specify a set of data
@@ -593,7 +590,6 @@ Feature: Request for training
     Then the "Manager" reference field should contain "Joe"  
 ```
 
-
 ---
 # Background
 
@@ -619,7 +615,6 @@ Feature: Request for training
     ...
 
 ```
-
 
 
 ---
@@ -1164,7 +1159,6 @@ class MyMinkContext extends MinkContext {
 
 ```
 
-
 ---
 # Other Gotchas
 - Success messages
@@ -1176,7 +1170,6 @@ class MyMinkContext extends MinkContext {
       - Then I should see the text "ABC" in the "header" region - FAIL
 - Different date formats on different browsers
   - Set language display on browsers to be consistent
-
 
 ---
 # Behat Hooks
