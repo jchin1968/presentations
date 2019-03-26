@@ -172,33 +172,48 @@ Feature: Online Shopping
 
 - Is a language used to define automated tests
 - Start by defining a Feature, then Scenario and then Steps
-- The feature, scenarios and steps  written above by itself doesn't actually do anything
+- The feature, scenarios and steps written above by itself doesn't actually do anything
 - Behind the scene, there are PHP methods which recognizes the step definition and execute them accordingly
 
 
 ---
-# Feature File Structure 
+# Feature File Structure
+
 ```gherkin
-@tags
-Feature: Title
-  Description
+@some-tag
+Feature: A Short Title
+  In order to [Benefit]
+  As a [Role]
+  I want [Feature]
+  
+  Scenario: Example 1
+    # Step Definitions beginning with Given, When, Then, And or But
+    Given [Pre-condition] 
+    When [Action]
+    Then [Outcome] 
 
-  Background:
-     Step Definitions that will be repeated for all scenarios
-     ...
-     ...
-     
-  Scenario: Title
-    Step Definitions beginning with Given, When, Then, And or But
+  @another-tag
+  Scenario: Example 2
     ...
-    ...
+    ...      
 
-  @tags
-  Scenario: Title
+  Scenario: Example 3
     ...
     ...      
 ```
 
+---
+# Step Definition Format
+- Must start with one of the following keywords: **Given, When, Then, And, But**
+- Keywords are equivalent and interchangeable. Your choice of keyword is for human readability
+- Text following a keyword is the "Step Text Pattern"
+- Within a pattern, you can have tokens. **customer**  and **5** are tokens for these examples:
+
+```gherkin
+Given I am logged in as a "customer"
+Then I should see 5 items
+
+```
 
 ---
 class: center, middle
