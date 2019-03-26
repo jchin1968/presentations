@@ -638,7 +638,7 @@ Feature: Request for training
 
 ---
 class: lengthy-code
-# Completed Request Feature
+# Complete Request Feature
 
 ```gherkin
 @api @javascript
@@ -816,7 +816,7 @@ class: center, middle
 class: lengthy-code
 # Cannot set CKEditor field using Selenium
 
-Create ../test/behat/features/bootstrap/MyMinkContext.php
+../test/behat/features/bootstrap/MyMinkContext.php
 ```php
 <?php
 
@@ -860,7 +860,7 @@ use Behat\Mink\Exception\ExpectationException;
 ---
 # Cannot set CKEditor field using Selenium
 
-In behat.yml
+behat.yml
 ```yaml
 default:
   suites:
@@ -879,13 +879,11 @@ default:
     ...
 ```
 
-
-
 ---
 # Cannot find Date fields
-### Solution: Create alternate findField() method
-- In MyMinkContext class, create a findField() method
-- in overridden FillField() method, use custom findField() instead of default one 
+### Solution: Create custom findField() method
+- In MyMinkContext class, create a myFindField() method
+- in the overridden fillField() method, use custom myFindField() instead of default findField() 
   
 ???
 - Wasn't able to override Behat\Mink\Element\TraversableElement::findField()
@@ -893,26 +891,239 @@ default:
 
 
 ---
+class: lengthy-code
 # Cannot find Date fields
 
+../test/behat/features/bootstrap/MyMinkContext.php
 ```php
+<?php
 
+class MyMinkContext extends MinkContext {
 
+  public function fillField($field, $value) {
+    // Locate the field on the page.
+*   // $element = $this->getSession()->getPage()->findField($field);
+*   $element  = $this->myFindField($field);
+    ...
+    ...
+  }
 
+  /**
+   * Find a field on a page for a given locator.
+   */
+  public function myFindField($locator) {
+    // Default way to find a field.
+    $element = $this->getSession()->getPage()->findField($locator);
+
+    // If field was not found, then try another approach.
+    if (empty($element)) {
+      // Search for h4 tags with class "label".
+*     $h4_elements = $this->getSession()->getPage()->findAll('css', 'h4.label');
+
+      // Iterate through the list of h4.label tags and see if their text
+      // matches the $locator value.
+      foreach ($h4_elements as $h4_element) {
+        if ($h4_element->getText() == $locator) {
+          // Found the matching h4 locator. Get corresponding input tag.
+          $element = $h4_element->getParent()->find('css', 'input');
+          break;
+        }
+      }
+    }
+    return $element;
+  }
+}
 ```
 
+---
+# Cannot compare entity reference fields
 
-
-
-
-
+### Solution: Create new step definition
+- Update request.feature to use new step definition
+- In MyMinkContext class, create step definition method using template provided by Behat
 
 
 ---
 # Cannot compare entity reference fields
-- Solution: Create new step definition
-  - Update request.feature to use new step definition
-  - In MyMinkContext class, create step definition method using template provided by Behat
+
+../test/behat/features/request.feature
+```gherkin
+  Scenario Outline: Auto-filled fields
+    Given I am logged in as "<user>"
+    When I visit "node/add/training_request"
+*#   Then the "Manager" field should contain "<manager>"
+*   Then the "Manager" reference field should contain "<manager>"
+    Examples:
+      | user   | manager |
+      | Martin | Jill    |
+      | Oliver | Joe     |
+      | Jill   | Moira   |
+      | Joe    | Moira   |
+```
+
+
+---
+class: lengthy-code
+# Cannot compare entity reference fields
+
+../test/behat/features/bootstrap/MyMinkContext.php
+```php
+<?php
+
+class MyMinkContext extends MinkContext {
+
+  /**
+   * Step definition to validate an entity reference field.
+   *
+*  * @Then the :field (entity )reference field should contain :value
+   */
+  public function theReferenceFieldShouldContain($field, $value) {
+    // Find the reference field on the page and get it's value.
+    $element = $this->myFindField($field);
+*   $actual = $element->getValue();
+
+    // Validate if the actual value is a valid referenced value.
+    $regex = '\s\(\d+\)';
+    preg_match("/$regex/", $actual, $matches);
+    if (empty($matches)) {
+      throw new \Exception(sprintf("Field '%s' does not appear to be a reference field type", $field));
+    }
+
+    // Check if the expected value is in the actual value but without the entity id portion.
+    $regex = $value . $regex;
+    preg_match("/$regex/", $actual, $matches);
+    if (empty($matches)) {
+      throw new \Exception(sprintf("The expected value '%s' is not in the actual value '%s' for the reference field '%s'", $value, $actual, $field));
+    }
+  }
+}
+
+```
+
+---
+class: lengthy-code
+# Complete Custom Context
+
+../test/behat/features/bootstrap/MyMinkContext.php
+```php
+<?php
+
+use Drupal\DrupalExtension\Context\MinkContext;
+use Behat\Mink\Exception\ExpectationException;
+
+class MyMinkContext extends MinkContext {
+
+  /**
+   * Override MinkExtension\Context\MinkContext::fillField.
+   *
+   * Resolves the issue where entering text in a formatted textarea field
+   * (i.e. CKEditor) would fail when executing the test via Selenium.
+   *
+   * @throws ExpectationException
+   */
+  public function fillField($field, $value) {
+    // Locate the field on the page.
+    // $element = $this->getSession()->getPage()->findField($field);  // Default way to locate a field. Fails for date popup.
+    $element  = $this->myFindField($field);                             // Our new way to handle date popup.
+
+    // Throw an error if the field cannot be found.
+    if (empty($element)) {
+      throw new ExpectationException('Can not find field: ' . $field, $this->getSession());
+    }
+
+    // Get the field ID. Throw an error if it cannot be found.
+    $field_id = $element->getAttribute('id');
+    if (empty($field_id)) {
+      throw new ExpectationException('Can not find id for field: ' . $field, $this->getSession());
+    }
+
+    // Check if a corresponding CKEditor field exists.
+    // NOTE: For a formatted textarea field using CKEditor, a div block containing
+    // a standard HTML textarea tag is rendered but hidden using css. Another div
+    // block (a sibling to the previous one) contains a CKEditor iframe which is
+    // what the user interacts with.
+    $cke_field_id = 'cke_' . $field_id;
+    $cke_element = $this->getSession()->getPage()->find('named', ['id', $cke_field_id]);
+    if (empty($cke_element)) {
+      // CKEditor object was not found. This is either (1) not a textarea field or
+      // (2) a textarea field without CKEditor. So, just use the default method
+      // to update the field.
+      parent::fillField($field_id, $value);
+    } else {
+      // CKEditor object was found. Update the field using javascript.
+      $this->getSession()->executeScript("CKEDITOR.instances[\"$field_id\"].setData(\"$value\");");
+    }
+  }
+
+  /**
+   * Find a field on a page for a given locator.
+   *
+   * By default, the locator can be an id or name attribute to an <input> tag.
+   * It can also be the field label which is rendered as a <label> tag just
+   * before the field <input> tag.
+   *
+   * However, for certain fields (i.e. date popup), the <label> tag is hidden
+   * (using css) but more importantly, the label text does not correspond to
+   * what the user set the label to be. Instead, what a user sees as the label
+   * is rendered as an <h4 class="label"> tag. This has no impact to the end
+   * user from a labeling perspective but Behat operations using the Drupal
+   * Extension fails.
+   */
+  public function myFindField($locator) {
+    // Default way to find a field.
+    $element = $this->getSession()->getPage()->findField($locator);
+
+    // If field was not found, then try another approach.
+    if (empty($element)) {
+      // Search for h4 tags with class "label".
+      $h4_elements = $this->getSession()->getPage()->findAll('css', 'h4.label');
+
+      // Iterate through the list of h4.label tags and see if their text
+      // matches the $locator value.
+      foreach ($h4_elements as $h4_element) {
+        if ($h4_element->getText() == $locator) {
+          // Found the matching h4 locator. Get the input tag that corresponds
+          // to it and break out of the foreach loop.
+          $element = $h4_element->getParent()->find('css', 'input');
+          break;
+        }
+      }
+    }
+    return $element;
+  }
+
+  /**
+   * Step definition to validate an entity reference field.
+   *
+   * @throws \Exception
+   *
+   * @Then the :field (entity )reference field should contain :value
+   */
+  public function theReferenceFieldShouldContain($field, $value) {
+    // Find the reference field on the page and get it's value.
+    $element = $this->myFindField($field);
+    $actual = $element->getValue();
+
+    // Validate if the actual value is a valid referenced value with the entity
+    // ID in brackets i.e Joe (123) which is the default behavior for Drupal
+    // referenced fields.
+    $regex = '\s\(\d+\)';
+    preg_match("/$regex/", $actual, $matches);
+    if (empty($matches)) {
+      throw new \Exception(sprintf("Field '%s' does not appear to be a reference field type", $field));
+    }
+
+    // Check if the expected value is in the actual value but without the entity
+    // id portion.
+    $regex = $value . $regex;
+    preg_match("/$regex/", $actual, $matches);
+    if (empty($matches)) {
+      throw new \Exception(sprintf("The expected value '%s' is not in the actual value '%s' for the reference field '%s'", $value, $actual, $field));
+    }
+  }
+}
+
+```
 
 
 ---
