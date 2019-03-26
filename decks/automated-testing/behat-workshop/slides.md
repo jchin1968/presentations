@@ -126,9 +126,6 @@ Behat provides a framework which makes it easy to transform written user stories
   
 
 
-
-
-
 ---
 class: center, middle
 # Understanding Behat and Gherkin
@@ -139,8 +136,7 @@ class: center, middle
 - Extends from Test Driven Development (TDD) - *Tests first, then Code*
 - Based on outcome as it appears to an end-user
 - Tests are written in a human-readable format using a language called Gherkin
-- Writing tests is a shared process between end users and developers
-
+- Writing tests becomes a shared process between end users and developers
 
 ???
 - PHP implementation of Cucumber which is a Ruby test framework based on BDD (behavior driven development)
@@ -196,7 +192,7 @@ Feature: Online Shopping
 
 
 ---
-# Feature File Structure
+# What's in a Feature File
 
 ```gherkin
 @some-tag
@@ -246,8 +242,11 @@ class: center, middle
 - Optional
   - alias behat="/var/www/workshop/vendor/bin/behat -c /var/www/workshop/tests/behat/behat.yml /var/www/workshop/tests/behat/features"
 
+???
+- Drupal Extension is a set of pre-defined step defintions for testing common features 
+
+
 ---
-name: behat-yml
 # Create behat.yml
 ../tests/behat/behat.yml
 ```yaml
@@ -290,6 +289,9 @@ default:
 
 ---
 # Create homepage.feature
+
+.../test/behat/features/homepage.feature
+
 ```gherkin
 Feature: Homepage
   In order to have a good user experience
@@ -301,8 +303,6 @@ Feature: Homepage
     When I am on the homepage
     Then I should see the heading "Welcome to Behat Workshop" in the "page_title"
 ```
-
-Create in .../test/behat/features
 
 ???
 - this is just a test feature to make sure Behat and Drupal Extension are working
@@ -338,12 +338,12 @@ name: useful-behat-commands
 # What is Selenium?
 - Framework for testing web applications
 - Selenium IDE 
-  - record browser interactions into a script that can be played back
-  - does not require coding
+  - Record browser interactions into a script that can be played back
+  - Does not require coding
   - Firefox and Chrome add-ons
 - Selenium WebDriver
-  - Create test scripts using one of many supported languages including Java, C#, Ruby, Python and JavaScript
-  - PHP not offically supported by SeleniumHQ but Behat provides a Mink Selenium driver
+  - Create tests using one of many supported languages including Java, C#, Ruby, Python and JavaScript
+  - PHP not offically supported by SeleniumHQ but Behat provides the necessary integrations
   
 ???
 - Mink is a middleware between your web application and a browser
@@ -373,13 +373,21 @@ java -jar -Dwebdriver.chrome.driver=chromedriver selenium-server-standalone-3.14
 - then in behat.yml, selenium server IP address would be the host machine on the VM network interface, not the actual host machine IP address
 
 ---
+class: lengthy-code
 # Update behat.yml
 
+../tests/behat/behat.yml
 ```yaml
 default:
   suites:
-    ...
-    ...
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\MarkupContext
   extensions:
     Behat\MinkExtension:
       goutte: ~
@@ -395,12 +403,24 @@ default:
 *     browser_name: 'chrome'
       base_url: http://workshop
     Drupal\DrupalExtension:
-      ...
-      ...
+      api_driver: "drupal"
+      drupal:
+        drupal_root: '/var/www/workshop/web'
+      region_map:
+        page_title: ".page-title"
+        manager: ".field--name-field-manager"
+        estimated_cost: ".field--name-field-estimated-cost"
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.messages--error'
+        success_message_selector: '.messages.messages--status'
 ```
 
 ---
 # Update homepage.feature
+
+.../test/behat/features/homepage.feature
+
 ```gherkin
 Feature: Homepage
   In order to have a good user experience
@@ -1157,6 +1177,50 @@ class MyMinkContext extends MinkContext {
 - Different date formats on different browsers
   - Set language display on browsers to be consistent
 
+
+---
+# Behat Hooks
+- Executing code before or after a certain point
+  - @BeforeStep @AfterStep
+  - @BeforeScenario @AfterScenario
+  - @BeforeFeature @AfterFeature
+  - @BeforeSuite @AfterSuite
+- Executing code based on a tagged
+
+---
+# Behat Hooks
+
+../test/behat/features/bootstrap/MyMinkContext.php
+
+```php
+<?php
+
+class MyMinkContext extends MinkContext {
+  /**
+   * @BeforeScenario && @article-node
+   */
+  public function disableModule() {
+    // Disable module for purpose of test.
+  }
+
+  /**
+   * @AfterScenario && @article-node
+   */
+  public function enableModule() {
+    // Enable module after test is done.
+  }
+
+}
+
+```
+
+---
+# References
+- https://www.drupal.org/project/drupalextension
+- https://behat-drupal-extension.readthedocs.io/en/3.1
+- http://behat.org/en/latest
+- http://kevinquillen.com/bdd/2014/06/08/your-first-behat-test
+- https://www.lullabot.com/articles/an-overview-of-testing-in-drupal-8
 
 ---
 # Q&amp;A
